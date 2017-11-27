@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Caixa;
 use App\Http\Requests\CaixaRequest;
 use Illuminate\Database\Query\Builde;
+use Illuminate\Support\Facades\DB;
 
 class CaixasController extends Controller
 {
@@ -16,7 +17,8 @@ class CaixasController extends Controller
     }
 
     public function index(){
-        $caixas = Caixa::paginate(5);
+        $where = 'Extract(day From data) = Extract(day From Now()) and Extract(month From data) = Extract(month From Now()) and Extract(year From data) = Extract(year From Now())';
+        $caixas = Caixa::whereRaw($where)->paginate(5);
         return view('caixas.index', ['caixas'=>$caixas]);
     }
 
@@ -36,12 +38,22 @@ class CaixasController extends Controller
 
     public function update(CaixaRequest $request, $id){
         $caixa = Caixa::find($id)->update($request->all());
+
+        $data = $request->get('data');
+        $data_formatada = Carbon::createFromFormat('d-m-Y H:i:s', $data);
+        $data_formatada->format('Y-m-d H:i:s');
+
+        $caixa->data = $data_formatada;
+        $caixa->tipo = $request=tipo;
+        $caixa->valor = $request=valor;
+        $caixa->formaPagamento = $request=formaPagamento;
+        $caixa->observacao = $request=observacao;
+        $caixa->save();
+
         return redirect()->route('caixas');
     }
 
     public function store(CaixaRequest $request){
-
-
         $caixa = new Caixa();
 
         $data = $request->get('data');

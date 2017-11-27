@@ -52,3 +52,11 @@ Route::group(['prefix'=>'pedidos', 'where'=>['id'=>'[0-9]+']], function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');

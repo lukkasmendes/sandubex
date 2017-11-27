@@ -24,7 +24,6 @@ class CaixaRequest extends FormRequest
     public function rules()
     {
         return [
-            'data'=>'date_format:d-m-Y H:i:s',
         ];
     }
 }

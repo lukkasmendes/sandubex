@@ -93,7 +93,13 @@
                     <a href="{{'/caixas'}}">Caixa</a>
                     <a href="{{'/produtos'}}">Produtos</a>
                     <a href="{{'/categorias'}}">Categorias</a>
-                    <a href="{{'/pedidos'}}">Pedidos</a>
+                    <!--
+
+                            não implementado
+
+                            <a href="{{'/pedidos'}}">Pedidos</a>
+
+                    -->
                 </div>
             </div>
         </div>
