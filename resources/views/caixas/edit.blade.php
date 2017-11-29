@@ -15,7 +15,7 @@
         {!! Form::open(['route' => ["caixas.update", $caixa->id], 'method'=>'put']) !!}
             <div class="form-group">
                 {!! Form::label('data', 'Data:') !!}
-                {!! Form::dateTime('data', $caixa->data, ['class'=>'form-control']) !!}
+                {!! Form::dateTime('data', $caixa->data, ['class'=>'form-control', 'disabled' => 'disabled']) !!}
             </div>
             <div class="form-group">
                 {!! Form::label('tipo', 'Entrada/Saída de caixa:') !!}<br />

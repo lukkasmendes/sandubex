@@ -15,7 +15,7 @@
         {!! Form::open(['route' => 'caixas.store']) !!}
             <div class="form-group">
                 {!! Form::label('data', 'Data:') !!}
-                {!! Form::dateTime('data', $data = Carbon\Carbon::now('America/Sao_Paulo')->format('d-m-Y H:i:s'), ['class'=>'form-control']) !!}
+                {!! Form::dateTime('data', $data = Carbon\Carbon::now('America/Sao_Paulo')->format('d-m-Y H:i:s'), ['class'=>'form-control', 'disabled' => 'disabled']) !!}
             </div>
             <div class="form-group">
                 {!! Form::label('tipo', 'Entrada/Saída de caixa:') !!}<br />

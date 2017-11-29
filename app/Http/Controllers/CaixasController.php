@@ -8,6 +8,8 @@ use App\Caixa;
 use App\Http\Requests\CaixaRequest;
 use Illuminate\Database\Query\Builde;
 use Illuminate\Support\Facades\DB;
+use DateTime;
+use Redirect;
 
 class CaixasController extends Controller
 {
@@ -37,18 +39,8 @@ class CaixasController extends Controller
     }
 
     public function update(CaixaRequest $request, $id){
-        $caixa = Caixa::find($id)->update($request->all());
-
-        $data = $request->get('data');
-        $data_formatada = Carbon::createFromFormat('d-m-Y H:i:s', $data);
-        $data_formatada->format('Y-m-d H:i:s');
-
-        $caixa->data = $data_formatada;
-        $caixa->tipo = $request=tipo;
-        $caixa->valor = $request=valor;
-        $caixa->formaPagamento = $request=formaPagamento;
-        $caixa->observacao = $request=observacao;
-        $caixa->save();
+        $caixa = Caixa::find($id);
+        $caixa->update($request->all());
 
         return redirect()->route('caixas');
     }

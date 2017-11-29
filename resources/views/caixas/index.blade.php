@@ -23,7 +23,7 @@
             <tbody>
                 @foreach($caixas as $cai)
                     <tr align="center">
-                        <td>{{Carbon\Carbon::parse($cai->data)->format('d-m-Y H:i:s')}}</td>
+                        <td>{{date('d-m-Y H:i:s', strtotime($cai->data))}}</td>
                         @if($cai->tipo == 'S')
                             <td>Saída</td>
                         @else

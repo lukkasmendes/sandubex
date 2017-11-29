@@ -8,6 +8,7 @@ use App\Produto;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Database\Query\Builde;
+use Illuminate\Database\QueryException;
 
 
 class CategoriasController extends Controller
@@ -27,12 +28,15 @@ class CategoriasController extends Controller
     }
 
     public function destroy($id){
-        if(Produto::where('categoria_id', $id)->count() == 0){
-            Categoria::find($id)->delete();
-            return redirect()->route('categorias');
-        }else{
-            echo "<h1>Você não pode excluir esta categoria pois existe um produto que a utiliza!</h1>";
+        try {
+            $categoria = Categoria::findOrFail($id);
+            $categoria->delete();
+        } catch (QueryException $e) {
+            flash()->error('Erro ao excluir categoria - Categoria em uso');
+            return redirect()->back();
         }
+        \Session::flash('mensagem_sucesso', 'Categoria deletada com sucesso!');
+        return redirect()->route('categorias');
     }
 
     public function edit($id){
