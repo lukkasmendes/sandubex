@@ -49,13 +49,15 @@ Route::group(['prefix'=>'pedidos', 'where'=>['id'=>'[0-9]+']], function () {
     Route::put('{id}/update',   ['as'=>'pedidos.update',    'uses'=>'PedidosController@update']);
     Route::post('store',        ['as'=>'pedidos.store',     'uses'=>'PedidosController@store']);
 });
-Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
-
-Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
+Route::group(['prefix'=>'clientes', 'where'=>['id'=>'[0-9]+']], function () {
+    Route::get('',              ['as'=>'clientes',           'uses'=>'ClientesController@index']);
+    Route::get('create',        ['as'=>'clientes.create',    'uses'=>'ClientesController@create']);
+    Route::get('{id}/destroy',  ['as'=>'clientes.destroy',   'uses'=>'ClientesController@destroy']);
+    Route::get('{id}/edit',     ['as'=>'clientes.edit',      'uses'=>'ClientesController@edit']);
+    Route::put('{id}/update',   ['as'=>'clientes.update',    'uses'=>'ClientesController@update']);
+    Route::post('store',        ['as'=>'clientes.store',     'uses'=>'ClientesController@store']);
+});
 
 Auth::routes();
 

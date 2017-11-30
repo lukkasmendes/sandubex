@@ -37,13 +37,7 @@
                         <li><a href="{{ url('/caixas') }}">Caixa</a></li>
                         <li><a href="{{ url('/produtos') }}">Produto</a></li>
                         <li><a href="{{ url('/categorias') }}">Categoria</a></li>
-                        <!--
-
-                            não implementado
-
-                            <li><a href="{{ url('/pedidos') }}">Pedido</a></li>
-
-                        -->
+                        <li><a href="{{ url('/clientes') }}">Cliente</a></li>
                     </ul>
 
                     <!-- Right Side Of Navbar -->
