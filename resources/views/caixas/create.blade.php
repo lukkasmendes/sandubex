@@ -1,8 +1,16 @@
 @extends('layouts.app')
 
+<script type="text/javascript">
+
+    function maiuscula(obj) {
+        obj.value = obj.value.toUpperCase();
+    }
+
+</script>
+
 @section('content')
     <div class="container">
-        <h1>Nova Movimentação</h1>
+        <h1>NOVA MOVIMENTAÇÃO</h1>
 
         @if ($errors->any())
             <ul class="alert alert-danger">
@@ -14,27 +22,27 @@
 
         {!! Form::open(['route' => 'caixas.store']) !!}
             <div class="form-group">
-                {!! Form::label('data', 'Data:') !!}
-                {!! Form::dateTime('data', $data = Carbon\Carbon::now('America/Sao_Paulo')->format('d-m-Y H:i:s'), ['class'=>'form-control', 'disabled' => 'disabled']) !!}
+                {!! Form::label('data', 'DATA:') !!}
+                {!! Form::dateTime('data', $data = Carbon\Carbon::now('America/Sao_Paulo')->format('d-m-Y H:i:s'), ['class'=>'form-control']) !!}
             </div>
             <div class="form-group">
-                {!! Form::label('tipo', 'Entrada/Saída de caixa:') !!}<br />
-                {!! Form::select('tipo', array('E' => 'Entrada','S' => 'Saída'), null, ['class'=>'form-control']) !!}
+                {!! Form::label('tipo', 'ENTRADA/SAÍDA DE CAIXA:') !!}<br />
+                {!! Form::select('tipo', array('E' => 'ENTRADA','S' => 'SAÍDA'), null, ['class'=>'form-control']) !!}
             </div>
             <div class="form-group">
-                {!! Form::label('valor', 'Valor:') !!}
+                {!! Form::label('valor', 'VALOR:') !!}
                 {!! Form::text('valor', '0.00', ['class'=>'form-control']) !!}
             </div>
             <div class="form-group">
-                {!! Form::label('formaPagamento', 'Forma de pagamento:') !!}<br />
+                {!! Form::label('formaPagamento', 'FORMA DE PAGAMENTO:') !!}<br />
                 {!! Form::select('formaPagamento',
-                                 array('DI' => 'Dinheiro', 'DE' => 'Débito', 'CR' => 'Crédito', 'CH' => 'Cheque'),
+                                 array('DI' => 'DINHEIRO', 'DE' => 'DÉBITO', 'CR' => 'CRÉDITO', 'CH' => 'CHEQUE'),
                                  null,
                                  ['class'=>'form-control']) !!}
             </div>
             <div class="form-group">
-                {!! Form::label('observacao', 'Observação:') !!}
-                {!! Form::text('observacao', null, ['class'=>'form-control']) !!}
+                {!! Form::label('observacao', 'OBSERVAÇÃO:') !!}
+                {!! Form::text('observacao', null, ['class'=>'form-control', 'style'=>'text-transform:uppercase', 'onblur'=>'maiuscula(this);']) !!}
             </div>
             <div>
                 {!! Form::submit('Registrar', ['class'=>'btn btn-primary']) !!}

@@ -24,6 +24,8 @@ class CaixaRequest extends FormRequest
     public function rules()
     {
         return [
+            'valor' => 'required',
+            'observacao' => 'required',
         ];
     }
 }

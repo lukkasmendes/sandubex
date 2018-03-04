@@ -1,4 +1,6 @@
-@extends('layouts.app')
+@extends('adminlte::page')
+
+@section('title', 'Sandubex')
 
 @section('content')
     <div class="container">
@@ -25,19 +27,19 @@
                     <tr align="center">
                         <td>{{date('d-m-Y H:i:s', strtotime($cai->data))}}</td>
                         @if($cai->tipo == 'S')
-                            <td>Saída</td>
+                            <td>SAÍDA</td>
                         @else
-                            <td>Entrada</td>
+                            <td>ENTRADA</td>
                         @endif
                         <td>R$ {{number_format($cai->valor, 2)}}</td>
                         @if($cai->formaPagamento == 'DI')
-                            <td>Dinheiro</td>
+                            <td>DINHEIRO</td>
                         @elseif($cai->formaPagamento == 'DE')
-                            <td>Débito</td>
+                            <td>DÉBITO</td>
                         @elseif($cai->formaPagamento == 'CR')
-                            <td>Crédito</td>
+                            <td>CRÉDITO</td>
                         @elseif($cai->formaPagamento == 'CH')
-                            <td>Cheque</td>
+                            <td>CHEQUE</td>
                         @endif
                         <td>{{$cai->observacao}}</td>
                         <td width="1%" nowrap="nowrap">
