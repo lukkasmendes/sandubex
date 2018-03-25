@@ -6,7 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class Caixa extends Model
 {
-    protected $fillable = ['data', 'tipo', 'valor', 'formaPagamento', 'observacao'];
+    protected $fillable = [
+        'data',
+        'tipo',
+        'valor',
+        'observacao'
+    ];
 
     public function pedido(){
         return $this->belongsTo('App\Pedido');

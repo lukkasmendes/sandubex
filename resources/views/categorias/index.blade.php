@@ -2,7 +2,7 @@
 
 @section('title', 'Sandubex')
 
-@section('content')
+@section('content_header')
     <div class="container">
 
         <h1>Categoria</h1>

@@ -18,8 +18,9 @@ class CreateProdutosTable extends Migration
             $table->string('nome', 100);
             $table->integer('categoria_id')->unsigned();
             $table->string('unidade', 100);
-            $table->decimal('precoVenda', 5, 2);
             $table->decimal('precoCusto', 5, 2);
+            $table->decimal('precoVenda', 5, 2);
+            $table->dateTime('validade');
             $table->integer('estoqueMin');
             $table->integer('estoque');
             $table->string('descricao', 100);

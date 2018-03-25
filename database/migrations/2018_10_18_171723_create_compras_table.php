@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreatePedidosTable extends Migration
+class CreateComprasTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,20 +13,19 @@ class CreatePedidosTable extends Migration
      */
     public function up()
     {
-        Schema::create('pedidos', function (Blueprint $table) {
+        Schema::create('compras', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('numeroMesa');
-            $table->integer('quantidade');
-            $table->decimal('subtotal', 5, 2);
+            $table->dateTime('data');
+            $table->integer('fornecedor_id')->unsigned();
             $table->integer('produto_id')->unsigned();
             $table->timestamps();
         });
 
-        Schema::table('pedidos', function (Blueprint $table){
+        Schema::table('compras', function (Blueprint $table){
+            $table->foreign('fornecedor_id')->references('id')->on('fornecedores');
             $table->foreign('produto_id')->references('id')->on('produtos');
         });
     }
-
 
     /**
      * Reverse the migrations.
@@ -35,6 +34,6 @@ class CreatePedidosTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('pedidos');
+        Schema::dropIfExists('compras');
     }
 }
