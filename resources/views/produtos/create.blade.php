@@ -1,4 +1,8 @@
-@extends('layouts.app')
+@extends('adminlte::page')
+
+@section('title', 'Sandubex')
+
+@section('content')
 
 <script type="text/javascript">
 
@@ -51,6 +55,10 @@
             <div class="form-group">
                 {!! Form::label('estoque', 'Estoque Atual:') !!}
                 {!! Form::text('estoque', null, ['class'=>'form-control', 'placeholder'=>'Informe a quantidade deste produto', 'style'=>'text-transform:uppercase']) !!}
+            </div>
+            <div class="form-group">
+                {!! Form::label('validade', 'Validade:') !!}
+                {!! Form::text('validade', null, ['class'=>'form-control', 'placeholder'=>'Informe a validade deste produto', 'style'=>'text-transform:uppercase']) !!}
             </div>
             <div class="form-group">
                 {!! Form::label('descricao', 'Descrição:') !!}

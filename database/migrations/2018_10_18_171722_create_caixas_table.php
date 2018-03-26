@@ -17,7 +17,7 @@ class CreateCaixasTable extends Migration
             $table->increments('id');
             $table->dateTime('data');
             $table->string('tipo');
-            $table->decimal('valor', 5, 2);
+            $table->decimal('valor', 9, 2);
             $table->string('observacao', 100)->nullable();
             $table->timestamps();
         });

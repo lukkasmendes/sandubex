@@ -1,4 +1,8 @@
-@extends('layouts.app')
+@extends('adminlte::page')
+
+@section('title', 'Sandubex')
+
+@section('content')
 
 @section('content')
     <div class="container">
@@ -42,6 +46,10 @@
             <div class="form-group">
                 {!! Form::label('estoque', 'Estoque Atual:') !!}
                 {!! Form::text('estoque', $produto->estoque, ['class'=>'form-control']) !!}
+            </div>
+            <div class="form-group">
+                {!! Form::label('validade', 'Validade:') !!}
+                {!! Form::text('validade', $produto->validade, ['class'=>'form-control']) !!}
             </div>
             <div class="form-group">
                 {!! Form::label('descricao', 'Descrição:') !!}

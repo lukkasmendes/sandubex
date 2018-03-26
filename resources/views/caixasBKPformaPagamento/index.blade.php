@@ -17,6 +17,7 @@
                     <th>Data/Hora</th>
                     <th>Entrada/Saída</th>
                     <th>Valor</th>
+                    <th>Forma de pagamento</th>
                     <th>Observação</th>
                     <th>Ação</th>
                 </tr>
@@ -31,6 +32,15 @@
                             <td>ENTRADA</td>
                         @endif
                         <td>R$ {{number_format($cai->valor, 2)}}</td>
+                        @if($cai->formaPagamento == 'DI')
+                            <td>DINHEIRO</td>
+                        @elseif($cai->formaPagamento == 'DE')
+                            <td>DÉBITO</td>
+                        @elseif($cai->formaPagamento == 'CR')
+                            <td>CRÉDITO</td>
+                        @elseif($cai->formaPagamento == 'CH')
+                            <td>CHEQUE</td>
+                        @endif
                         <td>{{$cai->observacao}}</td>
                         <td width="1%" nowrap="nowrap">
                             <a href="{{route('caixas.edit', ['id'=>$cai->id])}}" class="btn-sm btn-success">Editar</a>

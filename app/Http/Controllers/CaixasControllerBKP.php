@@ -55,6 +55,7 @@ class CaixasController extends Controller
         $caixa->data = $data_formatada;
         $caixa->tipo = $request->get('tipo');
         $caixa->valor = $request->get('valor');
+        $caixa->formaPagamento = $request->get('formaPagamento');
         $caixa->observacao = $request->get('observacao');
         $caixa->save();
 

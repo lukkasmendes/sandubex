@@ -14,9 +14,9 @@ class Produto extends Model
         'unidade',
         'precoCusto',
         'precoVenda',
-        'validade',
         'estoqueMin',
         'estoque',
+        'validade',
         'descricao',
         'imagem'
     ];

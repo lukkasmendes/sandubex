@@ -30,6 +30,13 @@
                 {!! Form::text('valor', $caixa->valor, ['class'=>'form-control']) !!}
             </div>
             <div class="form-group">
+                {!! Form::label('formaPagamento', 'Forma de pagamento:') !!}<br />
+                {!! Form::select('formaPagamento',
+                                    array('DI' => 'Dinheiro', 'DE' => 'Débito', 'CR' => 'Crédito', 'CH' => 'Cheque'),
+                                    $caixa->formaPagamento,
+                                    ['class'=>'form-control']) !!}
+            </div>
+            <div class="form-group">
                 {!! Form::label('observacao', 'Observação:') !!}
                 {!! Form::text('observacao', $caixa->observacao, ['class'=>'form-control']) !!}
             </div>

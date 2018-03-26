@@ -59,6 +59,7 @@ class ProdutosController extends Controller
         $produto->precoCusto = $request->precoCusto;
         $produto->estoqueMin = $request->estoqueMin;
         $produto->estoque = $request->estoque;
+        $produto->validade = $request->validade;
         $produto->descricao = $request->descricao;
         $produto->imagem = $img;
         $produto->save();
@@ -83,6 +84,7 @@ class ProdutosController extends Controller
         $produto->precoCusto = $request->get('precoCusto');
         $produto->estoqueMin = $request->get('estoqueMin');
         $produto->estoque = $request->get('estoque');
+        $produto->validade = $request->get('validade');
         $produto->descricao = $request->get('descricao');
         $produto->imagem = $img;
         $produto->save();

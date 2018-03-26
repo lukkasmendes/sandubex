@@ -38,6 +38,13 @@
                 {!! Form::text('valor', '0.00', ['class'=>'form-control']) !!}
             </div>
             <div class="form-group">
+                {!! Form::label('formaPagamento', 'FORMA DE PAGAMENTO:') !!}<br />
+                {!! Form::select('formaPagamento',
+                                 array('DI' => 'DINHEIRO', 'DE' => 'DÉBITO', 'CR' => 'CRÉDITO', 'CH' => 'CHEQUE'),
+                                 null,
+                                 ['class'=>'form-control']) !!}
+            </div>
+            <div class="form-group">
                 {!! Form::label('observacao', 'OBSERVAÇÃO:') !!}
                 {!! Form::text('observacao', null, ['class'=>'form-control', 'style'=>'text-transform:uppercase', 'onblur'=>'maiuscula(this);']) !!}
             </div>

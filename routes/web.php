@@ -48,6 +48,15 @@ Route::group(['prefix'=>'clientes', 'where'=>['id'=>'[0-9]+']], function () {
     Route::post('store',        ['as'=>'clientes.store',     'uses'=>'ClientesController@store']);
 });
 
+Route::group(['prefix'=>'compras', 'where'=>['id'=>'[0-9]+']], function () {
+    Route::get('',              ['as'=>'compras',           'uses'=>'ComprasController@index']);
+    Route::get('create',        ['as'=>'compras.create',    'uses'=>'ComprasController@create']);
+    Route::get('{id}/destroy',  ['as'=>'compras.destroy',   'uses'=>'ComprasController@destroy']);
+    Route::get('{id}/edit',     ['as'=>'compras.edit',      'uses'=>'ComprasController@edit']);
+    Route::put('{id}/update',   ['as'=>'compras.update',    'uses'=>'ComprasController@update']);
+    Route::post('store',        ['as'=>'compras.store',     'uses'=>'ComprasController@store']);
+});
+
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');

@@ -21,6 +21,7 @@
                     <th>Preço de Custo</th>
                     <th>Estoque Minimo</th>
                     <th>Estoque Atual</th>
+                    <th>Validade</th>
                     <th>Descrição</th>
                     <th>Imagem</th>
                     <th>Ação</th>
@@ -37,6 +38,7 @@
                         <td>R$ {{number_format($pro->precoCusto, 2)}}</td>
                         <td>{{$pro->estoqueMin}}</td>
                         <td>{{$pro->estoque}}</td>
+                        <td>{{$pro->validade}}</td>
                         <td>{{$pro->descricao}}</td>
                         <td width="1%" nowrap="nowrap"><img src="produtos/{{$pro->id}}/image" width="60" height="60"/></td>
                         <td width="1%" nowrap="nowrap">

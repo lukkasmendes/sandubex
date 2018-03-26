@@ -6,9 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Compra extends Model
 {
-    use Notifiable;
     protected $fillable = [
-        'data',
+        'dataEntrada',
+        'quantidade',
+        'precoCusto',
         'fornecedor_id',
         'produto_id'
     ];
@@ -17,6 +18,4 @@ class Compra extends Model
         return $this->belongsTo('App\Fornecedor');
         return $this->belongsTo('App\Produto');
     }
-
-    protected $table = 'Compras';
 }

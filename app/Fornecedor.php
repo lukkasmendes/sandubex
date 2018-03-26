@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class Fornecedor extends Model
 {
-    use Notifiable;
     protected $fillable = [
         'nome',
         'telefone',
@@ -19,5 +18,4 @@ class Fornecedor extends Model
         return $this->hasMany('App\Compra');
     }
 
-    protected $table = 'Fornecedores';
 }

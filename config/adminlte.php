@@ -145,6 +145,13 @@ return [
             'label_color' => 'success',
         ],
 
+        [
+            'text'        => 'Compras',
+            'url'         => 'compras',
+            'icon'        => 'file',
+            'label_color' => 'success',
+        ],
+
 
         /*
     [
