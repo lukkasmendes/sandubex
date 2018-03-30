@@ -7,6 +7,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Query\Builde;
 use App\Http\Requests\CompraRequest;
 use Redirect;
+use Illuminate\Support\Facades\Response;
 
 class ComprasController extends Controller
 {
@@ -15,9 +16,16 @@ class ComprasController extends Controller
         $this->middleware('auth', ['except' => ['getLogout', 'getRegister', 'postRegister']]);
     }
 
+    /*
     public function index(){
         $compras = Compra::paginate(5);
         return view('compras.index', ['compras'=>$compras]);
+    }
+    */
+
+    public function index(){
+        $compras = Compra::paginate(3);
+        return view('compras.index', compact('compras'));
     }
 
     public function create(){

@@ -113,45 +113,65 @@ return [
         [
             'text'        => 'Dashboard',
             'url'         => 'home',
-            'icon'        => 'file',
+            'icon'        => 'pie-chart',
+            'label_color' => 'success',
+        ],
+
+        [
+            'text'        => 'PDV',
+            'url'         => 'caixas',
+            'icon'        => 'clipboard',
             'label_color' => 'success',
         ],
 
         [
             'text'        => 'Caixa',
             'url'         => 'caixas',
-            'icon'        => 'file',
+            'icon'        => 'usd',
             'label_color' => 'success',
         ],
 
         [
             'text'        => 'Produtos',
             'url'         => 'produtos',
-            'icon'        => 'file',
+            'icon'        => 'barcode',
             'label_color' => 'success',
         ],
 
         [
             'text'        => 'Categorias',
             'url'         => 'categorias',
-            'icon'        => 'file',
+            'icon'        => 'list',
             'label_color' => 'success',
         ],
 
         [
             'text'        => 'Clientes',
             'url'         => 'clientes',
-            'icon'        => 'file',
+            'icon'        => 'user',
             'label_color' => 'success',
         ],
 
         [
             'text'        => 'Compras',
             'url'         => 'compras',
-            'icon'        => 'file',
+            'icon'        => 'shopping-cart',
             'label_color' => 'success',
         ],
 
+        [
+            'text'        => 'Fornecedores',
+            'url'         => 'fornecedors',
+            'icon'        => 'users',
+            'label_color' => 'success',
+        ],
+
+        [
+            'text'        => 'Usuários',
+            'url'         => 'fornecedors',
+            'icon'        => 'users',
+            'label_color' => 'success',
+        ],
 
         /*
     [

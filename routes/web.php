@@ -57,6 +57,15 @@ Route::group(['prefix'=>'compras', 'where'=>['id'=>'[0-9]+']], function () {
     Route::post('store',        ['as'=>'compras.store',     'uses'=>'ComprasController@store']);
 });
 
+Route::group(['prefix'=>'fornecedors', 'where'=>['id'=>'[0-9]+']], function () {
+    Route::get('',              ['as'=>'fornecedors',           'uses'=>'FornecedorsController@index']);
+    Route::get('create',        ['as'=>'fornecedors.create',    'uses'=>'FornecedorsController@create']);
+    Route::get('{id}/destroy',  ['as'=>'fornecedors.destroy',   'uses'=>'FornecedorsController@destroy']);
+    Route::get('{id}/edit',     ['as'=>'fornecedors.edit',      'uses'=>'FornecedorsController@edit']);
+    Route::put('{id}/update',   ['as'=>'fornecedors.update',    'uses'=>'FornecedorsController@update']);
+    Route::post('store',        ['as'=>'fornecedors.store',     'uses'=>'FornecedorsController@store']);
+});
+
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');

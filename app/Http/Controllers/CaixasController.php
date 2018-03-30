@@ -3,12 +3,9 @@
 namespace App\Http\Controllers;
 
 use Carbon\Carbon;
-use Illuminate\Http\Request;
 use App\Caixa;
 use App\Http\Requests\CaixaRequest;
 use Illuminate\Database\Query\Builde;
-use Illuminate\Support\Facades\DB;
-use DateTime;
 use Redirect;
 
 class CaixasController extends Controller

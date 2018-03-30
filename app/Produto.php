@@ -23,7 +23,13 @@ class Produto extends Model
 
     public function categoria(){
         return $this->belongsTo('App\Categoria');
+    }
+
+    public function pedido(){
         return $this->hasMany('App\Pedido');
+    }
+
+    public function compra(){
         return $this->hasMany('App\Compra');
     }
 

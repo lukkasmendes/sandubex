@@ -7,7 +7,7 @@
         <h1>Produto</h1>
 
         <h1 align="right">
-            <a href="{{route('produtos.create')}}" valign="left"><button type="button" class="btn" href="{{route('categorias.create')}}">+ Add</button></a>
+            <a href="{{route('produtos.create')}}" valign="left"><button type="button" class="btn" href="{{route('categorias.create')}}"><i class="fas fa-barcode"></i> Novo Produto</button></a>
         </h1>
 
         <table class="table table-striped table-bordered table-hover">
@@ -42,8 +42,8 @@
                         <td>{{$pro->descricao}}</td>
                         <td width="1%" nowrap="nowrap"><img src="produtos/{{$pro->id}}/image" width="60" height="60"/></td>
                         <td width="1%" nowrap="nowrap">
-                            <a href="{{route('produtos.edit', ['id'=>$pro->id])}}" class="btn-sm btn-success">Editar</a>
-                            <a href="{{route('produtos.destroy', ['id'=>$pro->id])}}" class="btn-sm btn-danger">Remover</a>
+                            <a href="{{route('produtos.edit', ['id'=>$pro->id])}}" class="btn-sm btn-success"title="Editar"><i class="fas fa-edit"></i></a>
+                            <a href="{{route('produtos.destroy', ['id'=>$pro->id])}}" class="btn-sm btn-danger"title="Remover"><i class="fas fa-remove"></i></a>
                         </td>
                     </tr>
                 @endforeach

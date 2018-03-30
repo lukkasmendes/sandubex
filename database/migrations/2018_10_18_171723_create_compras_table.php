@@ -24,7 +24,7 @@ class CreateComprasTable extends Migration
         });
 
         Schema::table('compras', function (Blueprint $table){
-            $table->foreign('fornecedor_id')->references('id')->on('fornecedores');
+            $table->foreign('fornecedor_id')->references('id')->on('fornecedors');
             $table->foreign('produto_id')->references('id')->on('produtos');
         });
     }

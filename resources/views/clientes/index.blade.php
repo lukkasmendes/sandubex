@@ -8,7 +8,7 @@
         <h1>Cliente</h1>
 
         <h1 align="right">
-        <a href="{{route('clientes.create')}}" valign="left"><button type="button" class="btn" href="{{route('clientes.create')}}">+ Add</button></a>
+        <a href="{{route('clientes.create')}}" valign="left"><button type="button" class="btn" href="{{route('clientes.create')}}"><i class="fas fa-user-plus"></i> Novo Cliente</button></a>
         </h1>
 
         <table class="table table-striped table-bordered table-hover">
@@ -31,8 +31,8 @@
                         <td>{{$cli->cpf}}</td>
                         <td>{{$cli->rg}}</td>
                         <td width="1%" nowrap="nowrap">
-                            <a href="{{route('clientes.edit', ['id'=>$cli->id])}}" class="btn-sm btn-success">Editar</a>
-                            <a href="{{route('clientes.destroy', ['id'=>$cli->id])}}" class="btn-sm btn-danger">Remover</a>
+                            <a href="{{route('clientes.edit', ['id'=>$cli->id])}}" class="btn-sm btn-success" title="Editar"><i class="fas fa-edit"></i></a>
+                            <a href="{{route('clientes.destroy', ['id'=>$cli->id])}}" class="btn-sm btn-danger"title="Remover"><i class="fas fa-remove"></i></a>
                         </td>
                     </tr>
                 @endforeach
