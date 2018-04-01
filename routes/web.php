@@ -73,4 +73,3 @@ Route::get('/logout', 'LoginController@logout')->name('logout')->redirectAfterLo
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');

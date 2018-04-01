@@ -4,9 +4,22 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.9/css/all.css" integrity="sha384-5SOiIsAziJl6AWe0HWRKTXlfcSHKmYV4RBF18PPJ173Kzn7jzMyFuTtk8JA7QQG1" crossorigin="anonymous">
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>@yield('title_prefix', config('adminlte.title_prefix', ''))
-@yield('title', config('adminlte.title', 'AdminLTE 2'))
-@yield('title_postfix', config('adminlte.title_postfix', ''))</title>
+
+
+
+
+
+
+
+
+
+    <title>
+        @yield('title_prefix', config('adminlte.title_prefix', ''))
+        @yield('title', config('adminlte.title', 'AdminLTE 2'))
+        @yield('title_postfix', config('adminlte.title_postfix', ''))
+
+    </title>
+
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- Bootstrap 3.3.7 -->
@@ -63,6 +76,42 @@
 @endif
 
 @yield('adminlte_js')
+
+
+
+
+
+
+
+
+
+<!-- modal delete test 2 -->
+
+<script>
+
+    $('#delCat').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget)
+        var cat_id = button.data('catid')
+        var modal = $(this)
+        modal.find('.modal-body #cat_id').val(cat_id);
+    })
+
+</script>
+
+
+<!-- modal delete test 2 -->
+
+
+
+
+
+
+
+
+
+
+
+
 
 </body>
 </html>

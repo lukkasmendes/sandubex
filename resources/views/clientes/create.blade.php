@@ -19,10 +19,14 @@
                 {!! Form::label('nome', 'Nome:') !!}
                 {!! Form::text('nome', null, ['class'=>'form-control']) !!}
             </div>
+
+
             <div class="form-group">
                 {!! Form::label('telefone', 'Telefone:') !!}<br />
                 {!! Form::text('telefone', null, ['class'=>'form-control']) !!}
             </div>
+
+
             <div class="form-group">
                 {!! Form::label('email', 'E-mail:') !!}
                 {!! Form::text('email', null, ['class'=>'form-control']) !!}

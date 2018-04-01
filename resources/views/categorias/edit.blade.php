@@ -1,4 +1,8 @@
-@extends('layouts.app')
+@extends('adminlte::page')
+
+@section('title', 'Sandubex')
+
+@section('content_header')
 
 @section('content')
     <div class="container">

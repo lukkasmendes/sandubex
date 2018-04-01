@@ -1,4 +1,8 @@
-@extends('layouts.app')
+@extends('adminlte::page')
+
+@section('title', 'Sandubex')
+
+@section('content_header')
 
 <script type="text/javascript">
 

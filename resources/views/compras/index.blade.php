@@ -7,7 +7,11 @@
         <h1>Compras</h1>
 
         <h1 align="right">
-            <a href="{{route('compras.create')}}" valign="left"><button type="button" class="btn" href="{{route('compras.create')}}"><i class="fas fa-cart-plus"></i> Nova Compra</button></a>
+            <a href="{{route('compras.create')}}" valign="left">
+                <button type="button" class="btn">
+                    <i class="fas fa-cart-plus"></i> Nova Compra
+                </button>
+            </a>
         </h1>
 
         <table class="table table-striped table-bordered table-hover">

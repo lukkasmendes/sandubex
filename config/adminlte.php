@@ -113,14 +113,14 @@ return [
         [
             'text'        => 'Dashboard',
             'url'         => 'home',
-            'icon'        => 'pie-chart',
+            'icon'        => 'dashboard',
             'label_color' => 'success',
         ],
 
         [
             'text'        => 'PDV',
             'url'         => 'caixas',
-            'icon'        => 'clipboard',
+            'icon'        => 'bookmark',
             'label_color' => 'success',
         ],
 
@@ -166,12 +166,20 @@ return [
             'label_color' => 'success',
         ],
 
+
+
+        /*
         [
             'text'        => 'Usuários',
             'url'         => 'fornecedors',
             'icon'        => 'users',
             'label_color' => 'success',
         ],
+        */
+
+
+
+
 
         /*
     [

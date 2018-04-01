@@ -4,11 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Categoria;
 use App\Http\Requests\CategoriaRequest;
-use App\Produto;
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use Illuminate\Database\Query\Builde;
 use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
+
 
 
 class CategoriasController extends Controller
@@ -26,6 +26,14 @@ class CategoriasController extends Controller
     public function create(){
         return view('categorias.create');
     }
+
+
+    public function destroy2(Request $request){
+        $categorias = Categoria::findOrFail($request->category_id);
+        $categorias->delete();
+        return redirect()->route('categorias');
+    }
+
 
     public function destroy($id){
         try {

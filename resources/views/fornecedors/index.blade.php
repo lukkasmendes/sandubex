@@ -7,8 +7,66 @@
     <div class="container">
         <h1>Fornecedor</h1>
 
+        <div class="modal fade" id="novoFornecedor" tabindex="-1" role="dialog" aria-labelledby="novoFornecedorModal">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close"
+                                data-dismiss="modal"
+                                aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h4 class="modal-title" id="novoFornecedorModal">Novo Fornecedor</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>
+                            @if ($errors->any())
+                                <ul class="alert alert-danger">
+                                    @foreach($errors->all() as $error)
+                                        <li>{{$error}}</li>
+                                    @endforeach
+                                </ul>
+                            @endif
+
+                            {!! Form::open(['route' => 'fornecedors.store']) !!}
+                            <div class="form-group">
+                                {!! Form::label('nome', 'Nome:') !!}
+                                {!! Form::text('nome', null, ['class'=>'form-control']) !!}
+                            </div>
+                            <div class="form-group">
+                                {!! Form::label('telefone', 'Telefone:') !!}<br />
+                                {!! Form::text('telefone', null, ['class'=>'form-control']) !!}
+                            </div>
+                            <div class="form-group">
+                                {!! Form::label('email', 'E-mail:') !!}
+                                {!! Form::text('email', null, ['class'=>'form-control']) !!}
+                            </div>
+                            <div class="form-group">
+                                {!! Form::label('endereco', 'Endereço:') !!}<br />
+                                {!! Form::text('endereco', null, ['class'=>'form-control']) !!}
+                            </div>
+                            <div class="form-group">
+                                {!! Form::label('cnpj', 'CNPJ:') !!}
+                                {!! Form::text('cnpj', null, ['class'=>'form-control']) !!}
+                            </div>
+                            <div>
+                                {!! Form::submit('Registrar', ['class'=>'btn btn-primary']) !!}
+                            </div>
+                            {!! Form::close() !!}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <h1 align="right">
-            <a href="{{route('fornecedors.create')}}" valign="left"><button type="button" class="btn" href="{{route('fornecedors.create')}}"><i class="fas fa-user-plus"></i> Novo Fornecedor</button></a>
+            <button
+                    type="button"
+                    class="btn"
+                    data-toggle="modal"
+                    data-target="#novoFornecedor">
+                <i class="fas fa-user-plus"></i> Novo Fornecedor
+            </button>
         </h1>
 
         <table class="table table-striped table-bordered table-hover">
