@@ -19,7 +19,7 @@ class CategoriasController extends Controller
     }
 
     public function index(){
-        $categorias = Categoria::paginate(7);
+        $categorias = Categoria::paginate(3);
         return view('categorias.index', ['categorias'=>$categorias]);
     }
 
@@ -53,7 +53,7 @@ class CategoriasController extends Controller
         $nova_categoria = $request->all();
         Categoria::create($nova_categoria);
 
-        return back();
+        return redirect()->back();
     }
 
     public function store2(CategoriaRequest $request){

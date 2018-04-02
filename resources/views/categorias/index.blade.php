@@ -4,10 +4,18 @@
 
 @section('content_header')
 
-
     <div class="container">
 
-        <h1>Categoria</h1>
+
+        @if (Session::has('mensagem_sucesso'))
+            <div class="alert alert-success alert-dismissable">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
+                <strong>Sucesso!</strong> {{ Session::get('mensagem_sucesso') }}
+            </div>
+        @endif
+
+
+        <h1><i class="fas fa-list"></i> Categorias</h1>
 
         @include('flash::message')
 
@@ -27,6 +35,15 @@
                     </div>
                     <div class="modal-body">
                         <p>
+
+                            <script type="text/javascript">
+
+                                function maiuscula(obj) {
+                                    obj.value = obj.value.toUpperCase();
+                                }
+
+                            </script>
+
                             @if ($errors->any())
                                 <ul class="alert alert-danger">
                                     @foreach($errors->all() as $error)
@@ -40,11 +57,20 @@
                                 {!! Form::label('descricao', 'Descrição:') !!}
                                 {!! Form::text('descricao', null, ['class'=>'form-control', 'placeholder'=>'Informe a descrição da categoria: bebidas, pães, carnes...', 'style'=>'text-transform:uppercase', 'onblur'=>'maiuscula(this);']) !!}
                             </div>
-                            <div>
-                                {!! Form::submit('Criar Categoria', ['class'=>'btn btn-primary']) !!}
-                            </div>
-                            {!! Form::close() !!}
                         </p>
+                    </div>
+                    <div class="modal-footer">
+                        {!! Form::open(['route' => 'categorias.store']) !!}
+
+                        <a
+                                type="button"
+                                class="btn btn-danger"
+                                data-dismiss="modal">
+                            Cancelar
+                        </a>
+                        {!! Form::submit('Criar Categoria', ['class'=>'btn btn-success']) !!}
+
+                        {!! Form::close() !!}
                     </div>
                 </div>
             </div>
@@ -119,11 +145,11 @@
                                                 <span aria-hidden="true">&times;</span>
                                             </button>
                                             <h4 class="modal-title text-center" id="myModalLabel">
-                                                Deletar Categoria: {{$cat->descricao}}
+                                                EXCLUIR CATEGORIA: {{$cat->descricao}}
                                             </h4>
                                         </div>
                                         <div class="modal-body">
-                                            Tem certeza que deseja Excluir?
+                                            TEM CERTEZA QUE DESEJA EXCLUIR?
                                         </div>
                                         <div class="modal-footer">
                                             <form action="{{route('categorias.destroy', [$cat->id] )}}">

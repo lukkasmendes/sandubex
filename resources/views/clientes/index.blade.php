@@ -2,10 +2,10 @@
 
 @section('title', 'Sandubex')
 
-@section('content')
+@section('content_header')
 
     <div class="container">
-        <h1>Cliente</h1>
+        <h1><i class="fas fa-user"></i> Clientes</h1>
 
 <!-- MODAL NOVO CLIENTE -->
         <div class="modal fade" id="novoCliente" tabindex="-1" role="dialog" aria-labelledby="novoClienteModal">
@@ -21,6 +21,15 @@
                     </div>
                     <div class="modal-body">
                         <p>
+
+                            <script type="text/javascript">
+
+                                function maiuscula(obj) {
+                                    obj.value = obj.value.toUpperCase();
+                                }
+
+                            </script>
+
                             @if ($errors->any())
                                 <ul class="alert alert-danger">
                                     @foreach($errors->all() as $error)
@@ -32,7 +41,7 @@
                             {!! Form::open(['route' => 'clientes.store']) !!}
                             <div class="form-group">
                                 {!! Form::label('nome', 'Nome:') !!}
-                                {!! Form::text('nome', null, ['class'=>'form-control']) !!}
+                                {!! Form::text('nome', null, ['class'=>'form-control', 'style'=>'text-transform:uppercase', 'onblur'=>'maiuscula(this);']) !!}
                             </div>
 
 
@@ -54,11 +63,20 @@
                                 {!! Form::label('rg', 'RG:') !!}
                                 {!! Form::text('rg', null, ['class'=>'form-control']) !!}
                             </div>
-                            <div>
-                                {!! Form::submit('Registrar', ['class'=>'btn btn-primary']) !!}
-                            </div>
-                            {!! Form::close() !!}
                         </p>
+                    </div>
+                    <div class="modal-footer">
+                        {!! Form::open(['route' => 'clientes.store']) !!}
+
+                        <a
+                                type="button"
+                                class="btn btn-danger"
+                                data-dismiss="modal">
+                            Cancelar
+                        </a>
+                        {!! Form::submit('Registrar', ['class'=>'btn btn-success']) !!}
+
+                        {!! Form::close() !!}
                     </div>
                 </div>
             </div>

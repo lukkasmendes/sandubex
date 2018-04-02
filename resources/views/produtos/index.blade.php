@@ -2,9 +2,9 @@
 
 @section('title', 'Sandubex')
 
-@section('content')
+@section('content_header')
     <div class="container">
-        <h1>Produto</h1>
+        <h1><i class="fas fa-barcode"></i> Produtos</h1>
 
 
         <table class="table table-striped table-bordered table-hover">

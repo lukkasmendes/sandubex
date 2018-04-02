@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Fornecedor;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use App\Http\Requests\FornecedorRequest;
 
@@ -14,7 +15,7 @@ class FornecedorsController extends Controller
     }
 
     public function index(){
-        $fornecedors = Fornecedor::paginate(5);
+        $fornecedors = Fornecedor::paginate(3);
         return view('fornecedors.index', ['fornecedors'=>$fornecedors]);
     }
 
@@ -22,10 +23,35 @@ class FornecedorsController extends Controller
         return view('fornecedors.create');
     }
 
-    public function destroy($id){
+
+
+
+
+
+    public function destroy2($id){
         Fornecedor::find($id)->delete();
         return redirect()->route('fornecedors');
     }
+
+
+
+
+
+    public function destroy($id){
+        try {
+            $fornecedor = Fornecedor::findOrFail($id);
+            $fornecedor->delete();
+        } catch (QueryException $e) {
+            flash()->error('Erro ao excluir fornecedor - Fornecedor vinculado');
+            return redirect()->back();
+        }
+        \Session::flash('mensagem_sucesso', 'Fornecedor excluído com sucesso!');
+        return redirect()->route('fornecedors');
+    }
+
+
+
+
 
     public function edit($id){
         $fornecedors = Fornecedor::find($id);
