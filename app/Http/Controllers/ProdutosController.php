@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Categoria;
 use App\Produto;
 use App\Http\Requests\ProdutoRequest;
 
+use Illuminate\Support\Facades\DB;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Response;
@@ -22,9 +24,31 @@ class ProdutosController extends Controller
         return view('produtos.index', compact('produtos'));
     }
 
+
+
+
+
+//select2
     public function create(){
+        $data = DB::table('categorias')->get();
+        $produto = Categoria::all();
+        return view('produtos.create', ['produto' => $produto], compact('data'));
+    }
+//select2
+
+
+
+
+
+
+    public function create2(){
         return view('produtos.create');
     }
+
+
+
+
+
 
     public function destroy($id){
         Produto::find($id)->delete();

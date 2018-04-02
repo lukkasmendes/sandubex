@@ -7,6 +7,7 @@
     <div class="container">
         <h1>Fornecedor</h1>
 
+<!--  MODAL NOVO FORNECEDOR -->
         <div class="modal fade" id="novoFornecedor" tabindex="-1" role="dialog" aria-labelledby="novoFornecedorModal">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -58,16 +59,8 @@
                 </div>
             </div>
         </div>
+<!--  MODAL NOVO FORNECEDOR -->
 
-        <h1 align="right">
-            <button
-                    type="button"
-                    class="btn"
-                    data-toggle="modal"
-                    data-target="#novoFornecedor">
-                <i class="fas fa-user-plus"></i> Novo Fornecedor
-            </button>
-        </h1>
 
         <table class="table table-striped table-bordered table-hover">
             <thead>
@@ -77,7 +70,17 @@
                     <th>E-mail</th>
                     <th>Endereço</th>
                     <th>CNPJ</th>
-                    <th>Ação</th>
+                    <th>
+                        <a>
+                            <button
+                                    type="button"
+                                    class="btn"
+                                    data-toggle="modal"
+                                    data-target="#novoFornecedor">
+                                <i class="fas fa-user-plus"></i> Novo Fornecedor
+                            </button>
+                        </a>
+                    </th>
                 </tr>
             </thead>
             <tbody>

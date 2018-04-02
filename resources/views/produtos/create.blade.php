@@ -14,7 +14,74 @@
 
 @section('content')
 
+
+<!-- MODAL NOVA CATEGORIA -->
+
+    <div class="modal fade" id="novaCategoria" tabindex="-1" role="dialog" aria-labelledby="novaCategoriaModal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close"
+                            data-dismiss="modal"
+                            aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title" id="novaCategoriaModal">Nova Categoria</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        <script type="text/javascript">
+
+                            function maiuscula(obj) {
+                                obj.value = obj.value.toUpperCase();
+                            }
+
+                        </script>
+
+                        @if ($errors->any())
+                            <ul class="alert alert-danger">
+                                @foreach($errors->all() as $error)
+                                    <li>{{$error}}</li>
+                                @endforeach
+                            </ul>
+                        @endif
+
+                        {!! Form::open(['route' => 'categorias.store']) !!}
+                        <div class="form-group">
+                            {!! Form::label('descricao', 'Descrição:') !!}
+                            {!! Form::text('descricao', null, ['class'=>'form-control', 'placeholder'=>'Informe a descrição da categoria: bebidas, pães, carnes...', 'style'=>'text-transform:uppercase', 'onblur'=>'maiuscula(this);']) !!}
+                        </div>
+
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    {!! Form::open(['route' => 'categorias.store']) !!}
+
+                    <a
+                            type="button"
+                            class="btn btn-danger"
+                            data-dismiss="modal">
+                        Cancelar
+                    </a>
+
+                    {!! Form::submit('Criar Categoria', ['class'=>'btn btn-success']) !!}
+
+                    {!! Form::close() !!}
+                </div>
+            </div>
+        </div>
+    </div>
+
+<!-- MODAL NOVA CATEGORIA -->
+
+
+
+
+
+
+
     <div class="container" enctype="multipart/form-data">
+
         <h1>Novo Produto</h1>
 
         @if ($errors->any())
@@ -32,105 +99,39 @@
             </div>
 
 
-
-
             <div class="form-group">
-
-
-
-
+<!-- Select2 -->
 
                 {!! Form::label('categoria_id', 'Categoria:') !!}
-                {{ Form::select(
-                   'categoria_id',
-                   \App\Categoria::orderBy('descricao')->pluck('descricao', 'id')->toArray(),
-                   null,
-                   ['class'=>'form-control'])
-                }}
 
 
+                <a
+                        class="btn btn-success"
+                        data-toggle="modal"
+                        title="Nova Categoria"
+                        data-target="#novaCategoria">
+                    <i class="fas fa-plus"></i>
+                </a>
 
 
+                <select id="categoriaid" class="form-control m-bot15" name="categoria_id">
+                    <option>Selecione uma categoria</option>
 
+                        @foreach($data as $cat)
+                            <option value="{{ $cat->id }}">
+                                {{ $cat->descricao }}
+                            </option>
+                        @endforeach
 
+                </select>
 
-<!-- SELECT COM BUSCA
-            <select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true">
-                <option selected="selected">Alabama</option>
-                <option>Alaska</option>
-            </select>
-            <span class="select2 select2-container select2-container--default select2-container--below select2-container--focus"
-                   dir="ltr" style="width: 100%;">
-                <span class="selection">
-                    <span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true"
-                          aria-expanded="false" tabindex="0" aria-labelledby="select2-yh47-container">
-                        <span class="select2-selection__rendered" id="select2-yh47-container" title="Alabama">
-                            Alabama
-                        </span>
-                        <span class="select2-selection__arrow" role="presentation">
-                            <b role="presentation"></b>
-                        </span>
-                    </span>
-                </span>
-                <span class="dropdown-wrapper" aria-hidden="true"></span>
-            </span>
--->
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<!-- MODAL NOVA CATEGORIA -->
-
-                <div class="modal fade" id="novaCategoria" tabindex="-1" role="dialog" aria-labelledby="novaCategoriaModal">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <button type="button" class="close"
-                                        data-dismiss="modal"
-                                        aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                                <h4 class="modal-title" id="novaCategoriaModal">Nova Categoria</h4>
-                            </div>
-                            <div class="modal-body">
-                                <p>
-
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <h1 align="right">
-                    <button
-                            type="button"
-                            class="btn"
-                            data-toggle="modal"
-                            data-target="#novaCategoria">
-                        <i class="fas fa-plus"></i> Categorias
-                    </button>
-                </h1>
-
-<!-- MODAL NOVA CATEGORIA -->
+<!-- Select2 -->
 
 
 
 
 
             </div>
-
-
-
 
 
             <div class="form-group">
@@ -171,4 +172,12 @@
         {!! Form::close() !!}
     </div>
 
+@endsection
+
+@section('scripts')
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#categoriaid").select2();
+        });
+    </script>
 @endsection

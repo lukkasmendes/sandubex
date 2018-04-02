@@ -6,13 +6,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
 
-
-
-
-
-
-
-
     <title>
         @yield('title_prefix', config('adminlte.title_prefix', ''))
         @yield('title', config('adminlte.title', 'AdminLTE 2'))
@@ -28,6 +21,22 @@
     <link rel="stylesheet" href="{{ asset('vendor/adminlte/vendor/font-awesome/css/font-awesome.min.css') }}">
     <!-- Ionicons -->
     <link rel="stylesheet" href="{{ asset('vendor/adminlte/vendor/Ionicons/css/ionicons.min.css') }}">
+
+
+
+
+
+
+
+    <!-- Select2 -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
+    <!-- Select2 -->
+
+
+
+
+
 
     @if(config('adminlte.plugins.select2'))
         <!-- Select2 -->
@@ -85,24 +94,10 @@
 
 
 
-<!-- modal delete test 2 -->
+<!-- SELECT2-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
 
-<script>
-
-    $('#delCat').on('show.bs.modal', function (event) {
-        var button = $(event.relatedTarget)
-        var cat_id = button.data('catid')
-        var modal = $(this)
-        modal.find('.modal-body #cat_id').val(cat_id);
-    })
-
-</script>
-
-
-<!-- modal delete test 2 -->
-
-
-
+@yield('scripts')
 
 
 

@@ -6,13 +6,6 @@
     <div class="container">
         <h1>Produto</h1>
 
-        <h1 align="right">
-            <a href="{{route('produtos.create')}}" valign="left">
-                <button type="button" class="btn">
-                    <i class="fas fa-barcode"></i> Novo Produto
-                </button>
-            </a>
-        </h1>
 
         <table class="table table-striped table-bordered table-hover">
             <thead>
@@ -28,7 +21,13 @@
                     <th>Validade</th>
                     <th>Descrição</th>
                     <th>Imagem</th>
-                    <th>Ação</th>
+                    <th>
+                        <a href="{{route('produtos.create')}}">
+                            <button type="button" class="btn">
+                                <i class="fas fa-barcode"></i> Novo Produto
+                            </button>
+                        </a>
+                    </th>
                 </tr>
             </thead>
             <tbody>

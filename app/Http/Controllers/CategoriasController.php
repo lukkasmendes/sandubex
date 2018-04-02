@@ -19,21 +19,13 @@ class CategoriasController extends Controller
     }
 
     public function index(){
-        $categorias = Categoria::paginate(5);
+        $categorias = Categoria::paginate(7);
         return view('categorias.index', ['categorias'=>$categorias]);
     }
 
     public function create(){
         return view('categorias.create');
     }
-
-
-    public function destroy2(Request $request){
-        $categorias = Categoria::findOrFail($request->category_id);
-        $categorias->delete();
-        return redirect()->route('categorias');
-    }
-
 
     public function destroy($id){
         try {
@@ -60,6 +52,14 @@ class CategoriasController extends Controller
     public function store(CategoriaRequest $request){
         $nova_categoria = $request->all();
         Categoria::create($nova_categoria);
+
+        return back();
+    }
+
+    public function store2(CategoriaRequest $request){
+        $nova_categoria = $request->all();
+        Categoria::create($nova_categoria);
+
 
         return redirect()->route('categorias');
     }

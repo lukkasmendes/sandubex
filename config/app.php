@@ -180,6 +180,11 @@ return [
         App\Providers\RouteServiceProvider::class,
         Laracasts\Flash\FlashServiceProvider::class,
 
+        Collective\Html\HtmlServiceProvider::class,
+       // Khill\Lavacharts\Laravel\LavachartsServiceProvider::class,
+       // ConsoleTVs\Charts\ChartsServiceProvider::class,
+       // Yajra\DataTables\DataTablesServiceProvider::class,
+
     ],
 
     /*
@@ -231,6 +236,10 @@ return [
         'Form' => Collective\Html\FormFacade::class,
         'Html' => Collective\Html\HtmlFacade::class,
         'Image' => Intervention\Image\Facades\Image::class,
+
+        //'Lava' => Khill\Lavacharts\Laravel\LavachartsFacade::class,
+        //'Charts' => ConsoleTVs\Charts\Facades\Charts::class,
+        //'DataTables' => Yajra\DataTables\Facades\DataTables::class,
     ],
 
 ];

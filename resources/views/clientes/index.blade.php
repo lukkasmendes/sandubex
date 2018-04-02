@@ -4,88 +4,10 @@
 
 @section('content')
 
-
-    <div id="myModal"class="modal fade" role="dialog">
-        <div class="modal-dialog">
-            <div class="modal-content">
-
-
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title"></h4>
-                </div>
-
-
-                <div class="modal-body">
-
-
-
-                    <form class="form-horizontal" role="modal">
-
-                        <div class="form-group">
-                            <label class="control-label col-sm-2"for="id">ID</label>
-                            <div class="col-sm-10">
-                                <input type="text" class="form-control" id="fid" disabled>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="control-label col-sm-2"for="title">Title</label>
-                            <div class="col-sm-10">
-                                <input type="name" class="form-control" id="t">
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="control-label col-sm-2"for="body">Body</label>
-                            <div class="col-sm-10">
-                                <textarea type="name" class="form-control" id="b"></textarea>
-                            </div>
-                        </div>
-                    </form>
-
-
-
-
-
-
-
-
-
-
-
-                    {{-- Form Delete Post --}}
-                    <div class="deleteContent">
-                        Are You sure want to delete <span class="title"></span>?
-                        <span class="hidden id"></span>
-                    </div>
-
-                </div>
-                <div class="modal-footer">
-
-                    <button type="button" class="btn actionBtn" data-dismiss="modal">
-                        <span id="footer_action_button" class="glyphicon"></span>
-                    </button>
-
-                    <button type="button" class="btn btn-warning" data-dismiss="modal">
-                        <span class="glyphicon glyphicon"></span>close
-                    </button>
-
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-
-
     <div class="container">
         <h1>Cliente</h1>
 
-
-
-
-
+<!-- MODAL NOVO CLIENTE -->
         <div class="modal fade" id="novoCliente" tabindex="-1" role="dialog" aria-labelledby="novoClienteModal">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -141,14 +63,7 @@
                 </div>
             </div>
         </div>
-
-
-
-
-
-
-
-
+<!-- MODAL NOVO CLIENTE -->
 
 
 
@@ -161,13 +76,15 @@
                     <th>CPF</th>
                     <th>RG</th>
                     <th>
-                        <button
-                                type="button"
-                                class="btn"
-                                data-toggle="modal"
-                                data-target="#novoCliente">
-                            <i class="fas fa-user-plus"></i> Novo Cliente
-                        </button>
+                        <a>
+                            <button
+                                    type="button"
+                                    class="btn"
+                                    data-toggle="modal"
+                                    data-target="#novoCliente">
+                                <i class="fas fa-user-plus"></i> Novo Cliente
+                            </button>
+                        </a>
                     </th>
                 </tr>
             </thead>
@@ -180,8 +97,16 @@
                         <td>{{$cli->cpf}}</td>
                         <td>{{$cli->rg}}</td>
                         <td width="1%" nowrap="nowrap">
-                            <a href="{{route('clientes.edit', ['id'=>$cli->id])}}" class="btn-sm btn-success" title="Editar"><i class="fas fa-edit"></i></a>
-                            <a href="{{route('clientes.destroy', ['id'=>$cli->id])}}" class="delete-modal btn-danger btn-sm" title="Remover"><i class="fas fa-remove"></i></a>
+                            <a href="{{route('clientes.edit', ['id'=>$cli->id])}}"
+                               class="btn-sm btn-success"
+                               title="Editar">
+                                <i class="fas fa-edit"></i>
+                            </a>
+                            <a href="{{route('clientes.destroy', ['id'=>$cli->id])}}"
+                               class="delete-modal btn-danger btn-sm"
+                               title="Remover">
+                                <i class="fas fa-remove"></i>
+                            </a>
                         </td>
                     </tr>
                 @endforeach
