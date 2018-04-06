@@ -3,24 +3,35 @@
 @section('title', 'Sandubex')
 
 @section('content_header')
-
     <div class="container">
+        <h1><i class="fas fa-shopping-cart"></i> Compras</h1>
 
 
-        @if (Session::has('mensagem_sucesso'))
-            <div class="alert alert-success alert-dismissable">
-                <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
-                <strong>Sucesso!</strong> {{ Session::get('mensagem_sucesso') }}
-            </div>
-        @endif
+        <script>
+            $(document).keydown(function(evt){
+                if (evt.keyCode==18 && (evt.ctrlKey) && (evt.shiftKey)){
+                    evt.preventDefault();
+                    $('#novaCompra').modal('show');
+                }
+            });
+        </script>
+
+        <script>
+            $(document).bind('keydown', function(e) {
+
+                if (e.which == 19) { // 116 = F5
+                    $('novaCompra').modal('show');
+
+                    return false;
+
+                }
+
+            });
+        </script>
 
 
-        <h1><i class="fas fa-users"></i> Fornecedores</h1>
-
-        @include('flash::message')
-
-<!--  MODAL NOVO FORNECEDOR -->
-        <div class="modal fade" id="novoFornecedor" tabindex="-1" role="dialog" aria-labelledby="novoFornecedorModal">
+<!--  MODAL NOVA COMPRA -->
+        <div class="modal fade" id="novaCompra" tabindex="-1" role="dialog" aria-labelledby="novaCompraModal">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -29,7 +40,7 @@
                                 aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
-                        <h4 class="modal-title" id="novoFornecedorModal">Novo Fornecedor</h4>
+                        <h4 class="modal-title" id="novaCompraModal">Nova Compra</h4>
                     </div>
                     <div class="modal-body">
                         <p>
@@ -49,31 +60,35 @@
                                 </ul>
                             @endif
 
-                            {!! Form::open(['route' => 'fornecedors.store']) !!}
+                            {!! Form::open(['route' => 'compras.store']) !!}
                             <div class="form-group">
-                                {!! Form::label('nome', 'Nome:') !!}
-                                {!! Form::text('nome', null, ['class'=>'form-control', 'style'=>'text-transform:uppercase', 'onblur'=>'maiuscula(this);']) !!}
+                                {!! Form::label('dataEntrada', 'DATA ENTRADA:') !!}
+                                {!! Form::dateTime('dataEntrada', $dataEntrada = Carbon\Carbon::now('America/Sao_Paulo')->format('d-m-Y H:i:s'), ['class'=>'form-control']) !!}
                             </div>
                             <div class="form-group">
-                                {!! Form::label('telefone', 'Telefone:') !!}<br />
-                                {!! Form::text('telefone', null, ['class'=>'form-control']) !!}
+                                {!! Form::label('quantidade', 'QUANTIDADE:') !!}
+                                {!! Form::text('quantidade', null, ['class'=>'form-control', 'style'=>'text-transform:uppercase', 'onblur'=>'maiuscula(this);']) !!}
                             </div>
                             <div class="form-group">
-                                {!! Form::label('email', 'E-mail:') !!}
-                                {!! Form::text('email', null, ['class'=>'form-control']) !!}
+                                {!! Form::label('precoCusto', 'PREÇO DE CUSTO:') !!}
+                                {!! Form::text('precoCusto', '0.00', ['class'=>'form-control']) !!}
                             </div>
                             <div class="form-group">
-                                {!! Form::label('endereco', 'Endereço:') !!}<br />
-                                {!! Form::text('endereco', null, ['class'=>'form-control', 'style'=>'text-transform:uppercase', 'onblur'=>'maiuscula(this);']) !!}
+                                {!! Form::label('fornecedor_id', 'Fornecedor:') !!}
+                                {{ Form::select('fornecedor_id',
+                                   \App\Fornecedor::orderBy('nome')->pluck('nome', 'id')->toArray(), null,
+                                   ['class'=>'form-control']) }}
                             </div>
                             <div class="form-group">
-                                {!! Form::label('cnpj', 'CNPJ:') !!}
-                                {!! Form::text('cnpj', null, ['class'=>'form-control']) !!}
+                                {!! Form::label('produto_id', 'Produto:') !!}
+                                {{ Form::select('produto_id',
+                                   \App\Produto::orderBy('nome')->pluck('nome', 'id')->toArray(), null,
+                                   ['class'=>'form-control']) }}
                             </div>
                         </p>
                     </div>
                     <div class="modal-footer">
-                        {!! Form::open(['route' => 'fornecedors.store']) !!}
+                        {!! Form::open(['route' => 'compras.store']) !!}
 
                         <a
                                 type="button"
@@ -82,56 +97,55 @@
                             Cancelar
                         </a>
 
-                        {!! Form::submit('Registrar', ['class'=>'btn btn-success']) !!}
+                        {!! Form::submit('Registrar Compra', ['class'=>'btn btn-success']) !!}
 
                         {!! Form::close() !!}
                     </div>
                 </div>
             </div>
         </div>
-<!--  MODAL NOVO FORNECEDOR -->
+<!--  MODAL NOVA COMPRA -->
+
 
 
         <table class="table table-striped table-bordered table-hover">
             <thead>
                 <tr>
-                    <th>Nome</th>
-                    <th>Telefone</th>
-                    <th>E-mail</th>
-                    <th>Endereço</th>
-                    <th>CNPJ</th>
+                    <th>Código</th>
+                    <th>Data Entrada</th>
+                    <th>Quantidade</th>
+                    <th>Preço de Custo</th>
+                    <th>Total Gasto</th>
+                    <th>Fornecedor</th>
+                    <th>Produto</th>
                     <th>
                         <a>
-                            <button
-                                    type="button"
+                            <button type="button"
                                     class="btn"
                                     data-toggle="modal"
-                                    data-target="#novoFornecedor">
-                                <i class="fas fa-user-plus"></i> Novo Fornecedor
+                                    data-target="#novaCompra">
+                                <i class="fas fa-cart-plus"></i> Nova Compra
                             </button>
                         </a>
                     </th>
                 </tr>
             </thead>
             <tbody>
-                @foreach($fornecedors as $for)
+                @foreach($compras as $com)
                     <tr align="center">
-                        <td>{{$for->nome}}</td>
-                        <td>{{$for->telefone}}</td>
-                        <td>{{$for->email}}</td>
-                        <td>{{$for->endereco}}</td>
-                        <td>{{$for->cnpj}}</td>
+                        <td width="1%" nowrap="nowrap">{{$com->id}}</td>
+                        <td>{{$com->dataEntrada}}</td>
+                        <td>{{$com->quantidade}}</td>
+                        <td>R$ {{number_format($com->precoCusto, 2)}}</td>
+                        <td>R$ {{number_format($com->quantidade*$com->precoCusto, 2)}}</td>
+                        <td width="1%" nowrap="nowrap">{{$com->fornecedor->nome}}</td>
+                        <td width="1%" nowrap="nowrap">{{$com->produto->nome}}</td>
                         <td width="1%" nowrap="nowrap">
-                            <a href="{{route('fornecedors.edit', ['id'=>$for->id])}}"
+                            <a href="{{route('compras.edit', ['id'=>$com->id])}}"
                                class="btn-sm btn-success"
                                title="Editar">
                                 <i class="fas fa-edit"></i>
                             </a>
-
-
-
-
-
 
 
 <!-- BOTÃO MODAL EXCLUIR -->
@@ -140,7 +154,7 @@
                                 title="Excluir"
                                 class="modal-del btn-danger btn-sm"
                                 data-toggle="modal"
-                                data-target="#id{{$for->id}}">
+                                data-target="#id{{$com->id}}">
 
                                 <i class="fas fa-remove"></i>
                             </a>
@@ -152,7 +166,7 @@
 <!-- MODAL EXCLUIR -->
 
                             <div    class="modal modal-danger fade"
-                                    id="id{{ $for->id}}"
+                                    id="id{{ $com->id}}"
                                     tabindex="-1"
                                     role="dialog"
                                     aria-labelledby="exampleModalLabel"
@@ -164,14 +178,14 @@
                                                 <span aria-hidden="true">&times;</span>
                                             </button>
                                             <h4 class="modal-title text-center" id="myModalLabel">
-                                                EXCLUIR FORNECEDOR: {{$for->nome}}
+                                                EXCLUIR COMPRA: {{$com->produto->nome}}
                                             </h4>
                                         </div>
                                         <div class="modal-body">
                                             TEM CERTEZA QUE DESEJA EXCLUIR?
                                         </div>
                                         <div class="modal-footer">
-                                            <form action="{{route('fornecedors.destroy', [$for->id] )}}">
+                                            <form action="{{route('compras.destroy', [$com->id] )}}">
                                                 {{method_field('delete')}}
 
                                                 <button
@@ -196,11 +210,15 @@
 <!-- MODAL EXCLUIR -->
 
 
+
                         </td>
                     </tr>
                 @endforeach
             </tbody>
         </table>
-        <center>{!! $fornecedors->links() !!}</center>
+        <center>{!! $compras->links() !!}</center>
     </div>
+
+
+
 @endsection
