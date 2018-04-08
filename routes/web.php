@@ -55,6 +55,7 @@ Route::group(['prefix'=>'compras', 'where'=>['id'=>'[0-9]+']], function () {
     Route::get('{id}/edit',     ['as'=>'compras.edit',      'uses'=>'ComprasController@edit']);
     Route::put('{id}/update',   ['as'=>'compras.update',    'uses'=>'ComprasController@update']);
     Route::post('store',        ['as'=>'compras.store',     'uses'=>'ComprasController@store']);
+
 });
 
 Route::group(['prefix'=>'fornecedors', 'where'=>['id'=>'[0-9]+']], function () {
@@ -66,7 +67,6 @@ Route::group(['prefix'=>'fornecedors', 'where'=>['id'=>'[0-9]+']], function () {
     Route::post('store',        ['as'=>'fornecedors.store',     'uses'=>'FornecedorsController@store']);
 });
 
-Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/logout', 'LoginController@logout')->name('logout')->redirectAfterLogout=('/login');

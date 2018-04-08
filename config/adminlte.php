@@ -288,7 +288,7 @@ return [
     */
 
     'plugins' => [
-        'datatables' => true,
+        'datatables' => false,
         'select2'    => true,
         'chartjs'    => true,
         'shortcut'   => true,

@@ -1,6 +1,19 @@
 @extends('adminlte::master')
 
 @section('adminlte_css')
+
+
+
+
+<!-- FUÇANDO NAS TABELAS DATATABLE -->
+
+    <link rel="stylesheet" href="{{asset('css/datatable.css')}}">
+
+<!-- FUÇANDO NAS TABELAS DATATABLE -->
+
+
+
+
     <link rel="stylesheet"
           href="{{ asset('vendor/adminlte/dist/css/skins/skin-' . config('adminlte.skin', 'blue') . '.min.css')}} ">
     @stack('css')
@@ -134,6 +147,28 @@
 @stop
 
 @section('adminlte_js')
+
+
+
+
+
+<!-- FUÇANDO NAS TABELAS DATATABLE -->
+
+    <script src="{{asset('js/datatable2.js')}}"></script>
+    <!-- <script src="http://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script> -->
+    <script src="{{asset('js/datatable.js')}}"></script>
+    <script>
+        $(document).ready( function () {
+            $('#example').DataTable();
+        } );
+    </script>
+
+<!-- FUÇANDO NAS TABELAS DATATABLE -->
+
+
+
+
+
     <script src="{{ asset('vendor/adminlte/dist/js/adminlte.min.js') }}"></script>
     @stack('js')
     @yield('js')

@@ -2,18 +2,13 @@
 
 @section('title', 'Sandubex')
 
-@section('content')
+@section('content_header')
 
 <script type="text/javascript">
-
     function maiuscula(obj) {
         obj.value = obj.value.toUpperCase();
     }
-
 </script>
-
-@section('content')
-
 
 <!-- MODAL NOVA CATEGORIA -->
 
@@ -113,6 +108,7 @@
                     <i class="fas fa-plus"></i>
                 </a>
 
+                <br/>
 
                 <select id="categoriaid" class="form-control m-bot15" name="categoria_id">
                     <option>Selecione uma categoria</option>

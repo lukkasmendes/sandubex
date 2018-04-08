@@ -4,9 +4,8 @@
 
 @section('content_header')
 
-@section('content')
     <div class="container">
-        <h1>Editar Categoria</h1>
+        <h1>Editar Compra</h1>
 
         @if ($errors->any())
             <ul class="alert alert-danger">

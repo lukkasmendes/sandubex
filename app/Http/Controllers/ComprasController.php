@@ -24,7 +24,7 @@ class ComprasController extends Controller
     */
 
     public function index(){
-        $compras = Compra::paginate(3);
+        $compras = Compra::all();
         return view('compras.index', compact('compras'));
     }
 
@@ -65,4 +65,6 @@ class ComprasController extends Controller
 
         return redirect()->route('compras');
     }
+
+
 }

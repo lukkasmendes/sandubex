@@ -1,91 +1,16 @@
 @extends('adminlte::page')
 
+@include('clientes.create')
+
 @section('title', 'Sandubex')
 
 @section('content_header')
 
     <div class="container">
-        <h1><i class="fas fa-user"></i> Clientes</h1>
 
-<!-- MODAL NOVO CLIENTE -->
-        <div class="modal fade" id="novoCliente" tabindex="-1" role="dialog" aria-labelledby="novoClienteModal">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close"
-                                data-dismiss="modal"
-                                aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                        <h4 class="modal-title" id="novoClienteModal">Novo Cliente</h4>
-                    </div>
-                    <div class="modal-body">
-                        <p>
+        <h3 align="center"><i class="fas fa-user"></i> Clientes</h3>
 
-                            <script type="text/javascript">
-
-                                function maiuscula(obj) {
-                                    obj.value = obj.value.toUpperCase();
-                                }
-
-                            </script>
-
-                            @if ($errors->any())
-                                <ul class="alert alert-danger">
-                                    @foreach($errors->all() as $error)
-                                        <li>{{$error}}</li>
-                                    @endforeach
-                                </ul>
-                            @endif
-
-                            {!! Form::open(['route' => 'clientes.store']) !!}
-                            <div class="form-group">
-                                {!! Form::label('nome', 'Nome:') !!}
-                                {!! Form::text('nome', null, ['class'=>'form-control', 'style'=>'text-transform:uppercase', 'onblur'=>'maiuscula(this);']) !!}
-                            </div>
-
-
-                            <div class="form-group">
-                                {!! Form::label('telefone', 'Telefone:') !!}<br />
-                                {!! Form::text('telefone', null, ['class'=>'form-control']) !!}
-                            </div>
-
-
-                            <div class="form-group">
-                                {!! Form::label('email', 'E-mail:') !!}
-                                {!! Form::text('email', null, ['class'=>'form-control']) !!}
-                            </div>
-                            <div class="form-group">
-                                {!! Form::label('cpf', 'CPF:') !!}<br />
-                                {!! Form::text('cpf', null, ['class'=>'form-control']) !!}
-                            </div>
-                            <div class="form-group">
-                                {!! Form::label('rg', 'RG:') !!}
-                                {!! Form::text('rg', null, ['class'=>'form-control']) !!}
-                            </div>
-                        </p>
-                    </div>
-                    <div class="modal-footer">
-                        {!! Form::open(['route' => 'clientes.store']) !!}
-
-                        <a
-                                type="button"
-                                class="btn btn-danger"
-                                data-dismiss="modal">
-                            Cancelar
-                        </a>
-                        {!! Form::submit('Registrar', ['class'=>'btn btn-success']) !!}
-
-                        {!! Form::close() !!}
-                    </div>
-                </div>
-            </div>
-        </div>
-<!-- MODAL NOVO CLIENTE -->
-
-
-
-        <table class="table table-striped table-bordered table-hover">
+        <table class="table table-striped table-bordered table-hover" id="example">
             <thead>
                 <tr>
                     <th>Nome</th>
@@ -93,7 +18,7 @@
                     <th>E-mail</th>
                     <th>CPF</th>
                     <th>RG</th>
-                    <th>
+                    <th width="10px">
                         <a>
                             <button
                                     type="button"
@@ -120,16 +45,71 @@
                                title="Editar">
                                 <i class="fas fa-edit"></i>
                             </a>
-                            <a href="{{route('clientes.destroy', ['id'=>$cli->id])}}"
-                               class="delete-modal btn-danger btn-sm"
-                               title="Remover">
+
+<!-- BOTÃO MODAL EXCLUIR -->
+
+                            <a  href=""
+                                title="Excluir"
+                                class="modal-del btn-danger btn-sm"
+                                data-toggle="modal"
+                                data-target="#id{{$cli->id}}">
+
                                 <i class="fas fa-remove"></i>
                             </a>
+
+<!-- BOTÃO MODAL EXCLUIR -->
+
+
+
+<!-- MODAL EXCLUIR -->
+
+                            <div    class="modal modal-danger fade"
+                                    id="id{{ $cli->id}}"
+                                    tabindex="-1"
+                                    role="dialog"
+                                    aria-labelledby="exampleModalLabel"
+                                    aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                            <h4 class="modal-title text-center" id="myModalLabel">
+                                                EXCLUIR CLIENTE: {{$cli->nome}}
+                                            </h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            TEM CERTEZA QUE DESEJA EXCLUIR?
+                                        </div>
+                                        <div class="modal-footer">
+                                            <form action="{{route('clientes.destroy', [$cli->id] )}}">
+                                                {{method_field('delete')}}
+
+                                                <button
+                                                        type="button"
+                                                        class="btn btn-success"
+                                                        data-dismiss="modal">
+                                                    Não, Cancelar
+                                                </button>
+
+                                                <button
+                                                        type="submit"
+                                                        class="btn btn-warning">
+                                                    Sim, Excluir
+                                                </button>
+
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+<!-- MODAL EXCLUIR -->
                         </td>
                     </tr>
                 @endforeach
             </tbody>
         </table>
-        <center>{!! $clientes->links() !!}</center>
     </div>
 @endsection

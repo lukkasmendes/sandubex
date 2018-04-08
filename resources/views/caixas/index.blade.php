@@ -1,88 +1,17 @@
 @extends('adminlte::page')
 
+@include('caixas.create')
+
 @section('title', 'Sandubex')
 
 @section('content_header')
     <div class="container">
 
 
-<!--  MODAL NOVA MOVIMENTAÇÃO -->
-
-        <div class="modal fade" id="novaMov" tabindex="-1" role="dialog" aria-labelledby="novaMovModal">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close"
-                                data-dismiss="modal"
-                                aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                        <h4 class="modal-title" id="novaMovModal">Nova Movimentação</h4>
-                    </div>
-                    <div class="modal-body">
-                        <p>
-
-                            <script type="text/javascript">
-
-                                function maiuscula(obj) {
-                                    obj.value = obj.value.toUpperCase();
-                                }
-
-                            </script>
-
-                            @if ($errors->any())
-                                <ul class="alert alert-danger">
-                                    @foreach($errors->all() as $error)
-                                        <li>{{$error}}</li>
-                                    @endforeach
-                                </ul>
-                            @endif
-
-                            {!! Form::open(['route' => 'caixas.store']) !!}
-                            <div class="form-group">
-                                {!! Form::label('data', 'DATA:') !!}
-                                {!! Form::dateTime('data', $data = Carbon\Carbon::now('America/Sao_Paulo')->format('d-m-Y H:i:s'), ['class'=>'form-control']) !!}
-                            </div>
-                            <div class="form-group">
-                                {!! Form::label('tipo', 'ENTRADA/SAÍDA DE CAIXA:') !!}<br />
-                                {!! Form::select('tipo', array('E' => 'ENTRADA','S' => 'SAÍDA'), null, ['class'=>'form-control']) !!}
-                            </div>
-                            <div class="form-group">
-                                {!! Form::label('valor', 'VALOR:') !!}
-                                {!! Form::text('valor', '0.00', ['class'=>'form-control']) !!}
-                            </div>
-                            <div class="form-group">
-                                {!! Form::label('observacao', 'OBSERVAÇÃO:') !!}
-                                {!! Form::text('observacao', null, ['class'=>'form-control', 'style'=>'text-transform:uppercase', 'onblur'=>'maiuscula(this);']) !!}
-                            </div>
-
-                        </p>
-                    </div>
-                    <div class="modal-footer">
-                        {!! Form::open(['route' => 'caixas.store']) !!}
-
-                        <a
-                                type="button"
-                                class="btn btn-danger"
-                                data-dismiss="modal">
-                            Cancelar
-                        </a>
-                        {!! Form::submit('Registrar', ['class'=>'btn btn-success']) !!}
-
-                        {!! Form::close() !!}
-                    </div>
-                </div>
-            </div>
-        </div>
-
-<!--  MODAL NOVA MOVIMENTAÇÃO -->
+        <h3 align="center"><i class="fas fa-hand-holding-usd"></i> Movimentação {{\Carbon\Carbon::now('America/Sao_Paulo')->format('d/m/Y')}}</h3>
 
 
-
-        <h1><i class="fas fa-hand-holding-usd"></i> Movimentação {{\Carbon\Carbon::now('America/Sao_Paulo')->format('d/m/Y')}}</h1>
-
-
-        <table class="table table-striped table-bordered table-hover">
+        <table class="table table-striped table-bordered table-hover" id="example">
             <thead>
                 <tr>
                     <th>Data/Hora</th>
@@ -122,18 +51,75 @@
                                     <i class="fas fa-edit"></i>
                             </a>
 
-                            <a href="{{route('caixas.destroy',
-                                ['id'=>$cai->id])}}"
-                                class="btn-sm btn-danger"
-                                title="Remover">
-                                    <i class="fas fa-remove"></i>
+<!-- BOTÃO MODAL EXCLUIR -->
+
+                            <a  href=""
+                                title="Excluir"
+                                class="modal-del btn-danger btn-sm"
+                                data-toggle="modal"
+                                data-target="#id{{$cai->id}}">
+
+                                <i class="fas fa-remove"></i>
                             </a>
+
+<!-- BOTÃO MODAL EXCLUIR -->
+
+
+
+<!-- MODAL EXCLUIR -->
+
+                            <div    class="modal modal-danger fade"
+                                    id="id{{ $cai->id}}"
+                                    tabindex="-1"
+                                    role="dialog"
+                                    aria-labelledby="exampleModalLabel"
+                                    aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                            <h4 class="modal-title text-center" id="myModalLabel">
+                                                EXCLUIR @if($cai->tipo == 'S')
+                                                            SAÍDA
+                                                        @else
+                                                            ENTRADA
+                                                        @endif DE: R$ {{$cai->valor}}
+                                            </h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            TEM CERTEZA QUE DESEJA EXCLUIR?
+                                        </div>
+                                        <div class="modal-footer">
+                                            <form action="{{route('caixas.destroy', [$cai->id] )}}">
+                                                {{method_field('delete')}}
+
+                                                <button
+                                                        type="button"
+                                                        class="btn btn-success"
+                                                        data-dismiss="modal">
+                                                    Não, Cancelar
+                                                </button>
+
+                                                <button
+                                                        type="submit"
+                                                        class="btn btn-warning">
+                                                    Sim, Excluir
+                                                </button>
+
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+<!-- MODAL EXCLUIR -->
 
                         </td>
                     </tr>
                 @endforeach
             </tbody>
         </table>
-        <center>{!! $caixas->links() !!}</center>
     </div>
 @endsection

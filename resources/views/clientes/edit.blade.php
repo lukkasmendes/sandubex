@@ -2,7 +2,14 @@
 
 @section('title', 'Sandubex')
 
-@section('content')
+@section('content_header')
+
+<script type="text/javascript">
+    function maiuscula(obj) {
+        obj.value = obj.value.toUpperCase();
+    }
+</script>
+
     <div class="container">
         <h1>Editar Cliente</h1>
 
@@ -17,11 +24,11 @@
         {!! Form::open(['route' => ["clientes.update", $clientes->id], 'method'=>'put']) !!}
         <div class="form-group">
             {!! Form::label('nome', 'Nome:') !!}
-            {!! Form::text('nome', $clientes->nome, ['class'=>'form-control']) !!}
+            {!! Form::text('nome', $clientes->nome, ['class'=>'form-control', 'style'=>'text-transform:uppercase', 'onblur'=>'maiuscula(this);']) !!}
         </div>
         <div class="form-group">
             {!! Form::label('telefone', 'Telefone:') !!}<br />
-            {!! Form::text('telefone', $clientes->telefone, ['class'=>'form-control']) !!}
+            {!! Form::text('telefone', $clientes->telefone, ['class'=>'form-control', 'style'=>'text-transform:uppercase', 'onblur'=>'maiuscula(this);']) !!}
         </div>
         <div class="form-group">
             {!! Form::label('email', 'E-mail:') !!}

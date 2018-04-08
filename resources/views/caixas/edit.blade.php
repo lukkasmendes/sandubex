@@ -2,9 +2,14 @@
 
 @section('title', 'Sandubex')
 
-@section('content')
+@section('content_header')
 
-@section('content')
+<script type="text/javascript">
+    function maiuscula(obj) {
+        obj.value = obj.value.toUpperCase();
+    }
+</script>
+
     <div class="container">
         <h1>Editar Movimentação</h1>
 
@@ -31,7 +36,7 @@
             </div>
             <div class="form-group">
                 {!! Form::label('observacao', 'Observação:') !!}
-                {!! Form::text('observacao', $caixa->observacao, ['class'=>'form-control']) !!}
+                {!! Form::text('observacao', $caixa->observacao, ['class'=>'form-control', 'style'=>'text-transform:uppercase', 'onblur'=>'maiuscula(this);']) !!}
             </div>
             <div>
                 {!! Form::submit('Registrar', ['class'=>'btn btn-primary']) !!}

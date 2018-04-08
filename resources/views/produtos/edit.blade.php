@@ -2,9 +2,14 @@
 
 @section('title', 'Sandubex')
 
-@section('content')
+@section('content_header')
 
-@section('content')
+<script type="text/javascript">
+    function maiuscula(obj) {
+        obj.value = obj.value.toUpperCase();
+    }
+</script>
+
     <div class="container">
         <h1>Editar Produtos</h1>
 
@@ -19,7 +24,7 @@
         {!! Form::open(['route' => ["produtos.update", $produto->id], 'method'=>'put', 'files'=>'true']) !!}
             <div class="form-group">
                 {!! Form::label('nome', 'Nome:') !!}
-                {!! Form::text('nome', $produto->nome, ['class'=>'form-control']) !!}
+                {!! Form::text('nome', $produto->nome, ['class'=>'form-control', 'style'=>'text-transform:uppercase', 'onblur'=>'maiuscula(this);']) !!}
             </div>
             <div class="form-group">
                 {!! Form::label('categoria_id', 'Categoria:') !!}
@@ -29,31 +34,31 @@
             </div>
             <div class="form-group">
                 {!! Form::label('unidade', 'Unidade:') !!}
-                {!! Form::text('unidade', $produto->unidade, ['class'=>'form-control']) !!}
+                {!! Form::text('unidade', $produto->unidade, ['class'=>'form-control', 'style'=>'text-transform:uppercase', 'onblur'=>'maiuscula(this);']) !!}
             </div>
             <div class="form-group">
                 {!! Form::label('precoVenda', 'Preço de Venda:') !!}
-                {!! Form::text('precoVenda', $produto->precoVenda, ['class'=>'form-control']) !!}
+                {!! Form::text('precoVenda', $produto->precoVenda, ['class'=>'form-control', 'style'=>'text-transform:uppercase', 'onblur'=>'maiuscula(this);']) !!}
             </div>
             <div class="form-group">
                 {!! Form::label('precoCusto', 'Preço de Custo:') !!}
-                {!! Form::text('precoCusto', $produto->precoCusto, ['class'=>'form-control']) !!}
+                {!! Form::text('precoCusto', $produto->precoCusto, ['class'=>'form-control', 'style'=>'text-transform:uppercase', 'onblur'=>'maiuscula(this);']) !!}
             </div>
             <div class="form-group">
                 {!! Form::label('estoqueMin', 'Estoque Mínimo:') !!}
-                {!! Form::text('estoqueMin', $produto->estoqueMin, ['class'=>'form-control']) !!}
+                {!! Form::text('estoqueMin', $produto->estoqueMin, ['class'=>'form-control', 'style'=>'text-transform:uppercase', 'onblur'=>'maiuscula(this);']) !!}
             </div>
             <div class="form-group">
                 {!! Form::label('estoque', 'Estoque Atual:') !!}
-                {!! Form::text('estoque', $produto->estoque, ['class'=>'form-control']) !!}
+                {!! Form::text('estoque', $produto->estoque, ['class'=>'form-control', 'style'=>'text-transform:uppercase', 'onblur'=>'maiuscula(this);']) !!}
             </div>
             <div class="form-group">
                 {!! Form::label('validade', 'Validade:') !!}
-                {!! Form::text('validade', $produto->validade, ['class'=>'form-control']) !!}
+                {!! Form::text('validade', $produto->validade, ['class'=>'form-control', 'style'=>'text-transform:uppercase', 'onblur'=>'maiuscula(this);']) !!}
             </div>
             <div class="form-group">
                 {!! Form::label('descricao', 'Descrição:') !!}
-                {!! Form::text('descricao', $produto->descricao, ['class'=>'form-control']) !!}
+                {!! Form::text('descricao', $produto->descricao, ['class'=>'form-control', 'style'=>'text-transform:uppercase', 'onblur'=>'maiuscula(this);']) !!}
             </div>
             <div class="form-group">
                 {!! Form::label('imagem', 'Imagem do Produto:') !!}

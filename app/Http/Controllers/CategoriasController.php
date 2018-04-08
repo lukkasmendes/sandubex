@@ -19,7 +19,7 @@ class CategoriasController extends Controller
     }
 
     public function index(){
-        $categorias = Categoria::paginate(3);
+        $categorias = Categoria::all();
         return view('categorias.index', ['categorias'=>$categorias]);
     }
 

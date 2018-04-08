@@ -17,7 +17,7 @@ class CaixasController extends Controller
 
     public function index(){
         $where = 'Extract(day From data) = Extract(day From Now()) and Extract(month From data) = Extract(month From Now()) and Extract(year From data) = Extract(year From Now())';
-        $caixas = Caixa::whereRaw($where)->paginate(5);
+        $caixas = Caixa::whereRaw($where)->paginate(9999);
         return view('caixas.index', ['caixas'=>$caixas]);
     }
 

@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="container">
-        <h1>Categoria</h1>
+        <h3 align="center">Categoria</h3>
 
         <h1 align="right">
         <a href="{{route('categorias.create')}}" valign="left"><button type="button" class="btn" href="{{route('categorias.create')}}">+ Add</button></a>
@@ -29,6 +29,5 @@
                 @endforeach
             </tbody>
         </table>
-        <center>{!! $categorias->links() !!}</center>
     </div>
 @endsection

@@ -20,7 +20,7 @@ class ProdutosController extends Controller
     }
 
     public function index(){
-        $produtos = Produto::paginate(3);
+        $produtos = Produto::all();
         return view('produtos.index', compact('produtos'));
     }
 

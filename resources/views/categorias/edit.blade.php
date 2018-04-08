@@ -4,17 +4,14 @@
 
 @section('content_header')
 
-@section('content')
+<script type="text/javascript">
+    function maiuscula(obj) {
+        obj.value = obj.value.toUpperCase();
+    }
+</script>
+
     <div class="container">
         <h1>Editar Categoria</h1>
-
-        <script type="text/javascript">
-
-            function maiuscula(obj) {
-                obj.value = obj.value.toUpperCase();
-            }
-
-        </script>
 
         @if ($errors->any())
             <ul class="alert alert-danger">

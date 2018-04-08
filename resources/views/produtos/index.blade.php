@@ -4,10 +4,10 @@
 
 @section('content_header')
     <div class="container">
-        <h1><i class="fas fa-barcode"></i> Produtos</h1>
+        <h3 align="center"><i class="fas fa-barcode"></i> Produtos</h3>
 
 
-        <table class="table table-striped table-bordered table-hover">
+        <table class="table table-striped table-bordered table-hover" id="example">
             <thead>
                 <tr>
                     <th>Cód.</th>
@@ -21,7 +21,7 @@
                     <th>Validade</th>
                     <th>Descrição</th>
                     <th>Imagem</th>
-                    <th>
+                    <th width="10px">
                         <a href="{{route('produtos.create')}}">
                             <button type="button" class="btn">
                                 <i class="fas fa-barcode"></i> Novo Produto
@@ -49,15 +49,71 @@
                                class="btn-sm btn-success" title="Editar">
                                 <i class="fas fa-edit"></i>
                             </a>
-                            <a href="{{route('produtos.destroy', ['id'=>$pro->id])}}"
-                               class="btn-sm btn-danger" title="Remover">
+
+<!-- BOTÃO MODAL EXCLUIR -->
+
+                            <a  href=""
+                                title="Excluir"
+                                class="modal-del btn-danger btn-sm"
+                                data-toggle="modal"
+                                data-target="#id{{$pro->id}}">
+
                                 <i class="fas fa-remove"></i>
                             </a>
+
+<!-- BOTÃO MODAL EXCLUIR -->
+
+
+
+<!-- MODAL EXCLUIR -->
+
+                            <div    class="modal modal-danger fade"
+                                    id="id{{ $pro->id}}"
+                                    tabindex="-1"
+                                    role="dialog"
+                                    aria-labelledby="exampleModalLabel"
+                                    aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                            <h4 class="modal-title text-center" id="myModalLabel">
+                                                EXCLUIR PRODUTO: {{$pro->nome}}
+                                            </h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            TEM CERTEZA QUE DESEJA EXCLUIR?
+                                        </div>
+                                        <div class="modal-footer">
+                                            <form action="{{route('produtos.destroy', [$pro->id] )}}">
+                                                {{method_field('delete')}}
+
+                                                <button
+                                                        type="button"
+                                                        class="btn btn-success"
+                                                        data-dismiss="modal">
+                                                    Não, Cancelar
+                                                </button>
+
+                                                <button
+                                                        type="submit"
+                                                        class="btn btn-warning">
+                                                    Sim, Excluir
+                                                </button>
+
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+<!-- MODAL EXCLUIR -->
                         </td>
                     </tr>
                 @endforeach
             </tbody>
         </table>
-        <center>{!! $produtos->links() !!}</center>
     </div>
 @endsection
