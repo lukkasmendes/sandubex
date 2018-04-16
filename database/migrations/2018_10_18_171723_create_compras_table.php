@@ -18,14 +18,14 @@ class CreateComprasTable extends Migration
             $table->dateTime('dataEntrada');
             $table->integer('quantidade');
             $table->decimal('precoCusto', 9, 2);
-            $table->integer('fornecedor_id')->unsigned();
-            $table->integer('produto_id')->unsigned();
+            $table->integer('fornecedor_id')->unsigned()->nullable();
+            $table->integer('produto_id')->unsigned()->nullable();
             $table->timestamps();
         });
 
         Schema::table('compras', function (Blueprint $table){
-            $table->foreign('fornecedor_id')->references('id')->on('fornecedors');
-            $table->foreign('produto_id')->references('id')->on('produtos');
+            $table->foreign('fornecedor_id')->references('id')->on('fornecedors')->onDelete('cascade');
+            $table->foreign('produto_id')->references('id')->on('produtos')->onDelete('cascade');
         });
     }
 

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Categoria;
+use App\Estoque;
 use App\Produto;
 use App\Http\Requests\ProdutoRequest;
 
@@ -75,9 +76,9 @@ class ProdutosController extends Controller
         $produto->categoria_id = $request->categoria_id;
         $produto->unidade = $request->unidade;
         $produto->precoVenda = $request->precoVenda;
-        $produto->precoCusto = $request->precoCusto;
+        $produto->precoCusto_est = $request->precoCusto_est;
         $produto->estoqueMin = $request->estoqueMin;
-        $produto->estoque = $request->estoque;
+        $produto->quantidade_est = $request->quantidade_est;
         $produto->validade = $request->validade;
         $produto->descricao = $request->descricao;
         $produto->imagem = $img;
@@ -85,6 +86,49 @@ class ProdutosController extends Controller
 
         return redirect()->route('produtos');
     }
+
+
+
+
+
+
+
+    public function BKPstore(ProdutoRequest $request){
+        $this->validate($request, [
+            'imagem' => 'required|mimes:jpeg,png,bmp,jpg,gif,svg|max:2048',
+        ]);
+
+        $file = Input::file('imagem');
+        $img = Image::make($file)->resize(50, 150);
+        Response::make($img->encode('jpg'));
+
+        $produto = new Produto();
+        $produto->nome = $request->get('nome');
+        $produto->categoria_id = $request->get('categoria_id');
+        $produto->unidade = $request->get('unidade');
+        $produto->precoVenda = $request->get('precoVenda');
+        $produto->precoCusto_est = $request->get('precoCusto_est');
+        $produto->estoqueMin = $request->get('estoqueMin');
+        $produto->quantidade_est = $request->get('quantidade_est');
+        $produto->validade = $request->get('validade');
+        $produto->descricao = $request->get('descricao');
+        $produto->imagem = $img;
+        $produto->save();
+
+        return redirect()->route('produtos');
+    }
+
+
+
+
+
+
+
+
+
+
+
+
 
     public function store(ProdutoRequest $request){
         $this->validate($request, [
@@ -99,10 +143,9 @@ class ProdutosController extends Controller
         $produto->nome = $request->get('nome');
         $produto->categoria_id = $request->get('categoria_id');
         $produto->unidade = $request->get('unidade');
+        $produto->estoque_id = $request->get('estoque_id');
         $produto->precoVenda = $request->get('precoVenda');
-        $produto->precoCusto = $request->get('precoCusto');
         $produto->estoqueMin = $request->get('estoqueMin');
-        $produto->estoque = $request->get('estoque');
         $produto->validade = $request->get('validade');
         $produto->descricao = $request->get('descricao');
         $produto->imagem = $img;
@@ -110,6 +153,14 @@ class ProdutosController extends Controller
 
         return redirect()->route('produtos');
     }
+
+
+
+
+
+
+
+
 
     public function image($id){
         $produto = Produto::find($id);

@@ -17,12 +17,12 @@ class CreateEstoquesTable extends Migration
             $table->increments('id');
             $table->decimal('precoCusto', 9, 2);
             $table->integer('quantidade');
-            $table->integer('produto_id')->unsigned();
+            $table->integer('produto_id')->unsigned()->nullable();
             $table->timestamps();
         });
 
         Schema::table('estoques', function (Blueprint $table){
-            $table->foreign('produto_id')->references('id')->on('produtos');
+            $table->foreign('produto_id')->references('id')->on('produtos')->onDelete('cascade');
         });
     }
 

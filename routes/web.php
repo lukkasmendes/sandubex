@@ -1,5 +1,9 @@
 <?php
 
+Route::get('/', function () {
+    return view('welcome');
+});
+
 Route::get('/welcome', 'WelcomeController@index')->name('welcome');
 
 Route::group(['prefix'=>'categorias', 'where'=>['id'=>'[0-9]+']], function () {

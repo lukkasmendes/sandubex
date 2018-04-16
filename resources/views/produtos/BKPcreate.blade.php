@@ -73,13 +73,11 @@
 
 
 
-            <div class="form-group">
-                {!! Form::label('estoque_id', 'Estoque:') !!}
-                {{ Form::select('estoque_id',
-                   \App\Estoque::orderBy('quantidade')->pluck('quantidade', 'id')->toArray(), null,
-                   ['class'=>'form-control', 'disabled'=>'disabled']) }}
-            </div>
 
+            <div class="form-group">
+                {!! Form::label('precoCusto_est', 'Preço de Custo:') !!}
+                {!! Form::text('precoCusto_est', "0.00", ['class'=>'form-control', 'placeholder'=>'0.00', 'title' => 'ESTE VALOR APARECERÁ QUANDO FIZER UMA COMPRA DESTE PRODUTO', 'disabled' => 'disabled', 'style'=>'text-transform:uppercase']) !!}
+            </div>
 
 
 
@@ -97,7 +95,10 @@
 
 
 
-
+            <div class="form-group">
+                {!! Form::label('quantidade_est', 'Estoque Atual:') !!}
+                {!! Form::text('quantidade_est', "0", ['class'=>'form-control', 'placeholder'=>'0', 'title' => 'ESTE VALOR APARECERÁ QUANDO FIZER UMA COMPRA DESTE PRODUTO', 'disabled' => 'disabled', 'style'=>'text-transform:uppercase']) !!}
+            </div>
 
 
 

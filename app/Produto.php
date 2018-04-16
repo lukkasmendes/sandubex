@@ -12,10 +12,9 @@ class Produto extends Model
         'nome',
         'categoria_id',
         'unidade',
-        'precoCusto',
+        'estoque_id',
         'precoVenda',
         'estoqueMin',
-        'estoque',
         'validade',
         'descricao',
         'imagem'
@@ -31,6 +30,14 @@ class Produto extends Model
 
     public function compra(){
         return $this->hasMany('App\Compra');
+    }
+
+    public function estoques(){
+        return $this->hasMany('App\Estoque');
+    }
+
+    public function estoque(){
+        return $this->belongsTo('App\Estoque');
     }
 
     protected $table = 'Produtos';

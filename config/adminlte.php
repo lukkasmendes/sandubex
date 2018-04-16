@@ -71,7 +71,7 @@ return [
     |
     */
 
-    'collapse_sidebar' => false,
+    'collapse_sidebar' => true,
 
     /*
     |--------------------------------------------------------------------------
@@ -119,7 +119,7 @@ return [
 
         [
             'text'        => 'PDV',
-            'url'         => 'caixas',
+            'url'         => 'pedidos',
             'icon'        => 'bookmark',
             'label_color' => 'success',
         ],

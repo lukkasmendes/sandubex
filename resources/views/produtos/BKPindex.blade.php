@@ -32,6 +32,8 @@
             </thead>
             <tbody>
                 @foreach($produtos as $pro)
+                    @foreach($estoques as $est)
+
                         <tr align="center">
                             <td width="1%" nowrap="nowrap">{{$pro->id}}</td>
                             <td>{{$pro->nome}}</td>
@@ -42,10 +44,12 @@
 
 
 
-                            @if($pro->estoque == null)
-                                <td>0.00</td>
+<!-- <td>R$ {{number_format($pro->precoCusto, 2)}}</td> -->
+
+                            @if($pro->id == $est->produto_id)
+                                <td>R$ {{number_format($est->precoCusto, 2)}}</td>
                             @else
-                                <td>R$ {{number_format($pro->estoque->precoCusto, 2)}}</td>
+                                <td>R$ {{number_format($pro->precoCusto, 2)}}</td>
                             @endif
 
 
@@ -55,13 +59,19 @@
 
 
 
-                            @if($pro->estoque == null)
-                                <td>0</td>
-                            @else
-                                @if($pro->estoque->quantidade < $pro->estoqueMin)
-                                    <td bgcolor="red">{{$pro->estoque->quantidade}}</td>
+<!-- <td>{{$pro->estoque}}</td> -->
+
+                            @if($pro->id == $est->produto_id)
+                                @if($est->quantidade < $pro->estoqueMin)
+                                    <td bgcolor="red">{{$est->quantidade}}</td>
                                 @else
-                                    <td>{{$pro->estoque->quantidade}}</td>
+                                    <td>{{$est->quantidade}}</td>
+                                @endif
+                            @else
+                                @if($pro->estoque < $pro->estoqueMin)
+                                    <td bgcolor="red">{{$pro->estoque}}</td>
+                                @else
+                                    <td>{{$pro->estoque}}</td>
                                 @endif
                             @endif
 
@@ -113,8 +123,7 @@
                                                 </h4>
                                             </div>
                                             <div class="modal-body">
-                                                EXCLUINDO <strong>{{$pro->nome}}</strong> VOCÊ IRÁ EXCLUIR TAMBÉM <br>
-                                                O ESTOQUE E AS COMPRAS VINCULADAS COM ESTE PRODUTO!
+                                                TEM CERTEZA QUE DESEJA EXCLUIR?
                                             </div>
                                             <div class="modal-footer">
                                                 <form action="{{route('produtos.destroy', [$pro->id] )}}">
@@ -143,6 +152,7 @@
                             </td>
                         </tr>
 
+                    @endforeach
                 @endforeach
             </tbody>
         </table>

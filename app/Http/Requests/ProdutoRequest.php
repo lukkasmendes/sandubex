@@ -26,9 +26,7 @@ class ProdutoRequest extends FormRequest
         return [
             'nome' => 'required',
             'precoVenda' => 'required',
-            'precoCusto' => 'required',
             'estoqueMin' => 'required',
-            'estoque' => 'required',
             'imagem' => 'required'
         ];
     }
@@ -37,10 +35,8 @@ class ProdutoRequest extends FormRequest
     {
         return [
             'nome.required' =>'Preencha o campo Nome',
-            'precoCusto.required' => 'Preencha o campo Preço de Custo',
             'precoVenda.required' => 'Preencha o campo Preço de Venda',
             'estoqueMin.required' => 'Preencha o campo Estoque Mínimo',
-            'estoque.required' => 'Preencha o campo Estoque Atual',
             'imagem.required' => 'Você deve selecionar uma imagem',
         ];
     }

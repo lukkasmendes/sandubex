@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Cliente;
+use App\Produto;
+use Illuminate\Support\Facades\DB;
 
 class PedidosController extends Controller
 {
@@ -10,4 +12,18 @@ class PedidosController extends Controller
     {
         $this->middleware('auth', ['except' => ['getLogout', 'getRegister', 'postRegister']]);
     }
+
+    public function index(){
+        $clientes = Cliente::all();
+        $data = DB::table('clientes')->get();
+        $produtos = Produto::get();
+
+        return view('pedidos.index',
+            compact('data'),
+            compact('clientes'),
+            compact('produtos'));
+    }
+
+
+
 }
