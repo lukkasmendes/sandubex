@@ -58,21 +58,37 @@
                                             </div>
                                             <div style="clear:both;"></div>
                                         </div>
-                                        <div class="form-group" style="margin-bottom:5px;">
-                                            <input type="text" name="code" id="add_item" class="form-control ui-autocomplete-input" placeholder="Procure o produto pelo código ou nome" autocomplete="off">
-                                        </div>
+
+
+
+
+
+                                        <!--<div class="form-group" style="margin-bottom:5px;">
+                                            <input type="text"
+                                                   name="code"
+                                                   id="produtoid"
+                                                   class="form-control ui-autocomplete-input"
+                                                   placeholder="Procure o produto pelo nome"
+                                                   autocomplete="on">
+                                            <input type="text" name="code" id="add_item" class="form-control ui-autocomplete-input" placeholder="Procure o produto pelo nome" autocomplete="off">
+                                        </div>-->
+
+
+
+
+
                                     </div>
                                     <div id="print">
                                         <div id="list-table-div" class="ps-container" data-ps-id="50f3f54d-c69e-6739-eeb3-eae683cf4c8c" style="height: 118px;">
-                                            <table id="posTable" class="table table-striped table-condensed table-hover list-table" style="margin:0;">
+                                            <table id="products-table" class="table table-striped table-condensed table-hover list-table" style="margin:0;">
                                                 <thead>
-                                                <tr class="success">
-                                                    <th>Produto</th>
-                                                    <th style="width: 15%;text-align:center;">Preço</th>
-                                                    <th style="width: 15%;text-align:center;">Qtd</th>
-                                                    <th style="width: 20%;text-align:center;">Subtotal</th>
-                                                    <th style="width: 20px;" class="satu"><i class="fa fa-trash-o"></i></th>
-                                                </tr>
+                                                    <tr class="success">
+                                                        <th>Produto</th>
+                                                        <th style="width: 15%;text-align:center;">Preço</th>
+                                                        <th style="width: 15%;text-align:center;">Qtd</th>
+                                                        <th style="width: 20%;text-align:center;">Subtotal</th>
+                                                        <th style="width: 20px;" class="satu"><i class="fa fa-trash-o"></i></th>
+                                                    </tr>
                                                 </thead>
                                                 <tbody>
                                                     <tr id="1523538124031" class="25" data-item-id="25" style="width: 600px;">
@@ -96,11 +112,15 @@
                                                             <input class="form-control input-qty kb-pad text-center rquantity"
                                                                    name="quantity[]" type="text"
                                                                    value="1" data-id="1523538124031" data-item="25" id="quantity_1523538124031"
-                                                                   onclick="this.select();"></td><td class="text-right">
+                                                                   onclick="this.select();">
+                                                        </td>
+                                                        <td class="text-right">
                                                             <span class="text-right ssubtotal" id="subtotal_1523538124031">8.00</span>
                                                         </td>
                                                         <td class="text-center">
-                                                            <i class="fa fa-trash-o tip pointer posdel" id="1523538124031" title="Remove"></i>
+                                                            <a onclick="RemoveTableRow(this)">
+                                                                <i class="fa fa-trash-o tip pointer posdel" id="1523538124031" title="Remove" onclick="RemoveTableRow(this)"></i>
+                                                            </a>
                                                         </td>
                                                     </tr>
                                                 </tbody>
@@ -161,73 +181,104 @@
 
                     <td>
                         <div class="contents" id="right-col" style="height: 399px;">
-                            <div id="item-list">
-                                <div class="items ps-container" data-ps-id="5636156a-b08b-d719-2670-e1d991c352b7" style="height: 400px;">
-                                    <div>
 
-                                        <button type="button" data-name="Coca-cola" id="product-0426" value="0100"
-                                                class="btn btn-both btn-flat product">
-                                            <span class="bg-img">
-                                                <img src="http://www.scriptphp.ga/pdv/uploads/thumbs/dace00043bcfc91e39817cd9699e3978.jpg"
-                                                     alt="Coca-cola" style="width: 100px; height: 100px;">
-                                            </span><br/>
-                                            <span>
-                                                <span>Coca-cola</span>
-                                            </span>
-                                        </button>
+                            <!-- <table id="produtos">
 
-                                        <button type="button" data-name="Suco de Laranja" id="product-0427" value="10002"
-                                                class="btn btn-both btn-flat product">
-                                            <span class="bg-img">
-                                                <img src="http://www.scriptphp.ga/pdv/uploads/thumbs/4b454aa572638f4462345603009c8479.jpg"
-                                                     alt="Suco de Laranja" style="width: 100px; height: 100px;">
-                                            </span><br/>
-                                            <span>
-                                                <span>Suco de Laranja</span>
-                                            </span>
-                                        </button>
+                                <thead>
+                                    <tr>
+                                        <td> -->
+                                            <input type="text"
+                                                   id="myInput"
+                                                   onkeyup="myFunction()"
+                                                   class="form-control ui-autocomplete-input"
+                                                   placeholder="Procure o produto pelo código ou nome">
+                        <!-- </td>
+                                    </tr>
+                                </thead>
 
 
 
+                                <tbody>
 
 
-                                        @foreach($produtos as $pro)
-                                            <button type="button" data-name="X Salada" id="product-0425" value="2001"
-                                                    class="btn btn-both btn-flat product">
-                                                <span class="bg-img">
-                                                    <img src="produtos/{{$pro->id}}/image" style="width: 100px; height: 100px;"/>
-                                                </span><br/>
-                                                    <span>
-                                                    <span>{{$pro->nome}}</span>
-                                                </span>
-                                            </button>
-                                        @endforeach
+                                    <tr>
+                                        <td>
 
 
+-->
+                            <ul id="myUL">
 
-                                    </div>
-                                    <div class="ps-scrollbar-x-rail" style="left: 0px; bottom: 3px; display: block;">
-                                        <div class="ps-scrollbar-x" style="left: 0px; width: 0px;"></div>
-                                    </div>
-                                    <div class="ps-scrollbar-y-rail" style="top: 0px; right: 3px; display: block;">
-                                        <div class="ps-scrollbar-y" style="top: 0px; height: 0px;"></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="product-nav">
-                                <div class="btn-group btn-group-justified">
-                                    <div class="btn-group">
-                                        <button style="z-index:10002;" class="btn btn-warning pos-tip btn-flat" type="button" id="previous" disabled="disabled">
-                                            <i class="fa fa-chevron-left"></i>
-                                        </button>
-                                    </div>
-                                    <div class="btn-group">
-                                        <button style="z-index:10004;" class="btn btn-warning pos-tip btn-flat" type="button" id="next" disabled="disabled">
-                                            <i class="fa fa-chevron-right"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
+                                            <div id="item-list">
+                                                <div class="items ps-container" data-ps-id="5636156a-b08b-d719-2670-e1d991c352b7" style="height: 400px;">
+                                                    <div>
+
+
+                                                        <li>
+
+                                                        @foreach($produtos as $pro)
+                                                            <button type="button" data-name="produtos" id="produtos" onclick="AddTableRow()"
+                                                                    class="btn btn-both btn-flat product">
+                                                                <span class="bg-img">
+                                                                    <img src="produtos/{{$pro->id}}/image" style="width: 100px; height: 100px;"/>
+                                                                </span><br/>
+                                                                    <span>
+                                                                    <span>{{$pro->nome}}</span>
+                                                                </span>
+                                                            </button>
+                                                        @endforeach
+
+
+                                                        </li>
+
+
+                                                    </div>
+                                                    <div class="ps-scrollbar-x-rail" style="left: 0px; bottom: 3px; display: block;">
+                                                        <div class="ps-scrollbar-x" style="left: 0px; width: 0px;"></div>
+                                                    </div>
+                                                    <div class="ps-scrollbar-y-rail" style="top: 0px; right: 3px; display: block;">
+                                                        <div class="ps-scrollbar-y" style="top: 0px; height: 0px;"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+<!--
+
+                                        </td>
+                                    </tr>
+
+
+                                </tbody>
+
+                                <tfoot>
+
+                                    <tr>
+                                        <td>
+                                            -->
+                                            <div class="product-nav">
+                                                <div class="btn-group btn-group-justified">
+                                                    <div class="btn-group">
+                                                        <button style="z-index:10002;" class="btn btn-warning pos-tip btn-flat" type="button" id="previous" disabled="disabled">
+                                                            <i class="fa fa-chevron-left"></i>
+                                                        </button>
+                                                    </div>
+                                                    <div class="btn-group">
+                                                        <button style="z-index:10004;" class="btn btn-warning pos-tip btn-flat" type="button" id="next" disabled="disabled">
+                                                            <i class="fa fa-chevron-right"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+<!--
+                                        </td>
+                                    </tr>
+
+                                </tfoot>
+
+
+                            </table>
+        -->
+
+                            </ul>
                         </div>
                     </td>
                 </tr>
@@ -244,5 +295,72 @@
             $("#clienteid").select2();
         });
     </script>
+
+
+
+
+
+    <script>
+        function myFunction() {
+            // Declare variables
+            var input, filter, ul, li, a, i;
+            input = document.getElementById('myInput');
+            filter = input.value.toUpperCase();
+            ul = document.getElementById("myUL");
+            li = ul.getElementsByTagName('li');
+
+            // Loop through all list items, and hide those who don't match the search query
+            for (i = 0; i < li.length; i++) {
+                a = li[i].getElementsByTagName("a")[0];
+                if (a.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                    li[i].style.display = "";
+                } else {
+                    li[i].style.display = "none";
+                }
+            }
+        }
+    </script>
+
+
+
+
+
+
+    <script>
+        (function($) {
+            AddTableRow = function() {
+                var newRow = $("<tr>");
+                var cols = "";
+
+                cols += '@foreach($produtos as $prod)';
+                    cols += '<td>{{$prod->nome}}</td>';
+                    cols += '<td>{{$prod->precoVenda}}</td>';
+                    cols += '<td><input class="form-control input-qty kb-pad text-center rquantity" name="quantity[]" type="text" value="1" data-id="1523538124031" data-item="25" id="quantity_1523538124031" onclick="this.select();"></td>';
+                    cols += '<td>{{$prod->precoVenda}}</td>';
+                    cols += '<td>';
+                    cols += '<a onclick="RemoveTableRow(this)"><i class="fa fa-trash-o tip pointer posdel" id="1523538124031" title="Remove" onclick="RemoveTableRow(this)"></i></a>';
+                    cols += '</td>';
+                cols += '@endforeach';
+            newRow.append(cols);
+            $("#products-table").append(newRow);
+            return false;
+            };
+
+            RemoveTableRow = function(handler) {
+                var tr = $(handler).closest('tr');
+
+                tr.fadeOut(400, function(){
+                    tr.remove();
+                });
+
+                return false;
+            };
+        })(jQuery);
+    </script>
+
+
+
+
+
 
 @endsection
