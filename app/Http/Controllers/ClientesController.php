@@ -43,4 +43,11 @@ class ClientesController extends Controller
 
         return redirect()->route('clientes');
     }
+
+    public function store2(ClienteRequest $request){
+        $novo_cliente = $request->all();
+        Cliente::create($novo_cliente);
+
+        return redirect()->route('pedidos');
+    }
 }

@@ -56,10 +56,10 @@
 
 
                             @if($pro->estoque == null)
-                                <td bgcolor="red">0</td>
+                                <td><span class="label label-danger">0</span></td>
                             @else
                                 @if($pro->estoque->quantidade < $pro->estoqueMin)
-                                    <td bgcolor="red">{{$pro->estoque->quantidade}}</td>
+                                    <td><span class="label label-danger">{{$pro->estoque->quantidade}}</span></td>
                                 @else
                                     <td>{{$pro->estoque->quantidade}}</td>
                                 @endif

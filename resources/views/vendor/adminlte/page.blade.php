@@ -169,6 +169,20 @@
 
 
 
+
+
+
+
+<!-- FUÇANDO NO PDV -->
+    <script src="{{ asset('js/jquery.filterizr.min.js') }}"></script>
+<!-- FUÇANDO NO PDV -->
+
+
+
+
+
+
+
     <script src="{{ asset('vendor/adminlte/dist/js/adminlte.min.js') }}"></script>
     @stack('js')
     @yield('js')
