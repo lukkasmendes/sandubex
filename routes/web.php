@@ -41,6 +41,8 @@ Route::group(['prefix'=>'pedidos', 'where'=>['id'=>'[0-9]+']], function () {
     Route::get('{id}/edit',     ['as'=>'pedidos.edit',      'uses'=>'PedidosController@edit']);
     Route::put('{id}/update',   ['as'=>'pedidos.update',    'uses'=>'PedidosController@update']);
     Route::post('store',        ['as'=>'pedidos.store',     'uses'=>'PedidosController@store']);
+    Route::post('adicionar',    ['as'=>'pedidos.adicionar', 'uses'=>'PedidosController@adicionar']);
+    Route::delete('remover',    ['as'=>'pedidos.remover',   'uses'=>'PedidosController@remover']);
 });
 
 Route::group(['prefix'=>'clientes', 'where'=>['id'=>'[0-9]+']], function () {

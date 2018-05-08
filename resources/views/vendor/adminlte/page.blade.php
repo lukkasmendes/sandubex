@@ -175,6 +175,21 @@
 
 <!-- FUÇANDO NO PDV -->
     <script src="{{ asset('js/jquery.filterizr.min.js') }}"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <!-- FUÇANDO NO PDV -->
 
 
