@@ -9,13 +9,13 @@ use App\PedidoProduto;
 use App\Pedido;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Response;
 
-class PedidosController extends Controller
-{
+class PedidosController extends Controller{
     private $produto;
 
-    public function __construct(Produto $produto)
-    {
+    public function __construct(Produto $produto){
         $this->middleware('auth', ['except' => ['getLogout', 'getRegister', 'postRegister']]);
         $this->produto = $produto;
     }
@@ -36,8 +36,7 @@ class PedidosController extends Controller
     }
 
 
-    public function adicionar()
-    {
+    public function adicionar(){
 
         $this->middleware('VerifyCsrfToken');
 
@@ -47,7 +46,7 @@ class PedidosController extends Controller
         $produto = Produto::find($idproduto);
         if( empty($produto->id) ) {
             $req->session()->flash('mensagem-falha', 'Produto não encontrado!');
-            return redirect()->route('pedidos.index');
+            return redirect()->route('pedidos');
         }
 
         $idusuario = Auth::id();
@@ -81,11 +80,7 @@ class PedidosController extends Controller
     }
 
 
-    public function remover()
-    {
-
-
-
+    public function remover(){
         $this->middleware('VerifyCsrfToken');
 
         $req = Request();
@@ -102,7 +97,7 @@ class PedidosController extends Controller
 
         if( empty($idpedido) ) {
             $req->session()->flash('mensagem-falha', 'Pedido não encontrado!');
-            return redirect()->route('pedidos.index');
+            return redirect()->route('pedidos');
         }
 
         $where_produto = [
@@ -113,7 +108,7 @@ class PedidosController extends Controller
         $produto = PedidoProduto::where($where_produto)->orderBy('id', 'desc')->first();
         if( empty($produto->id) ) {
             $req->session()->flash('mensagem-falha', 'Produto não encontrado!');
-            return redirect()->route('carrinho.index');
+            return redirect()->route('pedidos');
         }
 
         if( $remove_apenas_item ) {
@@ -135,5 +130,72 @@ class PedidosController extends Controller
 
         return redirect()->route('pedidos');
     }
+
+    public function cancelar(){
+
+        PedidoProduto::where([
+            'status' => 'RE'
+        ])->delete();
+
+        Pedido::where([
+            'status' => 'RE'
+        ])->delete();
+
+        return redirect()->route('pedidos');
+    }
+
+    public function concluir()
+    {
+        $this->middleware('VerifyCsrfToken');
+
+        $req = Request();
+        $idpedido  = $req->input('pedido_id');
+
+        $idcliente = $req->input('cliente_id');
+        $obs = $req->input('obs');
+        $pagar = $req->input('pagar_em');
+
+        $idusuario = Auth::id();
+
+        $check_pedido = Pedido::where([
+            'id'      => $idpedido,
+            'user_id' => $idusuario,
+            'status'  => 'RE' // Reservada
+        ])->exists();
+
+        if( !$check_pedido ) {
+            $req->session()->flash('mensagem-falha', 'Pedido não encontrado!');
+            return redirect()->route('pedidos');
+        }
+
+        $check_produtos = PedidoProduto::where([
+            'pedido_id' => $idpedido
+        ])->exists();
+        if(!$check_produtos) {
+            $req->session()->flash('mensagem-falha', 'Produtos do pedido não encontrados!');
+            return redirect()->route('pedidos');
+        }
+
+        PedidoProduto::where([
+            'pedido_id' => $idpedido
+        ])->update([
+            'status' => 'PA',
+            'cliente_id' => $idcliente,
+            'observacao' => $obs,
+            'formaPagamento' => $pagar
+        ]);
+        Pedido::where([
+            'id' => $idpedido
+        ])->update([
+            'status' => 'PA'
+        ]);
+
+        $req->session()->flash('mensagem-sucesso', 'Pedido concluído com sucesso!');
+
+        return redirect()->route('pedidos');
+    }
+
+
+    
 
 }

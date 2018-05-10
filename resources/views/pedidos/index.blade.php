@@ -9,7 +9,22 @@
     {!! Html::script('js/js/app.js', array('type' => 'text/javascript')) !!}
 
 
+
+@if (Session::has('mensagem-sucesso'))
+    <div class="card-panel green">
+        <strong>{{ Session::get('mensagem-sucesso') }}</strong>
+    </div>
+@endif
+@if (Session::has('mensagem-falha'))
+    <div class="card-panel red">
+        <strong>{{ Session::get('mensagem-falha') }}</strong>
+    </div>
+@endif
+
+
 <div class="well well-sm" style="width: 380px; float: left;">
+
+
 
 
 
@@ -83,25 +98,29 @@
                                         </a>
                                         <span style="width:19px;display:inline-block;"> {{ $pedido_produto->qtd }} </span>
 
-                                        @foreach($produtos as $pro)
+
 
                                             <?php
-                                                $results = DB::select("select distinct e.quantidade
+                                                $conn = mysqli_connect("localhost","root","root","sandubex");
+
+                                                $sql = mysqli_query($conn, "select distinct e.quantidade as quantidade
                                                             from estoques e, produtos p, pedido_produtos pp
                                                             where pp.produto_id = p.id
                                                             and e.produto_id = p.id
                                                             and pp.status = 'RE'
                                                             and pp.produto_id = $pedido_produto->produto_id");
-                                                echo $results;
+
+                                                $row = mysqli_fetch_array($sql);
+                                                $quanti = $row['quantidade'];
+
+
                                             ?>
 
-                                            @if($result == 0)
+                                            @if($quanti <= 0)
 
-                                                <a class="col l4 m4 s4" disabled="disabled"
-                                                   href="#"
-                                                   onclick="carrinhoAdicionarProduto({{ $pedido_produto->produto_id }})">
-                                                    <i class="fa fa-plus-circle" title="Adicionar 1"></i>
-                                                </a>
+                                                <span class="col l4 m4 s4">
+                                                    <i class="fa fa-plus-circle" title="Estoque Indisponível"></i>
+                                                </span>
 
                                             @else
 
@@ -112,7 +131,7 @@
                                                 </a>
 
                                             @endif
-                                        @endforeach
+
 
                                     </div>
                                 </td>
@@ -152,15 +171,162 @@
                     </tr>
                     <tr>
                         <td>
-                            <button type="button"
-                                    class="btn btn-danger btn-block btn-flat"
-                                    id="reset"
-                                    onClick="document.location.reload(true)">Cancelar</button>
+
+                            <form method="POST" action="{{ route('pedidos.cancelar') }}">
+                                    {{ csrf_field() }}
+                                    {{ method_field('DELETE') }}
+
+                                <input type="hidden" name="id">
+
+                                <button class="btn btn-danger btn-block btn-flat">
+                                    Cancelar
+                                </button>
+
+                            </form>
+
                         </td>
                         <td colspan="4">
+
+
+
                             <button type="button" class="btn btn-success btn-block btn-flat"
                                     data-toggle="modal"
-                                    data-target="#pagamento">Pagamento</button>
+                                    data-target="#pagamento">
+                                Pagamento
+                            </button>
+
+
+
+
+
+                            <!-- MODAL DE PAGAMENTO -->
+
+
+                            <div class="modal" data-easein="flipYIn" id="pagamento" tabindex="-1" role="dialog" aria-labelledby="payModalLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-success">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="fa fa-times"></i></button>
+                                            <h4 class="modal-title" id="payModalLabel">
+                                                Pagamento
+                                            </h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="row">
+                                                <div class="col-xs-12">
+                                                    <div class="font16">
+                                                        <table class="table table-bordered table-condensed" style="margin-bottom: 0;">
+                                                            <tbody>
+                                                            <tr style="background-color: white">
+                                                                <td width="25%" style="border-right-color: #FFF !important;">Total de itens</td>
+                                                                <td width="25%" class="text-right"><span id="item_count">{{ $contador }}</span></td>
+                                                                <td width="25%" style="border-right-color: #FFF !important;">Total a pagar</td>
+                                                                <td width="25%" class="text-right"><span id="pagar" name="pagar">R$ {{ number_format($total_pedido, 2, ',', '.') }}</span></td>
+                                                            </tr>
+                                                            <tr style="background-color: white">
+                                                                <td style="border-right-color: #FFF !important;">Total pago</td>
+                                                                <td class="text-right">R$ <span id="resultado" name="resultado" onblur="calcular()">0.00</span></td>
+                                                                <td style="border-right-color: #FFF !important;">Troco</td>
+                                                                <td class="text-right">R$ <span id="total" name="total" onblur="calcular()">0.00</span></td>
+                                                            </tr>
+                                                            </tbody>
+                                                        </table>
+                                                        <div class="clearfix"></div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-xs-12">
+                                                            <div class="form-group">
+                                                                Informações
+                                                                <textarea id="obs" name="obs" class="pa form-control kb-text"></textarea>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-xs-6">
+                                                            <div class="form-group">
+                                                                Valor Pago
+                                                                <input name="valor_unitario" type="text" id="valor_unitario" onkeyup="calcular(this.value)" placeholder="0.00"
+                                                                       class="pa form-control kb-pad"/>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-xs-6">
+                                                            <div class="form-group">
+                                                                Pagar em
+                                                                <select id="pagar_em" class="form-control" style="width:100%;">
+                                                                    <option value="D">Dinheiro</option>
+                                                                    <option value="CC">Cartão de Crédito</option>
+                                                                    <option value="C">Cheque</option>
+                                                                    <option value="CD">Cartão de Débito</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!--
+                                                                        <div class="col-xs-3 text-center">
+
+                                                                            <div class="btn-group btn-group-vertical" style="width:100%;">
+                                                                                <button type="button" class="btn btn-info btn-block quick-cash" id="quick-payable">0.00
+                                                                                </button>
+
+
+                                                                                <a class="btn btn-block btn-warning" href=# id="num10" value="10" onblur="calcular(10);">
+                                                                                            <span class="pull-right label label-default">1</span>
+                                                                                    10</a>
+
+                                                                                <a class="btn btn-block btn-warning" href=# id="num20" value="20" onblur="calcular(20);">
+                                                                                            <span class="pull-right label label-default">1</span>
+                                                                                    20</a>
+
+                                                                                <a class="btn btn-block btn-warning" href=#>
+                                                                                            <span class="pull-right label label-default">1</span>
+                                                                                    50</a>
+
+                                                                                <a class="btn btn-block btn-warning" href=#>
+                                                                                            <span class="pull-right label label-default">1</span>
+                                                                                    100</a>
+
+                                                                                <a class="btn btn-block btn-warning" href=#>
+                                                                                            <span class="pull-right label label-default">1</span>
+                                                                                    500</a>
+
+
+
+                                                                                <button type="button" class="btn btn-block btn-warning">500</button>
+                                                                                <button type="button" class="btn btn-block btn-danger"
+                                                                                        id="clear-cash-notes">Limpar</button>
+                                                                            </div>
+                                                                        </div>
+                                                -->
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default pull-left" data-dismiss="modal"> Fechar </button>
+
+                                            @if($contador == 0)
+                                                <button class="btn btn-primary" title="Nenhum produto adicionado" id="submit-sale" disabled>Enviar</button>
+                                            @else
+                                                <form method="POST" action="{{ route('pedidos.concluir') }}">
+                                                    {{ csrf_field() }}
+                                                    <input type="hidden" name="pedido_id" value="{{ $pedido->id }}">
+                                                    <input type="hidden" name="cliente_id" value="{{ $cli->id }}">
+                                                    <input type="hidden" id="obs" name="obs" value="">
+                                                    <input type="hidden" id="ipagar_em" name="ipagar_em" value="">
+                                                    <button class="btn btn-primary" title="Finalizar o pedido" id="submit-sale">Enviar</button>
+                                                </form>
+                                            @endif
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- MODAL DE PAGAMENTO -->
+
+
+
+
+
+
+
                         </td>
                     </tr>
                 </tfoot>
@@ -206,7 +372,7 @@
                                     if($pro->estoque == null || $pro->estoque->quantidade == 0 ){
                                         echo 'Indispónível';
                                     }else{
-                                        echo 'Disponível: '. $pro->estoque->quantidade . $pro->unidade;
+                                        echo 'Disponível: '. $pro->estoque->quantidade .' '. $pro->unidade;
                                     }
                                 ?>
                                 </span>
@@ -226,7 +392,7 @@
                                     if($pro->estoque == null || $pro->estoque->quantidade == 0 ){
                                         echo 'Indispónível';
                                     }else{
-                                        echo 'Disponível: '. $pro->estoque->quantidade . $pro->unidade;
+                                        echo 'Disponível: '. $pro->estoque->quantidade .' '. $pro->unidade;
                                     }
                                 ?>
                             </span>
@@ -260,179 +426,67 @@
 
 
 
-
-<!-- MODAL DE PAGAMENTO -->
-
-
-    <div class="modal" data-easein="flipYIn" id="pagamento" tabindex="-1" role="dialog" aria-labelledby="payModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-success">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="fa fa-times"></i></button>
-                    <h4 class="modal-title" id="payModalLabel">
-                        Pagamento
-                    </h4>
-                </div>
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-xs-12">
-                            <div class="font16">
-                                <table class="table table-bordered table-condensed" style="margin-bottom: 0;">
-                                    <tbody>
-                                    <tr style="background-color: white">
-                                        <td width="25%" style="border-right-color: #FFF !important;">Total de itens</td>
-                                        <td width="25%" class="text-right"><span id="item_count">{{ $contador }}</span></td>
-                                        <td width="25%" style="border-right-color: #FFF !important;">Total a pagar</td>
-                                        <td width="25%" class="text-right"><span id="pagar" name="pagar">R$ {{ number_format($total_pedido, 2, ',', '.') }}</span></td>
-                                    </tr>
-                                    <tr style="background-color: white">
-                                        <td style="border-right-color: #FFF !important;">Total pago</td>
-                                        <td class="text-right">R$ <span id="resultado" name="resultado" onblur="calcular()">0.00</span></td>
-                                        <td style="border-right-color: #FFF !important;">Troco</td>
-                                        <td class="text-right">R$ <span id="total" name="total" onblur="calcular()">0.00</span></td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                                <div class="clearfix"></div>
-                            </div>
-                            <div class="row">
-                                <div class="col-xs-12">
-                                    <div class="form-group">
-                                        Informações
-                                        <textarea name="note" id="note" class="pa form-control kb-text"></textarea>
-                                    </div>
-                                </div>
-                                <div class="col-xs-6">
-                                    <div class="form-group">
-                                        Valor Pago
-                                        <input name="valor_unitario" type="text" id="valor_unitario" onkeyup="calcular(this.value)"
-                                               class="pa form-control kb-pad"/>
-                                    </div>
-                                </div>
-                                <div class="col-xs-6">
-                                    <div class="form-group">
-                                        Pagar em
-                                        <select id="paid_by" class="form-control paid_by select2" style="width:100%;">
-                                            <option value="cash">Dinheiro</option>
-                                            <option value="CC">Cartão de Crédito</option>
-                                            <option value="Cheque">Cheque</option>
-                                            <option value="stripe">Cartão de Débito</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-<!--
-                        <div class="col-xs-3 text-center">
-
-                            <div class="btn-group btn-group-vertical" style="width:100%;">
-                                <button type="button" class="btn btn-info btn-block quick-cash" id="quick-payable">0.00
-                                </button>
-
-
-                                <a class="btn btn-block btn-warning" href=# id="num10" value="10" onblur="calcular(10);">
-                                            <span class="pull-right label label-default">1</span>
-                                    10</a>
-
-                                <a class="btn btn-block btn-warning" href=# id="num20" value="20" onblur="calcular(20);">
-                                            <span class="pull-right label label-default">1</span>
-                                    20</a>
-
-                                <a class="btn btn-block btn-warning" href=#>
-                                            <span class="pull-right label label-default">1</span>
-                                    50</a>
-
-                                <a class="btn btn-block btn-warning" href=#>
-                                            <span class="pull-right label label-default">1</span>
-                                    100</a>
-
-                                <a class="btn btn-block btn-warning" href=#>
-                                            <span class="pull-right label label-default">1</span>
-                                    500</a>
-
-
-
-                                <button type="button" class="btn btn-block btn-warning">500</button>
-                                <button type="button" class="btn btn-block btn-danger"
-                                        id="clear-cash-notes">Limpar</button>
-                            </div>
-                        </div>
--->
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default pull-left" data-dismiss="modal"> Fechar </button>
-                    <button class="btn btn-primary" id="submit-sale">Enviar</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-<!-- MODAL DE PAGAMENTO -->
-
-
-
-
-
 @endsection
 
 
 @section('scripts')
 
+
+
+
+
+
+
+
+
+
+<!-- PEGA VALOR SELECIONADO NO SELECT DE PAGAR EM E ADD NO INPUT HIDDEN -->
+    <script>
+        $('#pagar_em').on('change', function() {
+        $('#pagamento #ipagar_em').val($(this).find('option:selected').text());
+        $('#pagamento').modal('show');
+        });
+    </script>
+<!-- PEGA VALOR SELECIONADO NO SELECT DE PAGAR EM E ADD NO INPUT HIDDEN -->
+
+
+
+
+<!-- CALCULA O TROCO NO MODAL -->
     <script type="text/javascript">
         function calcular() {
             var pag = "<?php echo $total_pedido; ?>";
 
-            var valor_unitario = parseInt(document.getElementById('valor_unitario').value);
-            var resultado = parseInt(document.getElementById('resultado').value);
-            var total = parseInt(document.getElementById('total').value);
-            var pagar = parseInt(document.getElementById('pagar').value);
+            var valor_unitario = parseFloat(document.getElementById('valor_unitario').value);
+            var resultado = parseFloat(document.getElementById('resultado').value);
+            var total = parseFloat(document.getElementById('total').value);
+            var pagar = parseFloat(document.getElementById('pagar').value);
 
             document.getElementById('resultado').innerHTML = valor_unitario;
 
             document.getElementById('total').innerHTML = valor_unitario - pag;
         }
     </script>
+<!-- CALCULA O TROCO NO MODAL -->
 
 
 
 
+
+<!-- SELECT DE CLIENTES -->
     <script type="text/javascript">
         $(document).ready(function () {
             $("#clienteid").select2();
         });
     </script>
-
-
-
-
-
-    <script>
-        function myFunction() {
-            // Declare variables
-            var input, filter, ul, li, a, i;
-            input = document.getElementById('myInput');
-            filter = input.value.toUpperCase();
-            ul = document.getElementById("myUL");
-            li = ul.getElementsByTagName('li');
-
-            // Loop through all list items, and hide those who don't match the search query
-            for (i = 0; i < li.length; i++) {
-                a = li[i].getElementsByTagName("a")[0];
-                if (a.innerHTML.toUpperCase().indexOf(filter) > -1) {
-                    li[i].style.display = "";
-                } else {
-                    li[i].style.display = "none";
-                }
-            }
-        }
-    </script>
+<!-- SELECT DE CLIENTES -->
 
 
 
 
 
 
+<!-- ADICIONANDO LINHAS NA TABELA - NÃO ESTÁ SENDO UTILIZADO -->
     <script>
         (function($) {
             AddTableRow = function() {
@@ -471,7 +525,7 @@
             };
         })(jQuery);
     </script>
-
+<!-- ADICIONANDO LINHAS NA TABELA - NÃO ESTÁ SENDO UTILIZADO -->
 
 
 
@@ -479,12 +533,6 @@
 
 
     <!-- FUÇANDO NO PDV -->
-
-
-
-
-
-
 
 
 
@@ -532,14 +580,50 @@
 
 
 
-
-
     <script type="text/javascript" src="/js/carrinho.js"></script>
 
 
 
-
-
     <!-- FUÇANDO NO PDV -->
+
+
+
+
+
+
+<!-- SCRIPT PARA NÃO CLICAR COM O DIREITO DO MOUSE -->
+    <SCRIPT LANGUAGE="JavaScript">
+        <!-- Disable
+
+
+        /*
+
+
+            function disableselect(e){
+                return false
+            }
+
+            function reEnable(){
+                return true
+            }
+
+            //if IE4+
+            document.onselectstart=new Function ("return false")
+            document.oncontextmenu=new Function ("return false")
+            //if NS6
+            if (window.sidebar){
+                document.onmousedown=disableselect
+                document.onclick=reEnable
+            }
+
+
+
+        */
+
+
+        //-->
+    </script>
+<!-- SCRIPT PARA NÃO CLICAR COM O DIREITO DO MOUSE -->
+
 
 @endsection
