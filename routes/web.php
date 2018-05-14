@@ -5,6 +5,8 @@ Route::get('/', function () {
 });
 
 Route::get('/welcome', 'WelcomeController@index')->name('welcome');
+Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/logout', 'LoginController@logout')->name('logout')->redirectAfterLogout=('/login');
 
 Route::group(['prefix'=>'categorias', 'where'=>['id'=>'[0-9]+']], function () {
     Route::get('',              ['as'=>'categorias',           'uses'=>'CategoriasController@index']);
@@ -37,6 +39,7 @@ Route::group(['prefix'=>'caixas', 'where'=>['id'=>'[0-9]+']], function () {
 Route::group(['prefix'=>'pedidos', 'where'=>['id'=>'[0-9]+']], function () {
     Route::get('',              ['as'=>'pedidos',           'uses'=>'PedidosController@index']);
     Route::get('create',        ['as'=>'pedidos.create',    'uses'=>'PedidosController@create']);
+    Route::get('/autocomplete',  array('as'=>'autocomplete','uses'=>'PedidosController@autocomplete'));
     Route::get('{id}/destroy',  ['as'=>'pedidos.destroy',   'uses'=>'PedidosController@destroy']);
     Route::get('{id}/edit',     ['as'=>'pedidos.edit',      'uses'=>'PedidosController@edit']);
     Route::put('{id}/update',   ['as'=>'pedidos.update',    'uses'=>'PedidosController@update']);
@@ -64,7 +67,6 @@ Route::group(['prefix'=>'compras', 'where'=>['id'=>'[0-9]+']], function () {
     Route::get('{id}/edit',     ['as'=>'compras.edit',      'uses'=>'ComprasController@edit']);
     Route::put('{id}/update',   ['as'=>'compras.update',    'uses'=>'ComprasController@update']);
     Route::post('store',        ['as'=>'compras.store',     'uses'=>'ComprasController@store']);
-
 });
 
 Route::group(['prefix'=>'fornecedors', 'where'=>['id'=>'[0-9]+']], function () {
@@ -75,10 +77,6 @@ Route::group(['prefix'=>'fornecedors', 'where'=>['id'=>'[0-9]+']], function () {
     Route::put('{id}/update',   ['as'=>'fornecedors.update',    'uses'=>'FornecedorsController@update']);
     Route::post('store',        ['as'=>'fornecedors.store',     'uses'=>'FornecedorsController@store']);
 });
-
-
-Route::get('/home', 'HomeController@index')->name('home');
-Route::get('/logout', 'LoginController@logout')->name('logout')->redirectAfterLogout=('/login');
 
 Auth::routes();
 

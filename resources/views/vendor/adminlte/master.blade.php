@@ -141,7 +141,14 @@
 
 @yield('scripts')
 
-<script language="JavaScript" src="shortcut.js"></script>
+<!-- <script language="JavaScript" src="shortcut.js"></script> -->
+
+
+
+
+
+
+
 
 
 

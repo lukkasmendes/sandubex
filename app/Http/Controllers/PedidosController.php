@@ -10,6 +10,7 @@ use App\Pedido;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Response;
 
 class PedidosController extends Controller{
@@ -20,10 +21,9 @@ class PedidosController extends Controller{
         $this->produto = $produto;
     }
 
-
     public function index(){
         $clientes = Cliente::all();
-        $produtos = Produto::all();
+        $produtos = Produto::paginate(15);
         $data = DB::table('clientes')->get();
 
         $pedidos = Pedido::where([
@@ -34,7 +34,6 @@ class PedidosController extends Controller{
         return view('pedidos.index',
             compact('data', 'clientes', 'produtos', 'pedidos'));
     }
-
 
     public function adicionar(){
 
@@ -53,7 +52,7 @@ class PedidosController extends Controller{
 
         $idpedido = Pedido::consultaId([
             'user_id' => $idusuario,
-            'status'  => 'RE' // Reservada
+            'status'  => 'RE' // Reservado
         ]);
 
         if( empty($idpedido) ) {
@@ -79,7 +78,6 @@ class PedidosController extends Controller{
 
     }
 
-
     public function remover(){
         $this->middleware('VerifyCsrfToken');
 
@@ -92,7 +90,7 @@ class PedidosController extends Controller{
         $idpedido = Pedido::consultaId([
             'id'      => $idpedido,
             'user_id' => $idusuario,
-            'status'  => 'RE' // Reservada
+            'status'  => 'RE' // Reservado
         ]);
 
         if( empty($idpedido) ) {
@@ -160,7 +158,7 @@ class PedidosController extends Controller{
         $check_pedido = Pedido::where([
             'id'      => $idpedido,
             'user_id' => $idusuario,
-            'status'  => 'RE' // Reservada
+            'status'  => 'RE' // Reservado
         ])->exists();
 
         if( !$check_pedido ) {
@@ -195,7 +193,37 @@ class PedidosController extends Controller{
         return redirect()->route('pedidos');
     }
 
+    public function autoComplete2(Request $request) {
+        $query = $request->get('search_text');
 
-    
+        //$clients=Cliente::where('nome','LIKE','%'.$query.'%')->get();
+        $clients = Cliente::select('id','nome','cpf')->where('nome','LIKE','%'.$query.'%')->get();
 
+        dd($clients);
+        $data=array();
+        foreach ($clients as $client) {
+            $data[]=array('value'=>$client->nome,'id'=>$client->id);
+        }
+        if(count($data))
+            return $data;
+        else
+            return ['value'=>'No Result Found','id'=>''];
+    }
+
+    public function autocomplete(Request $request){
+        $term = Input::get('term');
+        $data = Cliente::where('nome', 'LIKE', '%'.$term.'%')
+                        ->orWhere('cpf', 'LIKE', '%'.$term.'%')
+                        ->take(10)
+                        ->get();
+        $results=array();
+        foreach ($data as $key => $v){
+            $results[]=['id'=>$v->id, 'value'=>$v->nome.' '.$v->cpf];
+        }
+
+        if(count($results))
+            return response()->json($results);
+        else
+            return ['value'=>'Cliente não encontrado','id'=>''];
+    }
 }
