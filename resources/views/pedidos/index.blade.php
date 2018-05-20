@@ -22,7 +22,7 @@
             <script src="{{asset('js/jquery.min.js')}}"></script>
             <script src="{{asset('js/select.js')}}"></script>
 
-            <input type="text" name="searchname" class="form-control" id="searchname" placeholder="Digite NOME ou CPF do cliente">
+            <input type="text" name="searchname" class="form-control" id="searchname" placeholder="Digite NOME ou CPF do cliente" onkeyup="this.value!=''?pag.disabled=false:pag.disabled=true">
 
             <script src="{{asset('js/jquery-ui.js')}}"></script>
             <link rel="stylesheet" href="{{asset('css/jquery-ui.css')}}">
@@ -150,9 +150,14 @@
                     </td>
                     <td colspan="4">
 
-                        <button type="button" class="btn btn-success btn-block btn-flat"
+                        <button type="button"
+                                class="btn btn-success btn-block btn-flat"
                                 data-toggle="modal"
-                                data-target="#pagamento">
+                                data-target="#pagamento"
+                                name="pag"
+                                id="pag"
+                                title="Selecione um cliente antes de efetuar o pagamento"
+                                disabled>
                             Pagamento
                         </button>
 
@@ -192,7 +197,7 @@
                                                     <div class="col-xs-12">
                                                         <div class="form-group">
                                                             Informações
-                                                            <textarea id="obs" name="obs" class="pa form-control kb-text"></textarea>
+                                                            <textarea id="obs1" name="obs1" class="pa form-control kb-text" onkeyup="info()"></textarea>
                                                         </div>
                                                     </div>
                                                     <div class="col-xs-6">
@@ -205,11 +210,12 @@
                                                     <div class="col-xs-6">
                                                         <div class="form-group">
                                                             Pagar em
-                                                            <select name="pagar_em" id="pagar_em" class="form-control" style="width:100%;">
-                                                                <option value="D" id="D" name="D">Dinheiro</option>
-                                                                <option value="C" id="C" name="C">Cheque</option>
-                                                                <option value="CC" id="CC" name="CC">Cartão de Crédito</option>
-                                                                <option value="CD" id="CD" name="CD">Cartão de Débito</option>
+                                                            <select name="ipagar_em" id="ipagar_em" class="form-control" style="width:100%;" onclick="this.value!=''?btnenv.disabled=false:btnenv.disabled=true">
+                                                                <option id="S" disabled selected>Selecione</option>
+                                                                <option value="1" id="D" name="D">Dinheiro</option>
+                                                                <option value="2" id="C" name="C">Cheque</option>
+                                                                <option value="3" id="CC" name="CC">Cartão de Crédito</option>
+                                                                <option value="4" id="CD" name="CD">Cartão de Débito</option>
                                                             </select>
                                                         </div>
                                                     </div>
@@ -264,8 +270,12 @@
                                                 <input type="hidden" name="pedido_id" value="{{ $pedido->id }}">
                                                 <input type="hidden" name="cliente_id" value="id" id="id">
                                                 <input type="hidden" id="obs" name="obs" value="">
-                                                <input type="hidden" id="ipagar_em" name="ipagar_em" value="">
-                                                <button class="btn btn-primary" title="Finalizar o pedido" id="submit-sale">Enviar</button>
+
+                                                <span type="hidden" id="spanobs" name="spanobs" value="" style="visibility: hidden"></span>
+                                                <input type="hidden" id="pagar_em" name="pagar_em" value="">
+
+                                                <button class="btn btn-primary" title="Selecione a forma de pagamento antes de finalizar" id="btnenv" disabled>Enviar</button>
+
                                             </form>
                                         @endif
 
@@ -335,12 +345,12 @@
                             <span style="width:150px;display:inline-block;">{{$pro->nome}}</span><br/>
                             <span style="width:150px;display:inline-block;">
                         <?php
-                                if($pro->estoque == null || $pro->estoque->quantidade == 0 ){
-                                    echo 'Indispónível';
-                                }else{
-                                    echo 'Disponível: '. $pro->estoque->quantidade .' '. $pro->unidade;
-                                }
-                                ?>
+                            if($pro->estoque == null || $pro->estoque->quantidade == 0 ){
+                                echo 'Indispónível';
+                            }else{
+                                echo 'Disponível: '. $pro->estoque->quantidade .' '. $pro->unidade;
+                            }
+                        ?>
                     </span>
                         </button>
                     @endif
@@ -371,14 +381,41 @@
 
 @section('scripts')
 
-<!-- PEGA VALOR SELECIONADO NO SELECT DE PAGAR EM E ADD NO INPUT HIDDEN -->
     <script>
-        $('#pagar_em').on('change', function() {
-            $('#pagamento #ipagar_em').val($(this).find('option:selected').text());
+            //var obs = document.getElementById("obs1").value;
+
+            //document.getElementById('obs').innerHTML = obs;
+
+
+            //$('#obs1').on('change', function() {
+            //    $('#pagamento #obs').val($(this).text());
+            //    $('#pagamento');
+            //});
+
+
+            function info() {
+                var x = document.getElementById("obs1").value;
+                document.getElementById("obs").innerHTML = x;
+                //document.getElementById("spanobs").innerHTML = x;
+            }
+
+            $(function(){
+                var valorDoSpan = $(".spanobs").text();
+                $("#obs").val(valorDoSpan);
+            });
+
+
+
+    </script>
+
+<!-- PEGA VALOR SELECIONADO NO SELECT DE PAGAR-EM E ADD NO INPUT HIDDEN -->
+    <script>
+        $('#ipagar_em').on('change', function() {
+            $('#pagamento #pagar_em').val($(this).find('option:selected').text());
             $('#pagamento');
         });
     </script>
-<!-- PEGA VALOR SELECIONADO NO SELECT DE PAGAR EM E ADD NO INPUT HIDDEN -->
+<!-- PEGA VALOR SELECIONADO NO SELECT DE PAGAR-EM E ADD NO INPUT HIDDEN -->
 
 <!-- CALCULA O TROCO NO MODAL -->
     <script type="text/javascript">

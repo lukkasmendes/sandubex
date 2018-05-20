@@ -31,12 +31,10 @@ class PedidosController extends Controller{
             'user_id' => Auth::id()
         ])->get();
 
-        return view('pedidos.index',
-            compact('data', 'clientes', 'produtos', 'pedidos'));
+        return view('pedidos.index', compact('data', 'clientes', 'produtos', 'pedidos'));
     }
 
     public function adicionar(){
-
         $this->middleware('VerifyCsrfToken');
 
         $req = Request();
@@ -60,9 +58,7 @@ class PedidosController extends Controller{
                 'user_id' => $idusuario,
                 'status'  => 'RE'
             ]);
-
             $idpedido = $pedido_novo->id;
-
         }
 
         PedidoProduto::create([
@@ -75,7 +71,6 @@ class PedidosController extends Controller{
         $req->session()->flash('mensagem-sucesso', 'Produto adicionado com sucesso!');
 
         return redirect()->route('pedidos');
-
     }
 
     public function remover(){
@@ -130,7 +125,6 @@ class PedidosController extends Controller{
     }
 
     public function cancelar(){
-
         PedidoProduto::where([
             'status' => 'RE'
         ])->delete();
@@ -142,17 +136,17 @@ class PedidosController extends Controller{
         return redirect()->route('pedidos');
     }
 
-    public function concluir()
-    {
+    public function concluir(){
         $this->middleware('VerifyCsrfToken');
 
         $req = Request();
         $idpedido  = $req->input('pedido_id');
-
         $idcliente = $req->input('cliente_id');
-        $obs = $req->input('obs');
-        $pagar = $req->input('pagar_em');
 
+        $obs = $req->input('obs');
+
+        //$obs = $req->input('obs');
+        $pagar = $req->input('pagar_em');
         $idusuario = Auth::id();
 
         $check_pedido = Pedido::where([
@@ -193,7 +187,7 @@ class PedidosController extends Controller{
         return redirect()->route('pedidos');
     }
 
-    public function autoComplete2(Request $request) {
+    public function autoComplete2(Request $request){
         $query = $request->get('search_text');
 
         //$clients=Cliente::where('nome','LIKE','%'.$query.'%')->get();
