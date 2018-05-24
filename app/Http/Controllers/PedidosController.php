@@ -37,8 +37,10 @@ class PedidosController extends Controller{
     public function adicionar(){
         $this->middleware('VerifyCsrfToken');
 
+        $nome_usuario = $_POST['nome_usuario'];
+
         $req = Request();
-        $idproduto = $req->input('id');
+        $idproduto = $req->json($nome_usuario);
 
         $produto = Produto::find($idproduto);
         if( empty($produto->id) ) {
@@ -71,6 +73,7 @@ class PedidosController extends Controller{
         $req->session()->flash('mensagem-sucesso', 'Produto adicionado com sucesso!');
 
         return redirect()->route('pedidos');
+
     }
 
     public function remover(){
@@ -185,23 +188,6 @@ class PedidosController extends Controller{
         $req->session()->flash('mensagem-sucesso', 'Pedido concluído com sucesso!');
 
         return redirect()->route('pedidos');
-    }
-
-    public function autoComplete2(Request $request){
-        $query = $request->get('search_text');
-
-        //$clients=Cliente::where('nome','LIKE','%'.$query.'%')->get();
-        $clients = Cliente::select('id','nome','cpf')->where('nome','LIKE','%'.$query.'%')->get();
-
-        dd($clients);
-        $data=array();
-        foreach ($clients as $client) {
-            $data[]=array('value'=>$client->nome,'id'=>$client->id);
-        }
-        if(count($data))
-            return $data;
-        else
-            return ['value'=>'No Result Found','id'=>''];
     }
 
     public function autocomplete(Request $request){

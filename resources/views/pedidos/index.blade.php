@@ -1,8 +1,8 @@
 @extends('adminlte::page')
 @include('pedidos.create')
 @section('title', 'Sandubex')
-
 @section('content_header')
+
     {!! Html::script('js/js/angular.min.js', array('type' => 'text/javascript')) !!}
     {!! Html::script('js/js/app.js', array('type' => 'text/javascript')) !!}
 
@@ -38,7 +38,7 @@
             </a>
         </div>
 
-        <div>
+        <div id="conteudo">
             <table class="table table-striped table-condensed table-hover list-table" id="products-tableTESTANDO" style=" margin-bottom: 0;">
                 <thead>
                 <tr class="success">
@@ -57,9 +57,7 @@
 
                 <tbody>
                 @forelse ($pedidos as $pedido)
-
                     @foreach ($pedido->pedido_produtos as $pedido_produto)
-
                         <tr>
                             <td>{{$pedido_produto->produto->nome}}</td>
                             <td >R$ {{ number_format($pedido_produto->produto->precoVenda, 2, ',', '.') }}</td>
@@ -71,37 +69,32 @@
                                         <i class="fa fa-minus-circle" title="Remover 1"></i>
                                     </a>
                                     <span style="width:19px;display:inline-block;"> {{ $pedido_produto->qtd }} </span>
+                                        <?php
+                                            $conn = mysqli_connect("localhost","root","root","sandubex");
 
-                                    <?php
-                                        $conn = mysqli_connect("localhost","root","root","sandubex");
+                                            $sql = mysqli_query($conn, "select distinct e.quantidade as quantidade
+                                                            from estoques e, produtos p, pedido_produtos pp
+                                                            where pp.produto_id = p.id
+                                                            and e.produto_id = p.id
+                                                            and pp.status = 'RE'
+                                                            and pp.produto_id = $pedido_produto->produto_id");
 
-                                        $sql = mysqli_query($conn, "select distinct e.quantidade as quantidade
-                                                        from estoques e, produtos p, pedido_produtos pp
-                                                        where pp.produto_id = p.id
-                                                        and e.produto_id = p.id
-                                                        and pp.status = 'RE'
-                                                        and pp.produto_id = $pedido_produto->produto_id");
+                                            $row = mysqli_fetch_array($sql);
+                                            $quanti = $row['quantidade'];
 
-                                        $row = mysqli_fetch_array($sql);
-                                        $quanti = $row['quantidade'];
-                                    ?>
-
+                                            $conn = mysqli_close($conn);
+                                        ?>
                                     @if($quanti <= 0)
-
                                         <span class="col l4 m4 s4">
                                             <i class="fa fa-plus-circle" title="Estoque Indisponível"></i>
                                         </span>
-
                                     @else
-
                                         <a class="col l4 m4 s4"
                                            href="#"
                                            onclick="carrinhoAdicionarProduto({{ $pedido_produto->produto_id }})">
                                             <i class="fa fa-plus-circle" title="Adicionar 1"></i>
                                         </a>
-
                                     @endif
-
                                 </div>
                             </td>
                             @php
@@ -118,38 +111,36 @@
                                 </a>
                             </td>
                         </tr>
-
                     @endforeach
-
                 @empty
-                    <tr><td colspan="5" align="center"><h5>Nenhum produto adicionado</h5></td></tr>
+                    <tr>
+                        <td colspan="5" align="center">
+                            <h5>Nenhum produto adicionado</h5>
+                        </td>
+                    </tr>
                 @endforelse
                 </tbody>
 
                 <tfoot>
                 <tr class="success">
-                    <td colspan="2" style="font-weight:bold;">Total a Pagar</td>
-
-                    <td class="text-right" colspan="3" style="font-weight:bold;"><span id="total-payable">R$ {{ number_format($total_pedido, 2, ',', '.') }}</span></td>
+                    <td colspan="2" style="font-weight:bold;">Total a Pagar
+                    </td>
+                    <td class="text-right" colspan="3" style="font-weight:bold;">
+                        <span id="total-payable">R$ {{ number_format($total_pedido, 2, ',', '.') }}</span>
+                    </td>
                 </tr>
                 <tr>
                     <td>
-
                         <form method="POST" action="{{ route('pedidos.cancelar') }}">
                             {{ csrf_field() }}
                             {{ method_field('DELETE') }}
-
                             <input type="hidden" name="id">
-
                             <button class="btn btn-danger btn-block btn-flat">
                                 Cancelar
                             </button>
-
                         </form>
-
                     </td>
                     <td colspan="4">
-
                         <button type="button"
                                 class="btn btn-success btn-block btn-flat"
                                 data-toggle="modal"
@@ -221,42 +212,9 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <!--
-                                                <div class="col-xs-3 text-center">
-
-                                                    <div class="btn-group btn-group-vertical" style="width:100%;">
-                                                        <button type="button" class="btn btn-info btn-block quick-cash" id="quick-payable">0.00
-                                                        </button>
-
-
-                                                        <a class="btn btn-block btn-warning" href=# id="num10" value="10" onblur="calcular(10);">
-                                                                    <span class="pull-right label label-default">1</span>
-                                                            10</a>
-
-                                                        <a class="btn btn-block btn-warning" href=# id="num20" value="20" onblur="calcular(20);">
-                                                                    <span class="pull-right label label-default">1</span>
-                                                            20</a>
-
-                                                        <a class="btn btn-block btn-warning" href=#>
-                                                                    <span class="pull-right label label-default">1</span>
-                                                            50</a>
-
-                                                        <a class="btn btn-block btn-warning" href=#>
-                                                                    <span class="pull-right label label-default">1</span>
-                                                            100</a>
-
-                                                        <a class="btn btn-block btn-warning" href=#>
-                                                                    <span class="pull-right label label-default">1</span>
-                                                            500</a>
 
 
 
-                                                        <button type="button" class="btn btn-block btn-warning">500</button>
-                                                        <button type="button" class="btn btn-block btn-danger"
-                                                                id="clear-cash-notes">Limpar</button>
-                                                    </div>
-                                                </div>
-                                            -->
                                         </div>
                                     </div>
                                     <div class="modal-footer">
@@ -275,7 +233,6 @@
                                                 <input type="hidden" id="pagar_em" name="pagar_em" value="">
 
                                                 <button class="btn btn-primary" title="Selecione a forma de pagamento antes de finalizar" id="btnenv" disabled>Enviar</button>
-
                                             </form>
                                         @endif
 
@@ -284,17 +241,12 @@
                             </div>
                         </div>
                         <!-- MODAL DE PAGAMENTO -->
-
                     </td>
                 </tr>
                 </tfoot>
             </table>
         </div>
     </div>
-
-
-
-
 
     <input type="text" name="search" placeholder="Pesquise aqui os produtos pelo nome" data-search style="width: 300px">
 
@@ -306,19 +258,18 @@
                  name="{{$pro->id}}"
                  id="field"
                  data-field-id="{{$pro->id}}"
-                 data-sort="{{$pro->categoria->descricao}}"
-                 onclick="AddTableRow({{$pro->id}})">
+                 data-sort="{{$pro->categoria->descricao}}">
 
                 <form method="POST" action="{{ route('pedidos.adicionar') }}">
                     {{ csrf_field() }}
-                    <input type="hidden" name="id" value="{{ $pro->id }}">
+
+                    <input type="hidden" id="idr" name="idr" value="{{ $pro->id }}">
 
                     @if($pro->estoque == null || $pro->estoque->quantidade == 0)
                         <button style="background:  transparent;" disabled="disabled"
                                 data-name="produtos"
                                 title="Clique para adicionar este produto ao pedido"
                                 class="btn btn-both btn-flat">
-
 
                             <img name="{{$pro->nome}}" src="produtos/{{$pro->id}}/image" style="width: 100px; height: 100px;"/>
                             <br/>
@@ -337,8 +288,11 @@
                         <button style="background: transparent;"
                                 data-name="produtos"
                                 title="Clique para adicionar este produto ao pedido"
-                                class="btn btn-both btn-flat">
-
+                                class="btn btn-both btn-flat"
+                                onclick="alterar_div()"
+                                value="{{$pro->id}}"
+                                id="prod1"
+                                name="{{$pro->id}}">
 
                             <img name="{{$pro->nome}}" src="produtos/{{$pro->id}}/image" style="width: 100px; height: 100px;"/>
                             <br/>
@@ -358,9 +312,7 @@
                 </form>
 
             </div>
-
         @endforeach
-
     </div>
 
     <form id="form-remover-produto" method="POST" action="{{ route('pedidos.remover') }}">
@@ -377,36 +329,20 @@
 
 {!! $produtos->links() !!}
 
+
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.3/jquery.min.js" type="text/javascript"></script>
+
+        <div id="conteudo">Este conteúdo será alterado</div>
+        Qual é seu nome? <input type="text" id="seu_nome">
+
+        <button type="button" onclick="alterar_div()">Alterar</button>
+
+    <script src="{{asset('js/refresh.js')}}"></script>
+
+
 @endsection
 
 @section('scripts')
-
-    <script>
-            //var obs = document.getElementById("obs1").value;
-
-            //document.getElementById('obs').innerHTML = obs;
-
-
-            //$('#obs1').on('change', function() {
-            //    $('#pagamento #obs').val($(this).text());
-            //    $('#pagamento');
-            //});
-
-
-            function info() {
-                var x = document.getElementById("obs1").value;
-                document.getElementById("obs").innerHTML = x;
-                //document.getElementById("spanobs").innerHTML = x;
-            }
-
-            $(function(){
-                var valorDoSpan = $(".spanobs").text();
-                $("#obs").val(valorDoSpan);
-            });
-
-
-
-    </script>
 
 <!-- PEGA VALOR SELECIONADO NO SELECT DE PAGAR-EM E ADD NO INPUT HIDDEN -->
     <script>
@@ -434,56 +370,7 @@
     </script>
 <!-- CALCULA O TROCO NO MODAL -->
 
-<!-- SELECT2 DE CLIENTES - não está mais sendo utilizado-->
-    <script type="text/javascript">
-        $(document).ready(function () {
-            $("#clienteid").select2();
-        });
-    </script>
-<!-- SELECT2 DE CLIENTES - não está mais sendo utilizado-->
-
-<!-- ADICIONANDO LINHAS NA TABELA - NÃO ESTÁ SENDO UTILIZADO -->
-    <script>
-        (function($) {
-            AddTableRow = function() {
-
-                var fieldId = $('#field').data("field-id");
-                var cols = "";
-                cols += '@foreach($produtos as $prod)';
-
-                var newRow = $("<tr id='"+console.log(fieldId)+"'>");
-
-                cols += '<td>{{$pro->nome}}</td>';
-                cols += '<td>{{$prod->precoVenda}}</td>';
-                cols += '<td><input type="text" id="1" value="1" style="width: 30px; text-align: center" onclick="this.select();"></td>';
-                cols += '<td>{{$prod->precoVenda*2}}</td>';
-                cols += '<td>';
-                cols += '<a onclick="RemoveTableRow(this)"><i class="fa fa-trash-o" title="Remover"></i></a>';
-                cols += '</td>';
-                cols += '</tr>';
-
-                cols += '@endforeach';
-
-
-                newRow.append(cols);
-                $("#products-table").append(newRow);
-                return false;
-            };
-
-            RemoveTableRow = function(handler) {
-                var tr = $(handler).closest('tr');
-
-                tr.fadeOut(400, function(){
-                    tr.remove();
-                });
-
-                return false;
-            };
-        })(jQuery);
-    </script>
-<!-- ADICIONANDO LINHAS NA TABELA - NÃO ESTÁ SENDO UTILIZADO -->
-
-<!-- FUÇANDO NO PDV -->
+<!-- AZIBIÇÃO DOS PRODUTOS -->
     <script>
         var filterizd = $('.filtr-container').filterizr({
             //options object
@@ -523,42 +410,10 @@
         // If you have already instantiated your Filterizr then call...
         filterizd.filterizr('setOptions', options);
     </script>
+<!-- AZIBIÇÃO DOS PRODUTOS -->
 
+<!-- ADICIONA E REMOVE PRODUTOS DA TABELA -->
     <script type="text/javascript" src="/js/carrinho.js"></script>
-<!-- FUÇANDO NO PDV -->
-
-<!-- SCRIPT PARA NÃO CLICAR COM O DIREITO DO MOUSE -->
-    <SCRIPT LANGUAGE="JavaScript">
-        <!-- Disable
-
-
-        /*
-
-
-            function disableselect(e){
-                return false
-            }
-
-            function reEnable(){
-                return true
-            }
-
-            //if IE4+
-            document.onselectstart=new Function ("return false")
-            document.oncontextmenu=new Function ("return false")
-            //if NS6
-            if (window.sidebar){
-                document.onmousedown=disableselect
-                document.onclick=reEnable
-            }
-
-
-
-        */
-
-
-        //-->
-    </script>
-<!-- SCRIPT PARA NÃO CLICAR COM O DIREITO DO MOUSE -->
+<!-- ADICIONA E REMOVE PRODUTOS DA TABELA -->
 
 @endsection
