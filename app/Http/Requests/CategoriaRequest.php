@@ -27,4 +27,11 @@ class CategoriaRequest extends FormRequest
             'descricao' => 'required|min:2',
         ];
     }
+
+    public function messages()
+    {
+        return [
+            'descricao.required' =>'Preencha o campo DESCRIÇÃO',
+        ];
+    }
 }

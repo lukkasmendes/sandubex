@@ -22,11 +22,11 @@
             </div>
             <div class="form-group">
                 {!! Form::label('quantidade', 'QUANTIDADE:') !!}
-                {!! Form::text('quantidade', $compras->quantidade, ['class'=>'form-control']) !!}
+                {!! Form::text('quantidade', $compras->quantidade, ['class'=>'form-control simple-field-data-mask', 'data-mask'=>'#', 'placeholder'=>'00', 'data-mask-maxlength'=>'false']) !!}
             </div>
             <div class="form-group">
                 {!! Form::label('precoCusto', 'PREÇO DE CUSTO:') !!}
-                {!! Form::text('precoCusto', $compras->precoCusto, ['class'=>'form-control']) !!}
+                {!! Form::text('precoCusto', $compras->precoCusto, ['class'=>'form-control simple-field-data-mask-reverse', 'data-mask'=>'#0.00', 'data-mask-reverse'=>'true', 'data-mask-maxlength'=>'false', 'placeholder'=>'0.00']) !!}
             </div>
             <div class="form-group">
                 {!! Form::label('fornecedor_id', 'FORNECEDOR:') !!}

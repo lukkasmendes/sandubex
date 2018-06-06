@@ -1,39 +1,10 @@
 @extends('adminlte::page')
-
-@include('compras.create')
-
 @section('title', 'Sandubex')
-
 @section('content_header')
-
     <div class="container">
         <h3 align="center"><i class="fas fa-shopping-cart"></i> Compras</h3>
 
-
-        <script>
-            $(document).keydown(function(evt){
-                if (evt.keyCode==18 && (evt.ctrlKey) && (evt.shiftKey)){
-                    evt.preventDefault();
-                    $('#novaCompra').modal('show');
-                }
-            });
-        </script>
-
-        <script>
-            $(document).bind('keydown', function(e) {
-
-                if (e.which == 19) { // 116 = F5
-                    $('novaCompra').modal('show');
-
-                    return false;
-
-                }
-
-            });
-        </script>
-
-
-        <table class="table table-striped table-bordered table-hover" id="example" style="width:100%">
+        <table class="table table-striped table-bordered table-hover" id="compras" style="width:100%">
             <thead>
             <tr>
                 <th>Código</th>
@@ -44,11 +15,8 @@
                 <th>Fornecedor</th>
                 <th>Produto</th>
                 <th>
-                    <a>
-                        <button type="button"
-                                class="btn"
-                                data-toggle="modal"
-                                data-target="#novaCompra">
+                    <a href="{{route('compras.create')}}">
+                        <button type="button" class="btn">
                             <i class="fas fa-cart-plus"></i> Nova Compra
                         </button>
                     </a>
@@ -59,10 +27,10 @@
             @foreach($compras as $com)
                 <tr align="center">
                     <td width="1%" nowrap="nowrap">{{$com->id}}</td>
-                    <td>{{$com->dataEntrada}}</td>
-                    <td>{{$com->quantidade}}</td>
-                    <td>R$ {{number_format($com->precoCusto, 2)}}</td>
-                    <td>R$ {{number_format($com->quantidade*$com->precoCusto, 2)}}</td>
+                    <td>{{date('d/m/Y H:i:s', strtotime($com->dataEntrada))}}</td>
+                    <td>{{$com->quantidade}} {{$com->produto->unidade}}</td>
+                    <td>R$ {{number_format($com->precoCusto, 2, ',', '')}}</td>
+                    <td>R$ {{number_format($com->quantidade*$com->precoCusto, 2, ',', '')}}</td>
                     <td width="1%" nowrap="nowrap">{{$com->fornecedor->nome}}</td>
                     <td width="1%" nowrap="nowrap">{{$com->produto->nome}}</td>
                     <td width="1%" nowrap="nowrap">
@@ -72,9 +40,7 @@
                             <i class="fas fa-edit"></i>
                         </a>
 
-
 <!-- BOTÃO MODAL EXCLUIR -->
-
                         <a  href=""
                             title="Excluir"
                             class="modal-del btn-danger btn-sm"
@@ -83,13 +49,9 @@
 
                             <i class="fas fa-remove"></i>
                         </a>
-
 <!-- BOTÃO MODAL EXCLUIR -->
 
-
-
 <!-- MODAL EXCLUIR -->
-
                         <div    class="modal modal-danger fade"
                                 id="id{{ $com->id}}"
                                 tabindex="-1"
@@ -131,16 +93,15 @@
                                 </div>
                             </div>
                         </div>
-
 <!-- MODAL EXCLUIR -->
-
-
 
                     </td>
                 </tr>
             @endforeach
             </tbody>
         </table>
+
     </div>
 
 @endsection
+

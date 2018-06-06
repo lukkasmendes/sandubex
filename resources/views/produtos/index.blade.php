@@ -1,19 +1,15 @@
 @extends('adminlte::page')
-
 @section('title', 'Sandubex')
-
 @section('content_header')
     <div class="container">
         <h3 align="center"><i class="fas fa-barcode"></i> Produtos</h3>
 
-
-        <table class="table table-striped table-bordered table-hover" id="example">
+        <table class="table table-striped table-bordered table-hover" id="produtos">
             <thead>
                 <tr>
                     <th>Cód.</th>
                     <th>Nome</th>
                     <th>Categoria</th>
-                    <th>UN</th>
                     <th>Preço de Venda</th>
                     <th>Preço de Custo</th>
                     <th>Estoque Minimo</th>
@@ -36,38 +32,25 @@
                             <td width="1%" nowrap="nowrap">{{$pro->id}}</td>
                             <td>{{$pro->nome}}</td>
                             <td width="1%" nowrap="nowrap">{{$pro->categoria->descricao}}</td>
-                            <td width="1%" nowrap="nowrap">{{$pro->unidade}}</td>
-                            <td>R$ {{number_format($pro->precoVenda, 2)}}</td>
-
-
-
+                            <td>R$ {{number_format($pro->precoVenda, 2, ',', '')}}</td>
 
                             @if($pro->estoque == null)
                                 <td>0.00</td>
                             @else
-                                <td>R$ {{number_format($pro->estoque->precoCusto, 2)}}</td>
+                                <td>R$ {{number_format($pro->estoque->precoCusto, 2, ',', '')}}</td>
                             @endif
 
-
-
-                            <td>{{$pro->estoqueMin}}</td>
-
-
-
+                            <td>{{$pro->estoqueMin}} {{$pro->unidade}}</td>
 
                             @if($pro->estoque == null)
                                 <td><span class="label label-danger">0</span></td>
                             @else
                                 @if($pro->estoque->quantidade < $pro->estoqueMin)
-                                    <td><span class="label label-danger">{{$pro->estoque->quantidade}}</span></td>
+                                    <td><span class="label label-danger">{{$pro->estoque->quantidade}} {{$pro->unidade}}</span></td>
                                 @else
-                                    <td>{{$pro->estoque->quantidade}}</td>
+                                    <td>{{$pro->estoque->quantidade}} {{$pro->unidade}}</td>
                                 @endif
                             @endif
-
-
-
-
 
                             <td>{{$pro->validade}}</td>
                             <td>{{$pro->descricao}}</td>
@@ -80,7 +63,6 @@
                                 </a>
 
 <!-- BOTÃO MODAL EXCLUIR -->
-
                                 <a  href=""
                                     title="Excluir"
                                     class="modal-del btn-danger btn-sm"
@@ -89,13 +71,9 @@
 
                                     <i class="fas fa-remove"></i>
                                 </a>
-
 <!-- BOTÃO MODAL EXCLUIR -->
 
-
-
 <!-- MODAL EXCLUIR -->
-
                                 <div    class="modal modal-danger fade"
                                         id="id{{ $pro->id}}"
                                         tabindex="-1"
@@ -142,7 +120,6 @@
 <!-- MODAL EXCLUIR -->
                             </td>
                         </tr>
-
                 @endforeach
             </tbody>
         </table>

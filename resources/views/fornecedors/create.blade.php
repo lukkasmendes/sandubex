@@ -30,24 +30,24 @@
 
                 {!! Form::open(['route' => 'fornecedors.store']) !!}
                 <div class="form-group">
-                    {!! Form::label('nome', 'Nome:') !!}
+                    {!! Form::label('nome', 'NOME:') !!}
                     {!! Form::text('nome', null, ['class'=>'form-control', 'style'=>'text-transform:uppercase', 'onblur'=>'maiuscula(this);']) !!}
                 </div>
                 <div class="form-group">
-                    {!! Form::label('telefone', 'Telefone:') !!}<br />
-                    {!! Form::text('telefone', null, ['class'=>'form-control']) !!}
+                    {!! Form::label('telefone', 'TELEFONE:') !!}<br />
+                    {!! Form::text('telefone', null, ['class'=>'form-control simple-field-data-mask', 'data-mask'=>'(00) 000000000', 'placeholder'=>'(00) 000000000']) !!}
                 </div>
                 <div class="form-group">
-                    {!! Form::label('email', 'E-mail:') !!}
+                    {!! Form::label('email', 'E-MAIL:') !!}
                     {!! Form::text('email', null, ['class'=>'form-control']) !!}
                 </div>
                 <div class="form-group">
-                    {!! Form::label('endereco', 'Endereço:') !!}<br />
-                    {!! Form::text('endereco', null, ['class'=>'form-control', 'style'=>'text-transform:uppercase', 'onblur'=>'maiuscula(this);']) !!}
+                    {!! Form::label('endereco', 'ENDEREÇO:') !!}<br />
+                    {!! Form::text('endereco', null, ['class'=>'form-control', 'style'=>'text-transform:uppercase', 'onblur'=>'maiuscula(this);', 'placeholder'=>'Informe o endereço completo do fornecedor']) !!}
                 </div>
                 <div class="form-group">
                     {!! Form::label('cnpj', 'CNPJ:') !!}
-                    {!! Form::text('cnpj', null, ['class'=>'form-control']) !!}
+                    {!! Form::text('cnpj', null, ['class'=>'form-control simple-field-data-mask', 'data-mask'=>'00.000.000/0000-00', 'placeholder'=>'00.000.000/0000-00']) !!}
                 </div>
                 </p>
             </div>

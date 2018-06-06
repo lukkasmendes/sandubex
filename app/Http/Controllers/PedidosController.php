@@ -37,10 +37,8 @@ class PedidosController extends Controller{
     public function adicionar(){
         $this->middleware('VerifyCsrfToken');
 
-        $nome_usuario = $_POST['nome_usuario'];
-
         $req = Request();
-        $idproduto = $req->json($nome_usuario);
+        $idproduto = $req->input('idr');
 
         $produto = Produto::find($idproduto);
         if( empty($produto->id) ) {
@@ -74,6 +72,45 @@ class PedidosController extends Controller{
 
         return redirect()->route('pedidos');
 
+    }
+
+    public function adicionarBKPfuncionando(){
+        $this->middleware('VerifyCsrfToken');
+
+        $req = Request();
+        $idproduto = $req->input('id');
+
+        $produto = Produto::find($idproduto);
+        if( empty($produto->id) ) {
+            $req->session()->flash('mensagem-falha', 'Produto não encontrado!');
+            return redirect()->route('pedidos');
+        }
+
+        $idusuario = Auth::id();
+
+        $idpedido = Pedido::consultaId([
+            'user_id' => $idusuario,
+            'status'  => 'RE' // Reservado
+        ]);
+
+        if( empty($idpedido) ) {
+            $pedido_novo = Pedido::create([
+                'user_id' => $idusuario,
+                'status'  => 'RE'
+            ]);
+            $idpedido = $pedido_novo->id;
+        }
+
+        PedidoProduto::create([
+            'pedido_id'  => $idpedido,
+            'produto_id' => $idproduto,
+            'valor'      => $produto->precoVenda,
+            'status'     => 'RE'
+        ]);
+
+        $req->session()->flash('mensagem-sucesso', 'Produto adicionado com sucesso!');
+
+        return redirect()->route('pedidos');
     }
 
     public function remover(){
@@ -146,10 +183,10 @@ class PedidosController extends Controller{
         $idpedido  = $req->input('pedido_id');
         $idcliente = $req->input('cliente_id');
 
-        $obs = $req->input('obs');
+        $obs = $req->get('observacao');
 
         //$obs = $req->input('obs');
-        $pagar = $req->input('pagar_em');
+        $pagar = $req->get('pagar_em');
         $idusuario = Auth::id();
 
         $check_pedido = Pedido::where([

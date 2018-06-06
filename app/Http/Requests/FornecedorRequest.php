@@ -24,6 +24,22 @@ class FornecedorRequest extends FormRequest
     public function rules()
     {
         return [
+            'nome' => 'required|min:2',
+            'telefone' => 'required',
+            'email' => 'required',
+            'endereco' => 'required',
+            'cnpj' => 'required',
+        ];
+    }
+
+     public function messages()
+    {
+        return [
+            'nome.required' =>'Preencha o campo NOME',
+            'telefone.required' =>'Preencha o campo TELEFONE',
+            'email.required' =>'Preencha o campo E-MAIL',
+            'endereco.required' =>'Preencha o campo ENDEREÇO',
+            'cnpj.required' =>'Preencha o campo CNPJ',
         ];
     }
 }

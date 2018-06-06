@@ -35,7 +35,7 @@
                 </div>
                 <div class="form-group">
                     {!! Form::label('tipo', 'ENTRADA/SAÍDA DE CAIXA:') !!}<br />
-                    {!! Form::select('tipo', array('E' => 'ENTRADA','S' => 'SAÍDA'), null, ['class'=>'form-control']) !!}
+                    {!! Form::select('tipo', array('E' => 'ENTRADA', 'S' => 'SAÍDA'), null, ['class'=>'form-control']) !!}
                 </div>
                 <div class="form-group">
                     {!! Form::label('valor', 'VALOR:') !!}

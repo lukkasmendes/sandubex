@@ -23,7 +23,7 @@
 
         {!! Form::open(['route' => ["categorias.update", $categoria->id], 'method'=>'put']) !!}
             <div class="form-group">
-                {!! Form::label('descricao', 'Descrição:') !!}
+                {!! Form::label('descricao', 'DESCRIÇÃO:') !!}
                 {!! Form::text('descricao', $categoria->descricao, ['class'=>'form-control', 'style'=>'text-transform:uppercase', 'onblur'=>'maiuscula(this);']) !!}
             </div>
             <div>

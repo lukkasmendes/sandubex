@@ -3,11 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Compra;
+use App\Fornecedor;
+use App\Produto;
 use Carbon\Carbon;
 use Illuminate\Database\Query\Builde;
 use App\Http\Requests\CompraRequest;
 use Redirect;
 use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Facades\DB;
 
 class ComprasController extends Controller
 {
@@ -28,8 +31,16 @@ class ComprasController extends Controller
         return view('compras.index', compact('compras'));
     }
 
+    // public function create(){
+    //     return view('compras.create');
+    // }
+
     public function create(){
-        return view('compras.create');
+        $data1 = DB::table('produtos')->get();
+        $data = DB::table('fornecedors')->get();
+
+        $compra = Fornecedor::all();
+        return view('compras.create', ['compra' => $compra], compact('data1', 'data'));
     }
 
     public function destroy($id){
@@ -65,6 +76,5 @@ class ComprasController extends Controller
 
         return redirect()->route('compras');
     }
-
 
 }

@@ -57,8 +57,9 @@ class ProdutosController extends Controller
     }
 
     public function edit($id){
+        $data = DB::table('categorias')->get();
         $produto = Produto::find($id);
-        return view('produtos.edit', compact('produto'));
+        return view('produtos.edit', compact('produto'), compact('data'));
     }
 
     public function update(ProdutoRequest $request, $id){
@@ -76,9 +77,9 @@ class ProdutosController extends Controller
         $produto->categoria_id = $request->categoria_id;
         $produto->unidade = $request->unidade;
         $produto->precoVenda = $request->precoVenda;
-        $produto->precoCusto_est = $request->precoCusto_est;
+        // $produto->precoCusto_est = $request->precoCusto_est;
         $produto->estoqueMin = $request->estoqueMin;
-        $produto->quantidade_est = $request->quantidade_est;
+        // $produto->quantidade_est = $request->quantidade_est;
         $produto->validade = $request->validade;
         $produto->descricao = $request->descricao;
         $produto->imagem = $img;

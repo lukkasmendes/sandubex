@@ -39,6 +39,7 @@ Route::group(['prefix'=>'caixas', 'where'=>['id'=>'[0-9]+']], function () {
 Route::group(['prefix'=>'pedidos', 'where'=>['id'=>'[0-9]+']], function () {
     Route::get('',              ['as'=>'pedidos',           'uses'=>'PedidosController@index']);
     Route::get('create',        ['as'=>'pedidos.create',    'uses'=>'PedidosController@create']);
+    Route::get('refresh',       ['as'=>'pedidos.refresh',   'uses'=>'PedidosController@refresh']);
     Route::get('/autocomplete',  array('as'=>'autocomplete','uses'=>'PedidosController@autocomplete'));
     Route::get('{id}/destroy',  ['as'=>'pedidos.destroy',   'uses'=>'PedidosController@destroy']);
     Route::get('{id}/edit',     ['as'=>'pedidos.edit',      'uses'=>'PedidosController@edit']);

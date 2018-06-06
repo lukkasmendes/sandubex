@@ -24,6 +24,22 @@ class ClienteRequest extends FormRequest
     public function rules()
     {
         return [
+            'nome' => 'required|min:2',
+            'telefone' => 'required',
+            'email' => 'required',
+            'cpf' => 'required',
+            'rg' => 'required',
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'nome.required' =>'Preencha o campo NOME',
+            'telefone.required' =>'Preencha o campo TELEFONE',
+            'email.required' =>'Preencha o campo E-MAIL',
+            'cpf.required' =>'Preencha o campo CPF',
+            'rg.required' =>'Preencha o campo RG',
         ];
     }
 }

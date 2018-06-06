@@ -27,6 +27,7 @@ class ProdutoRequest extends FormRequest
             'nome' => 'required',
             'precoVenda' => 'required',
             'estoqueMin' => 'required',
+            'validade' => 'required',
             'imagem' => 'required'
         ];
     }
@@ -34,10 +35,11 @@ class ProdutoRequest extends FormRequest
     public function messages()
     {
         return [
-            'nome.required' =>'Preencha o campo Nome',
-            'precoVenda.required' => 'Preencha o campo Preço de Venda',
-            'estoqueMin.required' => 'Preencha o campo Estoque Mínimo',
-            'imagem.required' => 'Você deve selecionar uma imagem',
+            'nome.required' =>'Preencha o campo NOME',
+            'precoVenda.required' => 'Preencha o campo PREÇO DE VENDA',
+            'estoqueMin.required' => 'Preencha o campo ESTOQUE MÍNIMO',
+            'validade.required' => 'Preencha o campo VALIDADE',
+            'imagem.required' => 'Selecione uma IMAGEM',
         ];
     }
 }

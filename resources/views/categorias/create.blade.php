@@ -13,26 +13,25 @@
             </div>
             <div class="modal-body">
                 <p>
-
                     <script type="text/javascript">
                         function maiuscula(obj) {
                             obj.value = obj.value.toUpperCase();
                         }
                     </script>
 
-                @if ($errors->any())
-                    <ul class="alert alert-danger">
-                        @foreach($errors->all() as $error)
-                            <li>{{$error}}</li>
-                        @endforeach
-                    </ul>
-                @endif
+                    @if ($errors->any())
+                        <ul class="alert alert-danger">
+                            @foreach($errors->all() as $error)
+                                <li>{{$error}}</li>
+                            @endforeach
+                        </ul>
+                    @endif
 
-                {!! Form::open(['route' => 'categorias.store']) !!}
-                <div class="form-group">
-                    {!! Form::label('descricao', 'Descrição:') !!}
-                    {!! Form::text('descricao', null, ['class'=>'form-control', 'placeholder'=>'Informe a descrição da categoria: bebidas, pães, carnes...', 'style'=>'text-transform:uppercase', 'onblur'=>'maiuscula(this);']) !!}
-                </div>
+                    {!! Form::open(['route' => 'categorias.store']) !!}
+                    <div class="form-group">
+                        {!! Form::label('descricao', 'DESCRIÇÃO:') !!}
+                        {!! Form::text('descricao', null, ['class'=>'form-control', 'placeholder'=>'Informe a descrição da categoria: bebidas, pães, carnes...', 'style'=>'text-transform:uppercase', 'onblur'=>'maiuscula(this);']) !!}
+                    </div>
                 </p>
             </div>
             <div class="modal-footer">
