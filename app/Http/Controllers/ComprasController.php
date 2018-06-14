@@ -14,8 +14,7 @@ use Illuminate\Support\Facades\DB;
 
 class ComprasController extends Controller
 {
-    public function __construct()
-    {
+    public function __construct(){
         $this->middleware('auth', ['except' => ['getLogout', 'getRegister', 'postRegister']]);
     }
 
@@ -43,14 +42,26 @@ class ComprasController extends Controller
         return view('compras.create', ['compra' => $compra], compact('data1', 'data'));
     }
 
+    public function create2(){
+        // $data = DB::table('fornecedors')->get();
+        // $data1 = Produto::where('fornecedor_id'=$data)
+        //                     ->get();
+        
+
+        // $compra = Fornecedor::all();
+        // return view('compras.create', ['compra' => $compra], compact('data1', 'data'));
+    }
+
     public function destroy($id){
         Compra::find($id)->delete();
         return redirect()->route('compras');
     }
 
     public function edit($id){
+        $data1 = DB::table('produtos')->get();
+        $data = DB::table('fornecedors')->get();
         $compras = Compra::find($id);
-        return view('compras.edit', compact('compras'));
+        return view('compras.edit', compact('compras', 'data1', 'data'));
     }
 
     public function update(CompraRequest $request, $id){

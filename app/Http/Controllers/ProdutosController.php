@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use App\Categoria;
@@ -12,8 +11,7 @@ use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Response;
 
-class ProdutosController extends Controller
-{
+class ProdutosController extends Controller{
 
     public function __construct()
     {
@@ -25,10 +23,6 @@ class ProdutosController extends Controller
         return view('produtos.index', compact('produtos'));
     }
 
-
-
-
-
 //select2
     public function create(){
         $data = DB::table('categorias')->get();
@@ -37,19 +31,9 @@ class ProdutosController extends Controller
     }
 //select2
 
-
-
-
-
-
     public function create2(){
         return view('produtos.create');
     }
-
-
-
-
-
 
     public function destroy($id){
         Produto::find($id)->delete();
@@ -88,12 +72,6 @@ class ProdutosController extends Controller
         return redirect()->route('produtos');
     }
 
-
-
-
-
-
-
     public function BKPstore(ProdutoRequest $request){
         $this->validate($request, [
             'imagem' => 'required|mimes:jpeg,png,bmp,jpg,gif,svg|max:2048',
@@ -119,18 +97,6 @@ class ProdutosController extends Controller
         return redirect()->route('produtos');
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
     public function store(ProdutoRequest $request){
         $this->validate($request, [
             'imagem' => 'required|mimes:jpeg,png,bmp,jpg,gif,svg|max:2048',
@@ -154,14 +120,6 @@ class ProdutosController extends Controller
 
         return redirect()->route('produtos');
     }
-
-
-
-
-
-
-
-
 
     public function image($id){
         $produto = Produto::find($id);

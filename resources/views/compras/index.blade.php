@@ -81,7 +81,6 @@
                                                     data-dismiss="modal">
                                                 Não, Cancelar
                                             </button>
-
                                             <button
                                                     type="submit"
                                                     class="btn btn-warning">
@@ -100,8 +99,5 @@
             @endforeach
             </tbody>
         </table>
-
     </div>
-
 @endsection
-

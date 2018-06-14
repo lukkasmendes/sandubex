@@ -16,4 +16,9 @@ class Caixa extends Model
     public function pedido(){
         return $this->belongsTo('App\Pedido');
     }
+
+    public function cliente(){
+        return $this->belongsTo('App\Cliente');
+    }
+
 }

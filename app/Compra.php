@@ -24,6 +24,5 @@ class Compra extends Model
         return $this->belongsTo('App\Produto');
     }
 
-
     protected $table = 'Compras';
 }

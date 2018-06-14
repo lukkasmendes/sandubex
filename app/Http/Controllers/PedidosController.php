@@ -23,13 +23,15 @@ class PedidosController extends Controller{
 
     public function index(){
         $clientes = Cliente::all();
-        $produtos = Produto::paginate(15);
+        $produtos = Produto::paginate(9999);
         $data = DB::table('clientes')->get();
 
         $pedidos = Pedido::where([
             'status'  => 'RE',
             'user_id' => Auth::id()
         ])->get();
+
+        //$quanti = 
 
         return view('pedidos.index', compact('data', 'clientes', 'produtos', 'pedidos'));
     }
@@ -242,5 +244,21 @@ class PedidosController extends Controller{
             return response()->json($results);
         else
             return ['value'=>'Cliente não encontrado','id'=>''];
+    }
+
+    public function autocomplete2(Request $request){
+        $term = Input::get('term');
+        $data = Produto::where('nome', 'LIKE', '%'.$term.'%')
+                        ->take(10)
+                        ->get();
+        $results=array();
+        foreach ($data as $key => $v){
+            $results[]=['id'=>$v->id, 'value'=>$v->nome];
+        }
+
+        if(count($results))
+            return response()->json($results);
+        else
+            return ['value'=>'Produto não encontrado','id'=>''];
     }
 }

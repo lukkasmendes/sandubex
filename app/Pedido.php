@@ -29,5 +29,9 @@ class Pedido extends Model
         return !empty($pedido->id) ? $pedido->id : null;
     }
 
+    public function caixa(){
+        return $this->hasMany('App\Caixa');
+    }
+
     protected $table = 'Pedidos';
 }

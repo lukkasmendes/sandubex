@@ -6,6 +6,6 @@ function carrinhoRemoverProduto( idpedido, idproduto, item ) {
 }
 
 function carrinhoAdicionarProduto( idproduto ) {
-    $('#form-adicionar-produto input[name="id"]').val(idproduto);
+    $('#form-adicionar-produto input[name="idr"]').val(idproduto);
     $('#form-adicionar-produto').submit();
 }

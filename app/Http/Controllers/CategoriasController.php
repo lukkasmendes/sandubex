@@ -53,7 +53,8 @@ class CategoriasController extends Controller
         $nova_categoria = $request->all();
         Categoria::create($nova_categoria);
 
-        return redirect()->back();
+        return redirect()->route('categorias');
+//        return redirect()->back();
     }
 
     public function store2(CategoriaRequest $request){

@@ -1,11 +1,6 @@
 @extends('adminlte::page')
-
-@include('clientes.create')
-
 @section('title', 'Sandubex')
-
 @section('content_header')
-
     <div class="container">
 
         <h3 align="center"><i class="fas fa-user"></i> Clientes</h3>
@@ -19,13 +14,9 @@
                     <th>CPF</th>
                     <th>RG</th>
                     <th width="10px">
-                        <a>
-                            <button
-                                    type="button"
-                                    class="btn"
-                                    data-toggle="modal"
-                                    data-target="#novoCliente">
-                                <i class="fas fa-user-plus"></i> Novo Cliente
+                        <a href="{{route('clientes.create')}}">
+                            <button type="button" class="btn">
+                                <i class="fas fa-barcode"></i> Novo Cliente
                             </button>
                         </a>
                     </th>

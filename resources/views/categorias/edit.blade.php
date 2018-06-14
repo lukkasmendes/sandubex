@@ -13,18 +13,15 @@
     <div class="container">
         <h1>Editar Categoria</h1>
 
-        @if ($errors->any())
-            <ul class="alert alert-danger">
-                @foreach($errors->all() as $error)
-                    <li>{{$error}}</li>
-                @endforeach
-            </ul>
-        @endif
-
         {!! Form::open(['route' => ["categorias.update", $categoria->id], 'method'=>'put']) !!}
-            <div class="form-group">
+        <div class="form-group has-feedback {{ $errors->has('descricao') ? 'has-error' : '' }}">
                 {!! Form::label('descricao', 'DESCRIÇÃO:') !!}
                 {!! Form::text('descricao', $categoria->descricao, ['class'=>'form-control', 'style'=>'text-transform:uppercase', 'onblur'=>'maiuscula(this);']) !!}
+                @if ($errors->has('descricao'))
+                    <span class="help-block">
+                        <strong>{{ $errors->first('descricao') }}</strong>
+                    </span>
+                @endif
             </div>
             <div>
                 {!! Form::submit('Editar Categoria', ['class'=>'btn btn-primary']) !!}

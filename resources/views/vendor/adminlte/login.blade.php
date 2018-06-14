@@ -72,7 +72,7 @@
 @stop
 
 @section('adminlte_js')
-    <script src="{{ asset('vendor/adminlte/plugins/iCheck/icheck.min.js') }}"></script>
+    <script src="{{ asset('vendor/adminlte/plugins/icheck/icheck.min.js') }}"></script>
     <script>
         $(function () {
             $('input').iCheck({

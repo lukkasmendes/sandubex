@@ -17,7 +17,7 @@
         </div>
     @endif
 
-    <div class="well well-sm" style="width: 380px; float: left;">
+    <div class="well well-sm" style="width: 380px; height: 500px; float: left;">
         <div style="float: left; width: 90%">
             <script src="{{asset('js/jquery.min.js')}}"></script>
             <script src="{{asset('js/select.js')}}"></script>
@@ -56,9 +56,10 @@
                 @endphp
 
                 <tbody>
-                    <div id="conteudo">
+                    
                         @forelse ($pedidos as $pedido)
                             @foreach ($pedido->pedido_produtos as $pedido_produto)
+                                <div id="conteudo" name="conteudo">
                                 <tr>
                                     <td>{{$pedido_produto->produto->nome}}</td>
                                     <td >R$ {{ number_format($pedido_produto->produto->precoVenda, 2, ',', '.') }}</td>
@@ -71,19 +72,19 @@
                                             </a>
                                             <span style="width:19px;display:inline-block;"> {{ $pedido_produto->qtd }} </span>
                                             <?php
-                                            $conn = mysqli_connect("localhost","root","root","sandubex");
+                                                $conn = mysqli_connect("localhost","root","root","sandubex");
 
-                                            $sql = mysqli_query($conn, "select distinct e.quantidade as quantidade
-                                                                        from estoques e, produtos p, pedido_produtos pp
-                                                                        where pp.produto_id = p.id
-                                                                        and e.produto_id = p.id
-                                                                        and pp.status = 'RE'
-                                                                        and pp.produto_id = $pedido_produto->produto_id");
+                                                $sql = mysqli_query($conn, "select distinct e.quantidade as quantidade
+                                                                            from estoques e, produtos p, pedido_produtos pp
+                                                                            where pp.produto_id = p.id
+                                                                            and e.produto_id = p.id
+                                                                            and pp.status = 'RE'
+                                                                            and pp.produto_id = $pedido_produto->produto_id");
 
-                                            $row = mysqli_fetch_array($sql);
-                                            $quanti = $row['quantidade'];
+                                                $row = mysqli_fetch_array($sql);
+                                                $quanti = $row['quantidade'];
 
-                                            $conn = mysqli_close($conn);
+                                                $conn = mysqli_close($conn);
                                             ?>
                                             @if($quanti <= 0)
                                                 <span class="col l4 m4 s4">
@@ -112,6 +113,7 @@
                                         </a>
                                     </td>
                                 </tr>
+                                </div>
                             @endforeach
                         @empty
                             <tr>
@@ -120,7 +122,7 @@
                                 </td>
                             </tr>
                         @endforelse
-                    </div>
+                    
                 </tbody>
 
                 <tfoot>
@@ -304,6 +306,7 @@
 
             </div>
         @endforeach
+
     </div>
 
     <form id="form-remover-produto" method="POST" action="{{ route('pedidos.remover') }}">
@@ -315,14 +318,47 @@
     </form>
     <form id="form-adicionar-produto" method="POST" action="{{ route('pedidos.adicionar') }}">
         {{ csrf_field() }}
-        <input type="hidden" name="id">
+        <input type="hidden" name="idr">
     </form>
-
 {!! $produtos->links() !!}
-
 @endsection
 
+
 @section('scripts')
+
+
+<!-- AJAX -->
+    <script type="text/javascript">
+        $('#conteudo').submit(function(e){
+            $.ajax({
+                type: "POST",
+                url: "http://127.0.0.1:8000/pedidos/adicionar",
+                dataType: "json",
+                data: $('#conteudo').serialize()
+            }).complete(function(resp){
+                var obj2 = JSON.parse(resp.responseText);
+                console.log('Sucess!', obj2);
+
+                if(obj2.hasError==false){
+                    var id = obj.id_pendencia;
+                    var row = $('<tr>');
+                    var colProduto =    $('<td>');
+                    var colPreco =      $('<td>');
+                    var colQuantidade = $('<td>');
+                    var colSubtotal =   $('<td>');
+                    var colRemover =    $('<td>');
+
+                    row.prop('id', 'line_'+id);
+
+                    
+                }
+            })
+        }
+    </script>
+<!-- AJAX -->
+
+
+
 
 <!-- PEGA VALOR SELECIONADO NO SELECT DE PAGAR-EM E ADD NO INPUT HIDDEN -->
     <script>

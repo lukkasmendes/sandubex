@@ -1,5 +1,5 @@
 @extends('adminlte::page')
-@include('categorias.create')
+@include('categorias.createModal')
 @section('title', 'Sandubex')
 @section('content_header')
 <script type="text/javascript">

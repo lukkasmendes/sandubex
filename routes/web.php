@@ -34,13 +34,14 @@ Route::group(['prefix'=>'caixas', 'where'=>['id'=>'[0-9]+']], function () {
     Route::get('{id}/edit',     ['as'=>'caixas.edit',      'uses'=>'CaixasController@edit']);
     Route::put('{id}/update',   ['as'=>'caixas.update',    'uses'=>'CaixasController@update']);
     Route::post('store',        ['as'=>'caixas.store',     'uses'=>'CaixasController@store']);
+    Route::get('{id}/pdfview',       array('as'=>'pdfview',     'uses'=>'CaixasController@pdfview'));
 });
 
 Route::group(['prefix'=>'pedidos', 'where'=>['id'=>'[0-9]+']], function () {
     Route::get('',              ['as'=>'pedidos',           'uses'=>'PedidosController@index']);
     Route::get('create',        ['as'=>'pedidos.create',    'uses'=>'PedidosController@create']);
     Route::get('refresh',       ['as'=>'pedidos.refresh',   'uses'=>'PedidosController@refresh']);
-    Route::get('/autocomplete',  array('as'=>'autocomplete','uses'=>'PedidosController@autocomplete'));
+    Route::get('/autocomplete', array('as'=>'autocomplete','uses'=>'PedidosController@autocomplete'));
     Route::get('{id}/destroy',  ['as'=>'pedidos.destroy',   'uses'=>'PedidosController@destroy']);
     Route::get('{id}/edit',     ['as'=>'pedidos.edit',      'uses'=>'PedidosController@edit']);
     Route::put('{id}/update',   ['as'=>'pedidos.update',    'uses'=>'PedidosController@update']);

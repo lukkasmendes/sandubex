@@ -1,25 +1,16 @@
 @extends('adminlte::page')
-
-@include('fornecedors.create')
-
 @section('title', 'Sandubex')
-
 @section('content_header')
-
     <div class="container">
-
-
-        @if (Session::has('mensagem_sucesso'))
+{{--        @if (Session::has('mensagem_sucesso'))
             <div class="alert alert-success alert-dismissable">
                 <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
                 <strong>Sucesso!</strong> {{ Session::get('mensagem_sucesso') }}
             </div>
-        @endif
-
+        @endif--}}
 
         <h3 align="center"><i class="fas fa-users"></i> Fornecedores</h3>
-
-        @include('flash::message')
+        {{--@include('flash::message')--}}
 
         <table class="table table-striped table-bordered table-hover" id="example">
             <thead>
@@ -30,13 +21,9 @@
                     <th>Endereço</th>
                     <th>CNPJ</th>
                     <th width="10px">
-                        <a>
-                            <button
-                                    type="button"
-                                    class="btn"
-                                    data-toggle="modal"
-                                    data-target="#novoFornecedor">
-                                <i class="fas fa-user-plus"></i> Novo Fornecedor
+                        <a href="{{route('fornecedors.create')}}">
+                            <button type="button" class="btn">
+                                <i class="fas fa-barcode"></i> Novo Fornecedor
                             </button>
                         </a>
                     </th>
@@ -57,14 +44,7 @@
                                 <i class="fas fa-edit"></i>
                             </a>
 
-
-
-
-
-
-
 <!-- BOTÃO MODAL EXCLUIR -->
-
                             <a  href=""
                                 title="Excluir"
                                 class="modal-del btn-danger btn-sm"
@@ -73,13 +53,10 @@
 
                                 <i class="fas fa-remove"></i>
                             </a>
-
 <!-- BOTÃO MODAL EXCLUIR -->
 
 
-
 <!-- MODAL EXCLUIR -->
-
                             <div    class="modal modal-danger fade"
                                     id="id{{ $for->id}}"
                                     tabindex="-1"
@@ -121,9 +98,7 @@
                                     </div>
                                 </div>
                             </div>
-
 <!-- MODAL EXCLUIR -->
-
 
                         </td>
                     </tr>
