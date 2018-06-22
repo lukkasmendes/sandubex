@@ -22,5 +22,9 @@ class Cliente extends Model
         return $this->hasMany('App\Caixa');
     }
 
+    public function pedido_produtos(){
+        return $this->hasMany('App\PedidoProduto');
+    }
+
     protected $table = 'Clientes';
 }

@@ -24,6 +24,26 @@ class CaixasController extends Controller
         $where = 'Extract(day From data) = Extract(day From Now()) and Extract(month From data) = Extract(month From Now()) and Extract(year From data) = Extract(year From Now())';
         $caixas = Caixa::whereRaw($where)->paginate(9999);
 
+        //$id = $request->get('idpedido');
+
+        /*$pedido_produto = PedidoProduto::with('produto', 'pedido')
+            ->select('pedido_produtos.id',
+                'pedido_produtos.pedido_id',
+                'pedido_produtos.produto_id',
+                'pedido_produtos.status',
+                'pedido_produtos.valor',
+                'pedido_produtos.cliente_id',
+                'pedido_produtos.observacao',
+                'pedido_produtos.formaPagamento')
+            ->join('produtos as p', 'produto_id','=', 'p.id')
+            ->join('pedidos as pe', 'pedido_id', '=', 'pe.id')
+            ->where('pedido_id', '=', [$id])
+            ->paginate(9999);*/
+
+
+        $pedido_produto = PedidoProduto::all();
+
+
 //        $whereE = 'Extract(day From data) = Extract(day From Now())';
 //        $entrada = DB::table('caixas')
 //                        ->select(DB::raw('sum(valor) as quanti'))
@@ -33,28 +53,51 @@ class CaixasController extends Controller
 
 //        return view('caixas.index', ['caixas'=>$caixas], compact('entrada'));
 
-        return view('caixas.index', ['caixas'=>$caixas]);
+        //dd($pedido_produto);
+        return view('caixas.index', compact('caixas', 'pedido_produto'));
     }
 
-    public function pdfview(Request $request, $id){
+    public function pdfview(Request $request){
 //        $items = DB::table("caixas")->get();
 
 /*        $pedido_produto = DB::table('pedido_produtos')
             ->where('pedido_id', [$id])
             ->get();  */
 
-        $sum = DB::table('pedido_produtos')->select('valor')->where('pedido_id', [$id])->groupBy('pedido_id')->sum('valor');
+//        $sum = DB::table('pedido_produtos')->select('valor')->where('pedido_id', [$id])->groupBy('pedido_id')->sum('valor');
 
-        $ped_prod = Caixa::all();
+        //$ped_prod = Caixa::all();
 
-        $pedido_produto = DB::table('pedido_produtos')
+        /*$pedido_produto = DB::table('pedido_produtos')
             ->select('pedido_id', 'produto_id', 'valor', 'cliente_id', 'formaPagamento', 'observacao')
             ->where('pedido_id', [$id])
+            //->where('pedido_produtos.produto_id','=','produtos.id')
 //            ->groupBy('produto_id', 'valor', 'cliente_id', 'formaPagamento', 'observacao')
             ->get();
-//            ->sum('valor');
+//            ->sum('valor');*/
 
-        view()->share('pedido_produto', $pedido_produto);
+        $req = Request();
+        $id = $req->input('imprpdf');
+
+        //$id = $request->get('imprpdf');
+
+
+
+        $pedido_produto = PedidoProduto::with('produto', 'pedido')
+            ->select('pedido_produtos.id',
+                'pedido_produtos.pedido_id',
+                'pedido_produtos.produto_id',
+                'pedido_produtos.status',
+                'pedido_produtos.valor',
+                'pedido_produtos.cliente_id',
+                'pedido_produtos.observacao',
+                'pedido_produtos.formaPagamento')
+            ->join('produtos as p', 'produto_id','=', 'p.id')
+            ->join('pedidos as pe', 'pedido_id', '=', 'pe.id')
+            ->where('pedido_id', '=', [$id])
+            ->paginate(9999);
+
+   //     view()->share('pedido_produto', $pedido_produto);
 
         if($request->has('download')){
             $pdf = PDF::loadView('caixas.pdfview');
@@ -62,7 +105,15 @@ class CaixasController extends Controller
             return $pdf->stream();
         }
 
-        return view('caixas.pdfview');
+        //dd($pedido_produto);
+        return view('caixas.pdfview', compact('id', 'pedido_produto'));
+        //return \PDF::loadView('caixas.pdfview', compact('pedido_produto'))->stream($id.'.pdf');
+
+        /*return \PDF::loadView('caixas.pdfview', compact('pedido_produto'))
+            // Se quiser que fique no formato a4 retrato: ->setPaper('a4', 'landscape')
+            ->download('pedido.pdf');
+            //->stream();*/
+
     }
 
     public function create(){

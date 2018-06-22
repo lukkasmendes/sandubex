@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Cliente;
-use App\Estoque;
 use App\Produto;
 use App\PedidoProduto;
 use App\Pedido;
@@ -11,7 +10,6 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Request;
-use Illuminate\Support\Facades\Response;
 
 class PedidosController extends Controller{
     private $produto;
@@ -23,7 +21,9 @@ class PedidosController extends Controller{
 
     public function index(){
         $clientes = Cliente::all();
-        $produtos = Produto::paginate(9999);
+
+        $produtos = $this->getProdutos();
+
         $data = DB::table('clientes')->get();
 
         $pedidos = Pedido::where([
@@ -31,9 +31,25 @@ class PedidosController extends Controller{
             'user_id' => Auth::id()
         ])->get();
 
-        //$quanti = 
-
+        //dd($produtos);
         return view('pedidos.index', compact('data', 'clientes', 'produtos', 'pedidos'));
+    }
+
+    public function getProdutos(){
+        return Produto::with('estoque')
+            ->select('produtos.id',
+                'produtos.nome',
+                'produtos.categoria_id',
+                'produtos.unidade',
+                'produtos.estoque_id',
+                'produtos.precoVenda',
+                'produtos.validade',
+                'produtos.estoqueMin',
+                'produtos.descricao',
+                'produtos.imagem')
+            ->join('estoques as e', 'estoque_id','=', 'e.id')
+            ->where('e.quantidade', '>', '0')
+            ->paginate(9999);
     }
 
     public function adicionar(){

@@ -32,9 +32,7 @@ class Produto extends Model
         return $this->hasMany('App\Compra');
     }
 
-    public function estoques(){
-        return $this->hasMany('App\Estoque');
-    }
+
 
     public function estoque(){
         return $this->belongsTo('App\Estoque');

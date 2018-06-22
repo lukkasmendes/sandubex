@@ -193,7 +193,8 @@
                                                         <div class="col-xs-12">
                                                             <div class="form-group">
                                                                 Informações
-                                                                {!! Form::textarea('observacao', null, ['class'=>'form-control', 'style'=>'text-transform:uppercase', 'onblur'=>'maiuscula(this);']) !!}
+                                                                <font size="1" face="arial, helvetica, sans-serif" /> ( Limite de 25 caracteres. )<br>
+                                                                {!! Form::textarea('observacao', null, ['class'=>'form-control mixed', 'maxlength'=>'25', 'style'=>'text-transform:uppercase; height: 35px;', 'onblur'=>'maiuscula(this);']) !!}
                                                             </div>
                                                         </div>
                                                         <div class="col-xs-6">
@@ -356,9 +357,6 @@
         }
     </script>
 <!-- AJAX -->
-
-
-
 
 <!-- PEGA VALOR SELECIONADO NO SELECT DE PAGAR-EM E ADD NO INPUT HIDDEN -->
     <script>

@@ -28,14 +28,17 @@ Route::group(['prefix'=>'produtos', 'where'=>['id'=>'[0-9]+']], function () {
 });
 
 Route::group(['prefix'=>'caixas', 'where'=>['id'=>'[0-9]+']], function () {
-    Route::get('',              ['as'=>'caixas',           'uses'=>'CaixasController@index']);
-    Route::get('create',        ['as'=>'caixas.create',    'uses'=>'CaixasController@create']);
-    Route::get('{id}/destroy',  ['as'=>'caixas.destroy',   'uses'=>'CaixasController@destroy']);
-    Route::get('{id}/edit',     ['as'=>'caixas.edit',      'uses'=>'CaixasController@edit']);
-    Route::put('{id}/update',   ['as'=>'caixas.update',    'uses'=>'CaixasController@update']);
-    Route::post('store',        ['as'=>'caixas.store',     'uses'=>'CaixasController@store']);
-    Route::get('{id}/pdfview',       array('as'=>'pdfview',     'uses'=>'CaixasController@pdfview'));
+    Route::get('',              ['as'=>'caixas',              'uses'=>'CaixasController@index']);
+    Route::get('create',        ['as'=>'caixas.create',       'uses'=>'CaixasController@create']);
+    Route::get('{id}/destroy',  ['as'=>'caixas.destroy',      'uses'=>'CaixasController@destroy']);
+    Route::get('{id}/edit',     ['as'=>'caixas.edit',         'uses'=>'CaixasController@edit']);
+    Route::put('{id}/update',   ['as'=>'caixas.update',       'uses'=>'CaixasController@update']);
+    Route::post('store',        ['as'=>'caixas.store',        'uses'=>'CaixasController@store']);
+    Route::post('pdfview',      array('as'=>'caixas.pdfview', 'uses'=>'CaixasController@pdfview'));
+//    Route::get('{id}/pdfview',       array('as'=>'pdfview',     'uses'=>'CaixasController@pdfview'));
+
 });
+
 
 Route::group(['prefix'=>'pedidos', 'where'=>['id'=>'[0-9]+']], function () {
     Route::get('',              ['as'=>'pedidos',           'uses'=>'PedidosController@index']);

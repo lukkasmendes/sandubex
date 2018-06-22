@@ -85,7 +85,8 @@ return [
     |
     */
 
-    'dashboard_url' => 'home',
+    'dashboard_url' => 'pedidos',
+//    'dashboard_url' => 'home',
 
     'logout_url' => 'logout',
 
@@ -110,12 +111,12 @@ return [
     'menu' => [
         'Menu Principal',
 
-        [
+/*        [
             'text'        => 'Dashboard',
             'url'         => 'home',
             'icon'        => 'dashboard',
             'label_color' => 'success',
-        ],
+        ],*/
 
         [
             'text'        => 'PDV',
@@ -153,18 +154,20 @@ return [
         ],
 
         [
+            'text'        => 'Fornecedores',
+            'url'         => 'fornecedors',
+            'icon'        => 'users',
+            'label_color' => 'success',
+        ],
+
+        [
             'text'        => 'Compras',
             'url'         => 'compras',
             'icon'        => 'shopping-cart',
             'label_color' => 'success',
         ],
 
-        [
-            'text'        => 'Fornecedores',
-            'url'         => 'fornecedors',
-            'icon'        => 'users',
-            'label_color' => 'success',
-        ],
+
 
 
 

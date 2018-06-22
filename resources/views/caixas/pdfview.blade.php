@@ -2,59 +2,74 @@
 <link rel="stylesheet" href="{{ asset('vendor/adminlte/vendor/bootstrap/dist/css/bootstrap.min.css') }}">
 <body>
 <div class="container">
-<h1>Produtos Pedido
-<a target="_blank" href="{{ route('pdfview',['download'=>'pdf']) }}" title="IMPRIMIR">
-    <button type="button" class="btn btn-default btn-sm">
-        <span class="glyphicon glyphicon-print"></span> Imprimir
-    </button>
-</a>
+
+<h1 style="text-align: center">PEDIDO Nº: {{$id}}
+{{--<a href="{{ route('caixas.pdfview',['download'=>'pdf']) }}" title="IMPRIMIR">--}}
+
 </h1>
 
-
-<table border="1">
-    <tr>
-        <th width="10%" style="text-align: center">N° Pedido</th>
-        <th width="30%" style="text-align: center">Produto</th>
-        <th width="10%" style="text-align: center">Valor</th>
-        <th width="20%" style="text-align: center">Cliente</th>
-        <th width="25%" style="text-align: center">Forma de Pagamento</th>
-        <th width="60%" style="text-align: center">Observação</th>
-
-    </tr>
+<hr style="width: 100%">
+<div style="text-align: right">
+    <a style="text-align: right" title="IMPRIMIR" onClick="window.print()">
+        <button style="text-align: right" type="button" name="impr" id="impr" class="btn btn-default btn-sm">
+            <span class="glyphicon glyphicon-print"></span> Imprimir
+        </button>
+    </a>
+</div>
+<table class="table table-striped table-hover" style="width: 100%">
+    <thead class="head-dark">
+        <tr style="height: 50px">
+            <th width="20%" style="text-align: center">Produto</th>
+            <th width="25%" style="text-align: center">Cliente</th>
+            <th width="25%" style="text-align: center">Observação</th>
+            <th width="20%" style="text-align: center">Forma de Pagamento</th>
+            <th width="10%" style="text-align: center">Valor</th>
+        </tr>
+    </thead>
     @php
         $tot = 0
     @endphp
     @forelse ($pedido_produto as $pp)
-        <tr>
-            <td>{{ $pp->pedido_id }}</td>
-            <td>{{ $pp->produto_id }}</td>
-            <td>{{ $pp->valor }}</td>
-            <td>{{ $pp->cliente_id }}</td>
+        <tbody>
+            <tr>
+                <td style="text-align: center">{{ $pp->produto->nome }}</td>
+                <td style="text-align: center">{{ $pp->cliente->nome }}</td>
+                <td style="text-align: center">{{ $pp->observacao }}</td>
 
-            @if($pp->formaPagamento == 'D')
-                <td>DINHEIRO</td>
-            @elseif($pp->formaPagamento == 'C')
-                <td>CHEQUE</td>
-            @elseif($pp->formaPagamento == 'CC')
-                <td>CARTÃO DE CRÉDITO</td>
-            @else
-                <td>CARTÃO DE DÉBITO</td>
-            @endif
+                @if($pp->formaPagamento == 'D')
+                    <td style="text-align: center">DINHEIRO</td>
+                @elseif($pp->formaPagamento == 'C')
+                    <td style="text-align: center">CHEQUE</td>
+                @elseif($pp->formaPagamento == 'CC')
+                    <td style="text-align: center">CARTÃO DE CRÉDITO</td>
+                @else
+                    <td style="text-align: center">CARTÃO DE DÉBITO</td>
+                @endif
 
-            <td>{{ $pp->observacao }}</td>
-        </tr>
+                <td style="text-align: center">{{ $pp->valor }}</td>
+            </tr>
+        </tbody>
         @php
             $tot += $pp->valor
         @endphp
     @empty
-        Sem registros
+        <tr>
+            <td colspan="6" style="text-align: center"><h2>SEM REGISTROS</h2></td>
+        </tr>
     @endforelse
-    <tr>
-        <td colspan="7">
-            Valor Total - R$ {{ number_format($tot, 2) }}
-        </td>
-    </tr>
+    <tfoot>
+        <tr>
+            <th colspan="7" style="text-align: right; font-style: italic; height: 30px">
+                Valor Total - R$ {{ number_format($tot, 2) }}
+            </th>
+        </tr>
+    </tfoot>
 </table>
 </div>
 </body>
 <script src="{{ asset('vendor/adminlte/vendor/bootstrap/dist/js/bootstrap.min.js') }}"></script>
+<script>
+    window.setTimeout(function(){
+        document.getElementById("impr").click();
+    });
+</script>
