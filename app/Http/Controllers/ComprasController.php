@@ -53,8 +53,18 @@ class ComprasController extends Controller
     }
 
     public function destroy($id){
-        Compra::find($id)->delete();
+        try {
+            $compra = Compra::findOrFail($id);
+            $compra->delete();
+        } catch (QueryException $e) {
+            flash()->error('Erro ao excluir compra - Compra em uso');
+            return redirect()->back();
+        }
+        \Session::flash('mensagem_sucesso', 'Compra deletada com sucesso!');
         return redirect()->route('compras');
+
+        /*Compra::find($id)->delete();
+        return redirect()->route('compras');*/
     }
 
     public function edit($id){

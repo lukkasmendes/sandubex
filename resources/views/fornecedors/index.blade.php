@@ -2,15 +2,17 @@
 @section('title', 'Sandubex')
 @section('content_header')
     <div class="container">
-{{--        @if (Session::has('mensagem_sucesso'))
+
+       @if (Session::has('mensagem_sucesso'))
             <div class="alert alert-success alert-dismissable">
                 <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
                 <strong>Sucesso!</strong> {{ Session::get('mensagem_sucesso') }}
             </div>
-        @endif--}}
+        @endif
+
+        @include('flash::message')
 
         <h3 align="center"><i class="fas fa-users"></i> Fornecedores</h3>
-        {{--@include('flash::message')--}}
 
         <table class="table table-striped table-bordered table-hover" id="example">
             <thead>

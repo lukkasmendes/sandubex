@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Cliente;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use App\Http\Requests\ClienteRequest;
 
@@ -23,8 +24,18 @@ class ClientesController extends Controller
     }
 
     public function destroy($id){
-        Cliente::find($id)->delete();
+        try {
+            $cliente = Cliente::findOrFail($id);
+            $cliente->delete();
+        } catch (QueryException $e) {
+            flash()->error('Erro ao excluir cliente - Cliente vinculado');
+            return redirect()->back();
+        }
+        \Session::flash('mensagem_sucesso', 'Cliente excluído com sucesso!');
         return redirect()->route('clientes');
+
+        /*Cliente::find($id)->delete();
+        return redirect()->route('clientes');*/
     }
 
     public function edit($id){

@@ -19,7 +19,7 @@ class Cliente extends Model
     }
 
     public function caixa(){
-        return $this->hasMany('App\Caixa');
+        return $this->hasMany('App\Caixa', 'cliente_id');
     }
 
     public function pedido_produtos(){

@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
+use MongoDB\Driver;
 
 class PedidoProduto extends Model
 {
@@ -31,4 +32,5 @@ class PedidoProduto extends Model
     }
 
     protected $table = 'pedido_produtos';
+
 }

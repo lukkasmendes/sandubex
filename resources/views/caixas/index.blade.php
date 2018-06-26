@@ -50,7 +50,11 @@
                             <td>CARTÃO DE DÉBITO</td>
                         @endif
 
-                        <td>{{$cai->cliente->nome}}</td>
+                        @if($cai->cliente_id == null)
+                            <td></td>
+                        @else
+                            <td>{{$cai->cliente->nome}}</td>
+                        @endif
 
                     {!! Form::open(['route' => 'caixas.pdfview', 'target'=>'_blank']) !!}
                         <input type="hidden" name="imprpdf" value="{{$cai->pedido_id}}">

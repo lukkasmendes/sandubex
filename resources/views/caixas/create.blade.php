@@ -43,7 +43,7 @@
                 </div>
                 <div class="form-group">
                     {!! Form::label('observacao', 'OBSERVAÇÃO:') !!}
-                    {!! Form::text('observacao', null, ['class'=>'form-control', 'style'=>'text-transform:uppercase', 'onblur'=>'maiuscula(this);']) !!}
+                    {!! Form::text('observacao', null, ['class'=>'form-control', 'style'=>'text-transform:uppercase', 'onblur'=>'maiuscula(this);', 'maxlength'=>'25']) !!}
                 </div>
 
                 </p>

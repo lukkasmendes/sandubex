@@ -36,7 +36,7 @@
             </div>
             <div class="form-group">
                 {!! Form::label('observacao', 'Observação:') !!}
-                {!! Form::text('observacao', $caixa->observacao, ['class'=>'form-control', 'style'=>'text-transform:uppercase', 'onblur'=>'maiuscula(this);']) !!}
+                {!! Form::text('observacao', $caixa->observacao, ['class'=>'form-control', 'style'=>'text-transform:uppercase', 'onblur'=>'maiuscula(this);', 'maxlength'=>'25']) !!}
             </div>
             <div>
                 {!! Form::submit('Registrar', ['class'=>'btn btn-primary']) !!}

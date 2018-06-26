@@ -88,15 +88,38 @@
                 </div>
             @endif -->
 
-            <a
+            {{--<a
              href="#">
                 Editar Preço de Custo / Estoque
-            </a>
+            </a>--}}
+
+            <link rel="stylesheet" href="{{asset('css/jquery-ui.css')}}">
+            <link rel="stylesheet" href="/resources/demos/style.css">
+            <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 
             <div class="form-group"><br/>
                 {!! Form::label('validade', 'VALIDADE:') !!}
-                {!! Form::text('validade', $produto->validade, ['class'=>'form-control simple-field-data-mask', 'data-mask'=>'00/00/0000', 'placeholder'=>'00/00/0000']) !!}
+                {!! Form::text('validade', $produto->validade, ['class'=>'form-control simple-field-data-mask', 'data-mask'=>'00/00/0000', 'placeholder'=>'00/00/0000', 'id'=>'validade', 'name'=>'validade']) !!}
             </div>
+
+            <script src="{{asset('js/jquery.js')}}"></script>
+            <script src="{{asset('js/jquery.min.js')}}"></script>
+            <script src="{{asset('js/jquery-ui.js')}}"></script>
+
+            <script type="text/javascript">
+                $("#validade").datepicker({
+                    dateFormat: 'dd/mm/yy',
+                    dayNames: ['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'],
+                    dayNamesMin: ['D','S','T','Q','Q','S','S','D'],
+                    dayNamesShort: ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb','Dom'],
+                    monthNames: ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'],
+                    monthNamesShort: ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'],
+                    nextText: 'Próximo',
+                    prevText: 'Anterior',
+                    changeMonth: true,
+                    changeYear: true
+                });
+            </script>
 
             <div class="form-group">
                 {!! Form::label('descricao', 'DESCRIÇÃO:') !!}

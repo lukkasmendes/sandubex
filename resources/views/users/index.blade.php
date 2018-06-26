@@ -1,6 +1,7 @@
 @extends('adminlte::page')
 @section('title', 'Sandubex')
 @section('content_header')
+
     <div class="container">
 
         @if (Session::has('mensagem_sucesso'))
@@ -9,62 +10,67 @@
                 <strong>Sucesso!</strong> {{ Session::get('mensagem_sucesso') }}
             </div>
         @endif
-
         @include('flash::message')
 
-        <h3 align="center"><i class="fas fa-user"></i> Clientes</h3>
+        <h3 align="center"><i class="fas fa-users"></i> Usuários</h3>
 
         <table class="table table-striped table-bordered table-hover" id="example">
             <thead>
                 <tr>
                     <th>Nome</th>
-                    <th>Telefone</th>
                     <th>E-mail</th>
-                    <th>CPF</th>
-                    <th>RG</th>
                     <th width="10px">
-                        <a href="{{route('clientes.create')}}">
-                            <button type="button" class="btn">
-                                <i class="fas fa-barcode"></i> Novo Cliente
+<!-- BOTÃO MODAL PARA ADICIONAR NOVA CATEGORIA
+                        <a>
+                            <button
+                                    type="button"
+                                    class="btn"
+                                    data-toggle="modal"
+                                    data-target="#novaCategoria">
+                                <i class="fas fa-list"></i>
+                                Nova Categoria
                             </button>
                         </a>
+ BOTÃO MODAL PARA ADICIONAR NOVA CATEGORIA -->
+
+                        <a href="{{ url('register')}}">
+                            <button type="button" class="btn">
+                                <i class="fas fa-barcode"></i> Novo Usuário
+                            </button>
+                        </a>
+
                     </th>
                 </tr>
             </thead>
             <tbody>
-                @foreach($clientes as $cli)
+                @foreach($users as $us)
                     <tr align="center">
-                        <td>{{$cli->nome}}</td>
-                        <td>{{$cli->telefone}}</td>
-                        <td>{{$cli->email}}</td>
-                        <td>{{$cli->cpf}}</td>
-                        <td>{{$cli->rg}}</td>
+                        <td width="1%" nowrap="nowrap">{{$us->name}}</td>
+                        <td>{{$us->email}}</td>
                         <td width="1%" nowrap="nowrap">
-                            <a href="{{route('clientes.edit', ['id'=>$cli->id])}}"
+
+                            <a href="{{route('users.edit', ['id'=>$us->id])}}"
                                class="btn-sm btn-success"
                                title="Editar">
                                 <i class="fas fa-edit"></i>
                             </a>
 
 <!-- BOTÃO MODAL EXCLUIR -->
-
                             <a  href=""
                                 title="Excluir"
                                 class="modal-del btn-danger btn-sm"
                                 data-toggle="modal"
-                                data-target="#id{{$cli->id}}">
+                                data-target="#id{{$us->id}}">
 
                                 <i class="fas fa-remove"></i>
                             </a>
-
 <!-- BOTÃO MODAL EXCLUIR -->
 
 
 
 <!-- MODAL EXCLUIR -->
-
                             <div    class="modal modal-danger fade"
-                                    id="id{{ $cli->id}}"
+                                    id="id{{ $us->id}}"
                                     tabindex="-1"
                                     role="dialog"
                                     aria-labelledby="exampleModalLabel"
@@ -76,14 +82,14 @@
                                                 <span aria-hidden="true">&times;</span>
                                             </button>
                                             <h4 class="modal-title text-center" id="myModalLabel">
-                                                EXCLUIR CLIENTE: {{$cli->nome}}
+                                                EXCLUIR USUÁRIO: {{$us->name}}
                                             </h4>
                                         </div>
                                         <div class="modal-body">
                                             TEM CERTEZA QUE DESEJA EXCLUIR?
                                         </div>
                                         <div class="modal-footer">
-                                            <form action="{{route('clientes.destroy', [$cli->id] )}}">
+                                            <form action="{{route('users.deletar', [$us->id] )}}">
                                                 {{method_field('delete')}}
 
                                                 <button
@@ -104,8 +110,8 @@
                                     </div>
                                 </div>
                             </div>
-
 <!-- MODAL EXCLUIR -->
+
                         </td>
                     </tr>
                 @endforeach

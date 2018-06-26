@@ -167,6 +167,20 @@ return [
             'label_color' => 'success',
         ],
 
+        [
+            'text'        => 'Relatorios',
+            'url'         => 'relatorios',
+            'icon'        => 'list-alt',
+            'label_color' => 'success',
+        ],
+
+        [
+            'text'        => 'Usuários',
+            'url'         => 'users',
+            'icon'        => 'users',
+            'label_color' => 'success',
+        ],
+
 
 
 

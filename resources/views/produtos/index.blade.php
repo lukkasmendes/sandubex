@@ -2,6 +2,15 @@
 @section('title', 'Sandubex')
 @section('content_header')
     <div class="container">
+
+        @if (Session::has('mensagem_sucesso'))
+            <div class="alert alert-success alert-dismissable">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
+                <strong>Sucesso!</strong> {{ Session::get('mensagem_sucesso') }}
+            </div>
+        @endif
+        @include('flash::message')
+
         <h3 align="center"><i class="fas fa-barcode"></i> Produtos</h3>
 
         <table class="table table-striped table-bordered table-hover" id="produtos">

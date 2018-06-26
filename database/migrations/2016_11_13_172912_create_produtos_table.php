@@ -18,33 +18,21 @@ class CreateProdutosTable extends Migration
             $table->string('nome', 100);
             $table->integer('categoria_id')->unsigned();
             $table->string('unidade', 100);
-
             $table->integer('estoque_id')->unsigned()->nullable();
-
-            //$table->decimal('precoCusto')->nullable();
-            //$table->foreign('precoCusto_est')->references('precoCusto')->on('estoques')->onDelete('cascade');
-
             $table->decimal('precoVenda', 9, 2);
             $table->string('validade');
             $table->integer('estoqueMin');
-
-            //$table->integer('quantidade')->nullable();
-
             $table->string('descricao', 100);
             $table->binary('imagem');
-
-
             $table->timestamps();
         });
-
 
         Schema::table('produtos', function (Blueprint $table){
             $table->foreign('categoria_id')->references('id')->on('categorias');
         });
         Schema::table('produtos', function (Blueprint $table){
-            $table->foreign('estoque_id')->references('id')->on('estoques')->onDelete('cascade');
+            $table->foreign('estoque_id')->references('id')->on('estoques');
         });
-
     }
 
     /**

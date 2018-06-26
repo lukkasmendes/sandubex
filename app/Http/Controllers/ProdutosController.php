@@ -6,6 +6,7 @@ use App\Estoque;
 use App\Produto;
 use App\Http\Requests\ProdutoRequest;
 
+use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\DB;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\Input;
@@ -36,7 +37,17 @@ class ProdutosController extends Controller{
     }
 
     public function destroy($id){
-        Produto::find($id)->delete();
+        /*Produto::find($id)->delete();
+        return redirect()->route('produtos');*/
+
+        try {
+            $produto = Produto::findOrFail($id);
+            $produto->delete();
+        } catch (QueryException $e) {
+            flash()->error('Erro ao excluir produto - Produto em uso');
+            return redirect()->back();
+        }
+        \Session::flash('mensagem_sucesso', 'Produto deletado com sucesso!');
         return redirect()->route('produtos');
     }
 
