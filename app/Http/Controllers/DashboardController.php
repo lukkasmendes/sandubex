@@ -7,7 +7,6 @@ use App\PedidoProduto;
 use Illuminate\Database\Query\Builde;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
-
 use App\Produto;
 use App\Caixa;
 use Redirect;
@@ -17,7 +16,7 @@ use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\Response;
 
 
-class RelatoriosController extends Controller
+class DashboardController extends Controller
 {
     public function __construct(){
         $this->middleware('auth', ['except' => ['getLogout', 'getRegister', 'postRegister']]);
@@ -25,7 +24,7 @@ class RelatoriosController extends Controller
 
     public function index(){
         $data = DB::table('categorias')->get();
-        return view('relatorios.index', compact('data'));
+        return view('dashboard.index', compact('data'));
     }
 
     public function produtomais(){
@@ -38,7 +37,6 @@ class RelatoriosController extends Controller
 
         $dtformf = Carbon::createFromFormat('d/m/Y', $dtfl);
         $dtformf->format('Y-m-d');
-
 
         $promais = PedidoProduto::with('produto')
             ->select(DB::raw('count(produto_id) as produto_id'), 'p.nome as pro')
@@ -78,13 +76,11 @@ class RelatoriosController extends Controller
         $dtin2 = $req->input('dtin2');
         $dtfl2 = $req->input('dtfl2');
 
-
         $dtformi2 = Carbon::createFromFormat('d/m/Y', $dtin2);
         $dtformi2->format('Y-m-d');
 
         $dtformf2 = Carbon::createFromFormat('d/m/Y', $dtfl2);
         $dtformf2->format('Y-m-d');
-
 
         $tote = DB::table('caixas')
             ->select('valor')

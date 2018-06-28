@@ -13,44 +13,62 @@
             <div class="modal-body">
                 <p>
 
-                    <script type="text/javascript">
-                        function maiuscula(obj) {
-                            obj.value = obj.value.toUpperCase();
-                        }
-                    </script>
-
-                @if ($errors->any())
-                    <ul class="alert alert-danger">
-                        @foreach($errors->all() as $error)
-                            <li>{{$error}}</li>
-                        @endforeach
-                    </ul>
-                @endif
+                <script type="text/javascript">
+                    function maiuscula(obj) {
+                        obj.value = obj.value.toUpperCase();
+                    }
+                </script>
 
                 {!! Form::open(['route' => 'clientes.store2']) !!}
-                <div class="form-group">
-                    {!! Form::label('nome', 'Nome:') !!}
+                <div class="form-group has-feedback {{ $errors->has('nome') ? 'has-error' : '' }}">
+                    {!! Form::label('nome', 'NOME:') !!}
                     {!! Form::text('nome', null, ['class'=>'form-control', 'style'=>'text-transform:uppercase', 'onblur'=>'maiuscula(this);']) !!}
+                    @if ($errors->has('nome'))
+                        <span class="help-block">
+                    <strong>{{ $errors->first('nome') }}</strong>
+                </span>
+                    @endif
                 </div>
 
 
-                <div class="form-group">
-                    {!! Form::label('telefone', 'Telefone:') !!}<br />
-                    {!! Form::text('telefone', null, ['class'=>'form-control']) !!}
+                <div class="form-group has-feedback {{ $errors->has('telefone') ? 'has-error' : '' }}">
+                    {!! Form::label('telefone', 'TELEFONE:') !!}<br />
+                    {!! Form::text('telefone', null, ['class'=>'form-control simple-field-data-mask', 'data-mask'=>'(00) 000000000', 'placeholder'=>'(00) 000000000']) !!}
+                    @if ($errors->has('telefone'))
+                        <span class="help-block">
+                    <strong>{{ $errors->first('telefone') }}</strong>
+                </span>
+                    @endif
                 </div>
 
-
-                <div class="form-group">
-                    {!! Form::label('email', 'E-mail:') !!}
+                <div class="form-group has-feedback {{ $errors->has('email') ? 'has-error' : '' }}">
+                    {!! Form::label('email', 'E-MAIL:') !!}
                     {!! Form::text('email', null, ['class'=>'form-control']) !!}
+                    @if ($errors->has('email'))
+                        <span class="help-block">
+                    <strong>{{ $errors->first('email') }}</strong>
+                </span>
+                    @endif
                 </div>
-                <div class="form-group">
+
+                <div class="form-group has-feedback {{ $errors->has('cpf') ? 'has-error' : '' }}">
                     {!! Form::label('cpf', 'CPF:') !!}<br />
-                    {!! Form::text('cpf', null, ['class'=>'form-control']) !!}
+                    {!! Form::text('cpf', null, ['class'=>'form-control simple-field-data-mask', 'data-mask'=>'000.000.000-00', 'placeholder'=>'000.000.000-00']) !!}
+                    @if ($errors->has('cpf'))
+                        <span class="help-block">
+                    <strong>{{ $errors->first('cpf') }}</strong>
+                </span>
+                    @endif
                 </div>
-                <div class="form-group">
+
+                <div class="form-group has-feedback {{ $errors->has('rg') ? 'has-error' : '' }}">
                     {!! Form::label('rg', 'RG:') !!}
-                    {!! Form::text('rg', null, ['class'=>'form-control']) !!}
+                    {!! Form::text('rg', null, ['class'=>'form-control simple-field-data-mask', 'data-mask'=>'0000000000', 'placeholder'=>'0000000000']) !!}
+                    @if ($errors->has('rg'))
+                        <span class="help-block">
+                    <strong>{{ $errors->first('rg') }}</strong>
+                </span>
+                    @endif
                 </div>
                 </p>
             </div>

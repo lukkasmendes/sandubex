@@ -10,18 +10,15 @@
     <div class="container">
         <h1>Editar Produtos</h1>
 
-        @if ($errors->any())
-            <ul class="alert alert-danger">
-                @foreach($errors->all() as $error)
-                    <li>{{$error}}</li>
-                @endforeach
-            </ul>
-        @endif
-
         {!! Form::open(['route' => ["produtos.update", $produto->id], 'method'=>'put', 'files'=>'true']) !!}
-            <div class="form-group">
+            <div class="form-group has-feedback {{ $errors->has('nome') ? 'has-error' : '' }}">
                 {!! Form::label('nome', 'NOME:') !!}
                 {!! Form::text('nome', $produto->nome, ['class'=>'form-control', 'style'=>'text-transform:uppercase', 'onblur'=>'maiuscula(this);']) !!}
+                @if ($errors->has('nome'))
+                    <span class="help-block">
+                        <strong>{{ $errors->first('nome') }}</strong>
+                    </span>
+                @endif
             </div>
             
             <div class="form-group">
@@ -34,9 +31,6 @@
                             </option>
                         @endforeach
                 </select>
-                <!-- {{ Form::select('categoria_id',
-                   \App\Categoria::orderBy('descricao')->pluck('descricao', 'id')->toArray(), $produto->categoria_id,
-                   ['class'=>'form-control']) }} -->
             </div>
 
             <div class="form-group">
@@ -44,54 +38,25 @@
                 {!! Form::text('unidade', $produto->unidade, ['class'=>'form-control', 'style'=>'text-transform:uppercase', 'onblur'=>'maiuscula(this);']) !!}
             </div>
 
-            <div class="form-group">
+            <div class="form-group has-feedback {{ $errors->has('precoVenda') ? 'has-error' : '' }}">
                 {!! Form::label('precoVenda', 'PREÇO DE VENDA:') !!}
                 {!! Form::text('precoVenda', $produto->precoVenda, ['class'=>'form-control simple-field-data-mask-reverse', 'data-mask'=>'#0.00', 'data-mask-reverse'=>'true', 'data-mask-maxlength'=>'false', 'placeholder'=>'0.00']) !!}
+                @if ($errors->has('precoVenda'))
+                    <span class="help-block">
+                        <strong>{{ $errors->first('precoVenda') }}</strong>
+                    </span>
+                @endif
             </div>
 
-            <!-- <div class="form-group">
-                {!! Form::label('precoCusto_est', 'Preço de Custo:') !!}
-                {!! Form::text('precoCusto_est', $produto->precoCusto_est, ['class'=>'form-control', 'disabled' => 'disabled', 'style'=>'text-transform:uppercase', 'onblur'=>'maiuscula(this);']) !!}
-            </div> -->
-<!-- 
-            @if($produto->estoque == null)
-                <div class="form-group">
-                    {!! Form::label('precoCusto_est', 'Preço de Custo:') !!}
-                    {!! Form::text('precoCusto_est', null, ['class'=>'form-control', 'disabled' => 'disabled', 'title'=>'ESTE PREÇO É DEFINIDO NA COMPRA DESTE PRODUTO']) !!}
-                </div>
-            @else
-                <div class="form-group">
-                    {!! Form::label('precoCusto_est', 'Preço de Custo:') !!}
-                    {!! Form::text('precoCusto_est', $produto->estoque->precoCusto, ['class'=>'form-control', 'disabled' => 'disabled', 'title'=>'ESTE PREÇO É DEFINIDO NA COMPRA DESTE PRODUTO']) !!}
-                </div>
-            @endif -->
-
-            <div class="form-group">
+            <div class="form-group has-feedback {{ $errors->has('estoqueMin') ? 'has-error' : '' }}">
                 {!! Form::label('estoqueMin', 'ESTOQUE MÍNIMO:') !!}
                 {!! Form::text('estoqueMin', $produto->estoqueMin, ['class'=>'form-control simple-field-data-mask', 'data-mask'=>'#', 'placeholder'=>'00', 'data-mask-maxlength'=>'false']) !!}
+                @if ($errors->has('estoqueMin'))
+                    <span class="help-block">
+                        <strong>{{ $errors->first('estoqueMin') }}</strong>
+                    </span>
+                @endif
             </div>
-
-            <!-- <div class="form-group">
-                {!! Form::label('quantidade_est', 'Estoque Atual:') !!}
-                {!! Form::text('quantidade_est', $produto->quantidade_est, ['class'=>'form-control', 'disabled' => 'disabled', 'style'=>'text-transform:uppercase', 'onblur'=>'maiuscula(this);']) !!}
-            </div> -->
-<!-- 
-            @if($produto->estoque == null)
-                <div class="form-group">
-                    {!! Form::label('quantidade_est', 'Estoque Atual:') !!}
-                    {!! Form::text('quantidade_est', null, ['class'=>'form-control', 'disabled' => 'disabled']) !!}
-                </div>
-            @else
-                <div class="form-group">
-                    {!! Form::label('quantidade_est', 'Estoque Atual:') !!}
-                    {!! Form::text('quantidade_est', $produto->estoque->quantidade, ['class'=>'form-control', 'disabled' => 'disabled']) !!}
-                </div>
-            @endif -->
-
-            {{--<a
-             href="#">
-                Editar Preço de Custo / Estoque
-            </a>--}}
 
             <link rel="stylesheet" href="{{asset('css/jquery-ui.css')}}">
             <link rel="stylesheet" href="/resources/demos/style.css">
@@ -126,9 +91,14 @@
                 {!! Form::text('descricao', $produto->descricao, ['class'=>'form-control', 'style'=>'text-transform:uppercase', 'onblur'=>'maiuscula(this);']) !!}
             </div>
 
-            <div class="form-group">
+            <div class="form-group has-feedback {{ $errors->has('imagem') ? 'has-error' : '' }}">
                 {!! Form::label('imagem', 'IMAGEM DO PRODUTO:') !!}
                 {!! Form::file('imagem', ['class'=>'form-control']) !!}
+                @if ($errors->has('imagem'))
+                    <span class="help-block">
+                            <strong>{{ $errors->first('imagem') }}</strong>
+                        </span>
+                @endif
             </div>
 
             <div>

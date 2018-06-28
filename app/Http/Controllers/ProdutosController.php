@@ -2,7 +2,6 @@
 namespace App\Http\Controllers;
 
 use App\Categoria;
-use App\Estoque;
 use App\Produto;
 use App\Http\Requests\ProdutoRequest;
 
@@ -14,8 +13,7 @@ use Illuminate\Support\Facades\Response;
 
 class ProdutosController extends Controller{
 
-    public function __construct()
-    {
+    public function __construct(){
         $this->middleware('auth', ['except' => ['getLogout', 'getRegister', 'postRegister']]);
     }
 
@@ -32,14 +30,7 @@ class ProdutosController extends Controller{
     }
 //select2
 
-    public function create2(){
-        return view('produtos.create');
-    }
-
     public function destroy($id){
-        /*Produto::find($id)->delete();
-        return redirect()->route('produtos');*/
-
         try {
             $produto = Produto::findOrFail($id);
             $produto->delete();
@@ -77,31 +68,6 @@ class ProdutosController extends Controller{
         // $produto->quantidade_est = $request->quantidade_est;
         $produto->validade = $request->validade;
         $produto->descricao = $request->descricao;
-        $produto->imagem = $img;
-        $produto->save();
-
-        return redirect()->route('produtos');
-    }
-
-    public function BKPstore(ProdutoRequest $request){
-        $this->validate($request, [
-            'imagem' => 'required|mimes:jpeg,png,bmp,jpg,gif,svg|max:2048',
-        ]);
-
-        $file = Input::file('imagem');
-        $img = Image::make($file)->resize(50, 150);
-        Response::make($img->encode('jpg'));
-
-        $produto = new Produto();
-        $produto->nome = $request->get('nome');
-        $produto->categoria_id = $request->get('categoria_id');
-        $produto->unidade = $request->get('unidade');
-        $produto->precoVenda = $request->get('precoVenda');
-        $produto->precoCusto_est = $request->get('precoCusto_est');
-        $produto->estoqueMin = $request->get('estoqueMin');
-        $produto->quantidade_est = $request->get('quantidade_est');
-        $produto->validade = $request->get('validade');
-        $produto->descricao = $request->get('descricao');
         $produto->imagem = $img;
         $produto->save();
 

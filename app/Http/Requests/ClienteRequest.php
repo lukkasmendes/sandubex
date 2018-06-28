@@ -27,7 +27,7 @@ class ClienteRequest extends FormRequest
             'nome' => 'required|min:2',
             'telefone' => 'required',
             'email' => 'required',
-            'cpf' => 'required',
+            'cpf' => 'required|unique:clientes',
             'rg' => 'required',
         ];
     }
@@ -39,6 +39,7 @@ class ClienteRequest extends FormRequest
             'telefone.required' =>'Preencha o campo TELEFONE',
             'email.required' =>'Preencha o campo E-MAIL',
             'cpf.required' =>'Preencha o campo CPF',
+            'cpf.unique' =>'Este CPF já está cadastrado',
             'rg.required' =>'Preencha o campo RG',
         ];
     }

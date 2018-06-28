@@ -1,9 +1,6 @@
 @extends('adminlte::page')
-
 @section('title', 'Sandubex')
-
 @section('content_header')
-
     <div class="container">
         <h1>Editar Compra</h1>
 
@@ -41,10 +38,6 @@
                         </option>
                     @endforeach
                 </select>
-
-                <!-- {{ Form::select('fornecedor_id',
-                   \App\Fornecedor::orderBy('nome')->pluck('nome', 'id')->toArray(), $compras->fornecedor_id,
-                   ['class'=>'form-control']) }} -->
             </div>
             <div class="form-group">
                 {!! Form::label('produto_id', 'PRODUTO:') !!}
@@ -57,10 +50,6 @@
                         </option>
                     @endforeach
                 </select>
-
-                <!-- {{ Form::select('produto_id',
-                   \App\Produto::orderBy('nome')->pluck('nome', 'id')->toArray(), $compras->produto_id,
-                   ['class'=>'form-control']) }} -->
             </div>
             <div>
                 {!! Form::submit('Editar Registro de Compra', ['class'=>'btn btn-primary']) !!}
@@ -70,7 +59,7 @@
     </div>
 @endsection
 
- @section('scripts')
+@section('scripts')
     <script type="text/javascript">
         $(document).ready(function () {
             $("#fornecedorid").select2();

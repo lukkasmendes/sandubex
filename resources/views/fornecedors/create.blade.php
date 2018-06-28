@@ -1,12 +1,11 @@
 @extends('adminlte::page')
 @section('title', 'Sandubex')
 @section('content_header')
-
-    <script type="text/javascript">
-        function maiuscula(obj) {
-            obj.value = obj.value.toUpperCase();
-        }
-    </script>
+<script type="text/javascript">
+    function maiuscula(obj) {
+        obj.value = obj.value.toUpperCase();
+    }
+</script>
     <div class="container" enctype="multipart/form-data">
         <h1>Novo Fornecedor</h1>
         {!! Form::open(['route' => 'fornecedors.store']) !!}
@@ -31,9 +30,9 @@
         <div class="form-group has-feedback {{ $errors->has('email') ? 'has-error' : '' }}">
             {!! Form::label('email', 'E-MAIL:') !!}
             {!! Form::text('email', null, ['class'=>'form-control']) !!}
-            @if ($errors->has('nome'))
+            @if ($errors->has('email'))
                 <span class="help-block">
-                    <strong>{{ $errors->first('nome') }}</strong>
+                    <strong>{{ $errors->first('email') }}</strong>
                 </span>
             @endif
         </div>

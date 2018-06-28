@@ -1,9 +1,7 @@
 @extends('adminlte::page')
 @section('title', 'Sandubex')
 @section('content_header')
-
     <div class="container">
-
         @if (Session::has('mensagem_sucesso'))
             <div class="alert alert-success alert-dismissable">
                 <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
@@ -20,18 +18,6 @@
                     <th>Código</th>
                     <th>Descrição</th>
                     <th width="10px">
-<!-- BOTÃO MODAL PARA ADICIONAR NOVA CATEGORIA
-                        <a>
-                            <button
-                                    type="button"
-                                    class="btn"
-                                    data-toggle="modal"
-                                    data-target="#novaCategoria">
-                                <i class="fas fa-list"></i>
-                                Nova Categoria
-                            </button>
-                        </a>
- BOTÃO MODAL PARA ADICIONAR NOVA CATEGORIA -->
 
                         <a href="{{route('categorias.create')}}">
                             <button type="button" class="btn">

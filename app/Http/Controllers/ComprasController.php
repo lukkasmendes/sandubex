@@ -4,12 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Compra;
 use App\Fornecedor;
-use App\Produto;
 use Carbon\Carbon;
 use Illuminate\Database\Query\Builde;
 use App\Http\Requests\CompraRequest;
 use Redirect;
-use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\DB;
 
 class ComprasController extends Controller
@@ -18,21 +16,10 @@ class ComprasController extends Controller
         $this->middleware('auth', ['except' => ['getLogout', 'getRegister', 'postRegister']]);
     }
 
-    /*
-    public function index(){
-        $compras = Compra::paginate(5);
-        return view('compras.index', ['compras'=>$compras]);
-    }
-    */
-
     public function index(){
         $compras = Compra::all();
         return view('compras.index', compact('compras'));
     }
-
-    // public function create(){
-    //     return view('compras.create');
-    // }
 
     public function create(){
         $data1 = DB::table('produtos')->get();
@@ -40,16 +27,6 @@ class ComprasController extends Controller
 
         $compra = Fornecedor::all();
         return view('compras.create', ['compra' => $compra], compact('data1', 'data'));
-    }
-
-    public function create2(){
-        // $data = DB::table('fornecedors')->get();
-        // $data1 = Produto::where('fornecedor_id'=$data)
-        //                     ->get();
-        
-
-        // $compra = Fornecedor::all();
-        // return view('compras.create', ['compra' => $compra], compact('data1', 'data'));
     }
 
     public function destroy($id){
@@ -62,9 +39,6 @@ class ComprasController extends Controller
         }
         \Session::flash('mensagem_sucesso', 'Compra deletada com sucesso!');
         return redirect()->route('compras');
-
-        /*Compra::find($id)->delete();
-        return redirect()->route('compras');*/
     }
 
     public function edit($id){
@@ -97,5 +71,4 @@ class ComprasController extends Controller
 
         return redirect()->route('compras');
     }
-
 }

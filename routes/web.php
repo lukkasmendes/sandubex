@@ -37,13 +37,13 @@ Route::group(['prefix'=>'produtos', 'where'=>['id'=>'[0-9]+']], function () {
 });
 
 Route::group(['prefix'=>'caixas', 'where'=>['id'=>'[0-9]+']], function () {
-    Route::get('',              ['as'=>'caixas',              'uses'=>'CaixasController@index']);
-    Route::get('create',        ['as'=>'caixas.create',       'uses'=>'CaixasController@create']);
-    Route::get('{id}/destroy',  ['as'=>'caixas.destroy',      'uses'=>'CaixasController@destroy']);
-    Route::get('{id}/edit',     ['as'=>'caixas.edit',         'uses'=>'CaixasController@edit']);
-    Route::put('{id}/update',   ['as'=>'caixas.update',       'uses'=>'CaixasController@update']);
-    Route::post('store',        ['as'=>'caixas.store',        'uses'=>'CaixasController@store']);
-    Route::post('pdfview',      array('as'=>'caixas.pdfview', 'uses'=>'CaixasController@pdfview'));
+    Route::get('',              ['as'=>'caixas',                'uses'=>'CaixasController@index']);
+    Route::get('create',        ['as'=>'caixas.create',         'uses'=>'CaixasController@create']);
+    Route::get('{id}/destroy',  ['as'=>'caixas.destroy',        'uses'=>'CaixasController@destroy']);
+    Route::get('{id}/edit',     ['as'=>'caixas.edit',           'uses'=>'CaixasController@edit']);
+    Route::put('{id}/update',   ['as'=>'caixas.update',         'uses'=>'CaixasController@update']);
+    Route::post('store',        ['as'=>'caixas.store',          'uses'=>'CaixasController@store']);
+    Route::post('pdfview',      array('as'=>'caixas.pdfview',   'uses'=>'CaixasController@pdfview'));
 //    Route::get('{id}/pdfview',       array('as'=>'pdfview',     'uses'=>'CaixasController@pdfview'));
 
 });
@@ -96,11 +96,18 @@ Route::group(['prefix'=>'relatorios', 'where'=>['id'=>'[0-9]+']], function () {
     Route::get('',              ['as'=>'relatorios',                   'uses'=>'RelatoriosController@index']);
     Route::get('create',        ['as'=>'relatorios.create',            'uses'=>'RelatoriosController@create']);
     Route::post('produtomais',  ['as'=>'relatorios.produtomais',       'uses'=>'RelatoriosController@produtomais']);
+    Route::post('prodcat',      ['as'=>'relatorios.prodcat',           'uses'=>'RelatoriosController@prodcat']);
     Route::post('climais',      ['as'=>'relatorios.climais',           'uses'=>'RelatoriosController@climais']);
+    Route::post('cx',           ['as'=>'relatorios.cx',                'uses'=>'RelatoriosController@cx']);
     Route::post('pdfview',      array('as'=>'relatorios.pdfview',      'uses'=>'RelatoriosController@pdfview'));
     Route::post('tot_entradas', array('as'=>'relatorios.tot_entradas', 'uses'=>'RelatoriosController@tot_entradas'));
     Route::put('{id}/update',   ['as'=>'relatorios.update',            'uses'=>'RelatoriosController@update']);
     Route::post('store',        ['as'=>'relatorios.store',             'uses'=>'RelatoriosController@store']);
+    Route::get('{id}/image',    ['as'=>'relatorios.image',             'uses'=>'RelatoriosController@image']);
+});
+
+Route::group(['prefix'=>'dashboard', 'where'=>['id'=>'[0-9]+']], function () {
+    Route::get('',              ['as'=>'dashboard',                   'uses'=>'DashboardController@index']);
 });
 
 Auth::routes();

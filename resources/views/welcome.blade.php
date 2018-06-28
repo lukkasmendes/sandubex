@@ -76,17 +76,17 @@
             @if (Route::has('login'))
                 <div class="top-right links">
                     @auth
-                        <a href="{{ url('/home') }}">Home</a>
+                        <a href="{{ url('/pedidos') }}">Acesso ao sistema</a>
                     @else
-                        <a href="{{ route('login') }}">Login</a>
-                        <a href="{{ route('register') }}">Register</a>
+                        <a href="{{ route('login') }}">Entrar</a>
+                       {{-- <a href="{{ route('register') }}">Register</a>--}}
                     @endauth
                 </div>
             @endif
 
             <div class="content">
                 <div class="title m-b-md">
-                    Sandubex
+                    <a href="{{'/pedidos'}}" style="text-decoration: none; color: inherit">Sandubex</a>
                 </div>
 
                 <div class="links">

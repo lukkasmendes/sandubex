@@ -17,9 +17,9 @@
         <table class="table table-striped table-bordered table-hover" id="example">
             <thead>
                 <tr>
-                    <th>Nome</th>
-                    <th>E-mail</th>
-                    <th width="10px">
+                    <th width="45%">Nome</th>
+                    <th width="45%">E-mail</th>
+                    <th width="10%">
 <!-- BOTÃO MODAL PARA ADICIONAR NOVA CATEGORIA
                         <a>
                             <button
@@ -45,9 +45,9 @@
             <tbody>
                 @foreach($users as $us)
                     <tr align="center">
-                        <td width="1%" nowrap="nowrap">{{$us->name}}</td>
+                        <td nowrap="nowrap">{{$us->name}}</td>
                         <td>{{$us->email}}</td>
-                        <td width="1%" nowrap="nowrap">
+                        <td nowrap="nowrap">
 
                             <a href="{{route('users.edit', ['id'=>$us->id])}}"
                                class="btn-sm btn-success"

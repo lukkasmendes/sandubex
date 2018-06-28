@@ -1,12 +1,18 @@
-<!-- Bootstrap 3.3.7 -->
 <link rel="stylesheet" href="{{ asset('vendor/adminlte/vendor/bootstrap/dist/css/bootstrap.min.css') }}">
 <body>
 <div class="container">
 
-<h1 style="text-align: center">PEDIDO Nº: {{$id}}
-{{--<a href="{{ route('caixas.pdfview',['download'=>'pdf']) }}" title="IMPRIMIR">--}}
-
+<h1 style="text-align: center">
+    PEDIDO Nº: {{$id}}
 </h1>
+<h3 style="text-align: center">
+    @foreach($pedido_produto as $pp)
+        Data do Pedido: {{date('d/m/Y', strtotime($pp->dat))}}
+        <br>
+        Cliente: {{ $pp->cli }}
+        @break
+    @endforeach
+</h3>
 
 <hr style="width: 100%">
 <div style="text-align: right">
@@ -19,11 +25,9 @@
 <table class="table table-striped table-hover" style="width: 100%">
     <thead class="head-dark">
         <tr style="height: 50px">
-            <th width="20%" style="text-align: center">Produto</th>
-            <th width="25%" style="text-align: center">Cliente</th>
-            <th width="25%" style="text-align: center">Observação</th>
-            <th width="20%" style="text-align: center">Forma de Pagamento</th>
-            <th width="10%" style="text-align: center">Valor</th>
+            <th width="33%" style="text-align: center">Quantidade</th>
+            <th width="34%" style="text-align: center">Produto</th>
+            <th width="33%" style="text-align: right">Valor</th>
         </tr>
     </thead>
     @php
@@ -32,25 +36,13 @@
     @forelse ($pedido_produto as $pp)
         <tbody>
             <tr>
-                <td style="text-align: center">{{ $pp->produto->nome }}</td>
-                <td style="text-align: center">{{ $pp->cliente->nome }}</td>
-                <td style="text-align: center">{{ $pp->observacao }}</td>
-
-                @if($pp->formaPagamento == 'D')
-                    <td style="text-align: center">DINHEIRO</td>
-                @elseif($pp->formaPagamento == 'C')
-                    <td style="text-align: center">CHEQUE</td>
-                @elseif($pp->formaPagamento == 'CC')
-                    <td style="text-align: center">CARTÃO DE CRÉDITO</td>
-                @else
-                    <td style="text-align: center">CARTÃO DE DÉBITO</td>
-                @endif
-
-                <td style="text-align: center">{{ $pp->valor }}</td>
+                <td style="text-align: center">{{ $pp->pedpro }}</td>
+                <td style="text-align: center">{{ $pp->pro }}</td>
+                <td style="text-align: right">{{ $pp->soma }}</td>
             </tr>
         </tbody>
         @php
-            $tot += $pp->valor
+            $tot += $pp->soma
         @endphp
     @empty
         <tr>
@@ -63,13 +55,27 @@
                 Valor Total - R$ {{ number_format($tot, 2) }}
             </th>
         </tr>
+        <tr>
+            @foreach($pedido_produto as $pp)
+                @if($pp->formaPagamento == 'D')
+                    <th  colspan="7" style="height: 30px">Forma de pagamento: DINHEIRO</th>
+                @elseif($pp->formaPagamento == 'C')
+                    <th  colspan="7" style="height: 30px">Forma de pagamento: CHEQUE</th>
+                @elseif($pp->formaPagamento == 'CC')
+                    <th colspan="7" style="height: 30px">Forma de pagamento: CARTÃO DE CRÉDITO</th>
+                @else
+                    <th colspan="7" style="height: 30px">Forma de pagamento: CARTÃO DE DÉBITO</th>
+                @endif
+        </tr>
+        <tr>
+            <th colspan="7" style="height: 30px">Observação: {{ $pp->observacao }}</th>
+
+                @break
+            @endforeach
+        </tr>
+
     </tfoot>
 </table>
 </div>
 </body>
 <script src="{{ asset('vendor/adminlte/vendor/bootstrap/dist/js/bootstrap.min.js') }}"></script>
-<script>
-    window.setTimeout(function(){
-        document.getElementById("impr").click();
-    });
-</script>

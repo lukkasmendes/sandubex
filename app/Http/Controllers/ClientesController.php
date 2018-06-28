@@ -9,8 +9,7 @@ use App\Http\Requests\ClienteRequest;
 
 class ClientesController extends Controller
 {
-    public function __construct()
-    {
+    public function __construct(){
         $this->middleware('auth', ['except' => ['getLogout', 'getRegister', 'postRegister']]);
     }
 
@@ -33,9 +32,6 @@ class ClientesController extends Controller
         }
         \Session::flash('mensagem_sucesso', 'Cliente excluído com sucesso!');
         return redirect()->route('clientes');
-
-        /*Cliente::find($id)->delete();
-        return redirect()->route('clientes');*/
     }
 
     public function edit($id){

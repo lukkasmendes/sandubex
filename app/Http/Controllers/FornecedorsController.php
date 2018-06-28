@@ -4,13 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Fornecedor;
 use Illuminate\Database\QueryException;
-use Illuminate\Http\Request;
 use App\Http\Requests\FornecedorRequest;
 
 class FornecedorsController extends Controller
 {
-    public function __construct()
-    {
+    public function __construct(){
         $this->middleware('auth', ['except' => ['getLogout', 'getRegister', 'postRegister']]);
     }
 
@@ -23,20 +21,6 @@ class FornecedorsController extends Controller
         return view('fornecedors.create');
     }
 
-
-
-
-
-
-    public function destroy2($id){
-        Fornecedor::find($id)->delete();
-        return redirect()->route('fornecedors');
-    }
-
-
-
-
-
     public function destroy($id){
         try {
             $fornecedor = Fornecedor::findOrFail($id);
@@ -48,10 +32,6 @@ class FornecedorsController extends Controller
         \Session::flash('mensagem_sucesso', 'Fornecedor excluído com sucesso!');
         return redirect()->route('fornecedors');
     }
-
-
-
-
 
     public function edit($id){
         $fornecedors = Fornecedor::find($id);

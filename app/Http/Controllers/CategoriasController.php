@@ -6,15 +6,10 @@ use App\Categoria;
 use App\Http\Requests\CategoriaRequest;
 use Illuminate\Database\Query\Builde;
 use Illuminate\Database\QueryException;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Session;
-
-
 
 class CategoriasController extends Controller
 {
-    public function __construct()
-    {
+    public function __construct(){
         $this->middleware('auth', ['except' => ['getLogout', 'getRegister', 'postRegister']]);
     }
 
@@ -52,15 +47,6 @@ class CategoriasController extends Controller
     public function store(CategoriaRequest $request){
         $nova_categoria = $request->all();
         Categoria::create($nova_categoria);
-
-        return redirect()->route('categorias');
-//        return redirect()->back();
-    }
-
-    public function store2(CategoriaRequest $request){
-        $nova_categoria = $request->all();
-        Categoria::create($nova_categoria);
-
 
         return redirect()->route('categorias');
     }

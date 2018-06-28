@@ -31,7 +31,6 @@ class PedidosController extends Controller{
             'user_id' => Auth::id()
         ])->get();
 
-        //dd($produtos);
         return view('pedidos.index', compact('data', 'clientes', 'produtos', 'pedidos'));
     }
 
@@ -96,7 +95,7 @@ class PedidosController extends Controller{
         $this->middleware('VerifyCsrfToken');
 
         $req = Request();
-        $idproduto = $req->input('id');
+        $idproduto = $req->input('idr');
 
         $produto = Produto::find($idproduto);
         if( empty($produto->id) ) {
@@ -260,21 +259,5 @@ class PedidosController extends Controller{
             return response()->json($results);
         else
             return ['value'=>'Cliente não encontrado','id'=>''];
-    }
-
-    public function autocomplete2(Request $request){
-        $term = Input::get('term');
-        $data = Produto::where('nome', 'LIKE', '%'.$term.'%')
-                        ->take(10)
-                        ->get();
-        $results=array();
-        foreach ($data as $key => $v){
-            $results[]=['id'=>$v->id, 'value'=>$v->nome];
-        }
-
-        if(count($results))
-            return response()->json($results);
-        else
-            return ['value'=>'Produto não encontrado','id'=>''];
     }
 }

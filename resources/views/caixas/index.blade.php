@@ -1,5 +1,4 @@
 @extends('adminlte::page')
-@include('caixas.create')
 @section('title', 'Sandubex')
 @section('content_header')
     <div class="container">
@@ -17,13 +16,9 @@
                     <th>Pedido</th>
                     <th>Observação</th>
                     <th width="10px">
-                        <a>
-                            <button type="button"
-                                    class="btn"
-                                    data-toggle="modal"
-                                    data-target="#novaMov">
-                                <i class="fas fa-hand-holding-usd"></i>
-                                Nova Movimentação
+                        <a href="{{route('caixas.create')}}">
+                            <button type="button" class="btn">
+                                <i class="fas fa-cart-plus"></i> Nova Movimentação
                             </button>
                         </a>
                     </th>
@@ -40,6 +35,7 @@
                         @endif
                         <td>R$ {{number_format($cai->valor, 2)}}</td>
 
+                    @if($cai->pedido_id != null)
                         @if($cai->formaPagamento == 'D')
                             <td>DINHEIRO</td>
                         @elseif($cai->formaPagamento == 'C')
@@ -49,28 +45,24 @@
                         @else
                             <td>CARTÃO DE DÉBITO</td>
                         @endif
+                    @else
+                        <td>-</td>
+                    @endif
 
                         @if($cai->cliente_id == null)
-                            <td></td>
+                            <td>-</td>
                         @else
                             <td>{{$cai->cliente->nome}}</td>
                         @endif
 
+                @if($cai->pedido_id != null)
                     {!! Form::open(['route' => 'caixas.pdfview', 'target'=>'_blank']) !!}
                         <input type="hidden" name="imprpdf" value="{{$cai->pedido_id}}">
                         <td><button>Detalhes</button></td>
-                        {{--<td><a target="_blank" href=" {{ route('pdfview',['id'=>$cai->pedido_id],['download'=>'pdf']) }}" title="MAIS DETALHES" value="{{$cai->pedido_id}}">Pedido nº: {{$cai->pedido_id}}</a></td>--}}
-                        {{--<td><button onclick="window.open(this.getAttribute({{ route('pdfview',['id'=>$cai->pedido_id],['download'=>'pdf']) }}), '_blank');" title="MAIS DETALHES" value="{{$cai->pedido_id}}">Pedido nº: {{$cai->pedido_id}}</button></td>--}}
-                        {{--<td><a target="_blank" href="{{ route('pdfview',['id'=>$cai->pedido_id],['download'=>'pdf']) }}" name="imprpdf" title="MAIS DETALHES" value="{{$cai->pedido_id}}">Pedido nº: {{$cai->pedido_id}}</a></td>--}}
-                        {{--<td><a target="_blank" href="{{ route('pdfview',['id'=>$cai->pedido_id],['download'=>'pdf']) }}" title="MAIS DETALHES" value="{{$cai->pedido_id}}">Pedido nº: {{$cai->pedido_id}}</a></td>--}}
-                        {{--<input type="hidden" value="{{$cai->pedido_id}}" name="idpedido">--}}
-                        {{--<td><a href=""
-                               data-toggle="modal"
-                               data-target="#id{{$cai->pedido_id}}"
-                               name="det"
-                               id="det"
-                               title="MAIS DETALHES">Pedido nº: {{$cai->pedido_id}}</a></td>--}}
                     {!! Form::close() !!}
+                @else
+                    <td>-</td>
+                @endif
 
                         <td width="10%">{{$cai->observacao}}</td>
                         <td width="1%" nowrap="nowrap">
@@ -158,19 +150,6 @@
                                         <div class="modal-body">
                                             <p>
 
-                                            <?php
-                                            /*                                $conn = mysqli_connect("localhost","root","root","sandubex");
-
-                                                $sql = mysqli_query($conn, "SELECT pp.*
-                                                                                FROM pedido_produtos pp
-                                                                                inner join produtos p on p.id = pp.produto_id
-                                                                                inner join pedidos pe on pe.id = pp.pedido_id
-                                                                                where pp.pedido_id = 73");
-
-                                                $produ = mysqli_fetch_array($sql);
-
-                                                $conn = mysqli_close($conn);
-                                            */?>
                                             <table>
                                                 <tr>
                                                     <th width="30%" style="text-align: center">Produtos</th>
@@ -204,12 +183,6 @@
                 @endforeach
             </tbody>
         </table>
-
-
-
-
-
-
 
         <div align="center">
             <h3>

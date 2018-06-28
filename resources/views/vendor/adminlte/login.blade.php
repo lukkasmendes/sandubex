@@ -15,7 +15,7 @@
         </div>
         <!-- /.login-logo -->
         <div class="login-box-body">
-            <p class="login-box-msg">{{ trans('adminlte::adminlte.login_message') }}</p>
+            <p class="login-box-msg">Faça login para acessar o sistema</p>
             <form action="{{ url(config('adminlte.login_url', 'login')) }}" method="post">
                 {!! csrf_field() !!}
 
@@ -43,19 +43,19 @@
                     <div class="col-xs-8">
                         <div class="checkbox icheck">
                             <label>
-                                <input type="checkbox" name="remember"> {{ trans('adminlte::adminlte.remember_me') }}
+                                {{--<input type="checkbox" name="remember"> {{ trans('adminlte::adminlte.remember_me') }}--}}
                             </label>
                         </div>
                     </div>
                     <!-- /.col -->
                     <div class="col-xs-4">
                         <button type="submit"
-                                class="btn btn-primary btn-block btn-flat">{{ trans('adminlte::adminlte.sign_in') }}</button>
+                                class="btn btn-primary btn-block btn-flat"><i class="glyphicon glyphicon-log-in"></i> Entrar</button>
                     </div>
                     <!-- /.col -->
                 </div>
             </form>
-            <div class="auth-links">
+            {{--<div class="auth-links">
                 <a href="{{ url(config('adminlte.password_reset_url', 'password/reset')) }}"
                    class="text-center"
                 >{{ trans('adminlte::adminlte.i_forgot_my_password') }}</a>
@@ -65,7 +65,7 @@
                        class="text-center"
                     >{{ trans('adminlte::adminlte.register_a_new_membership') }}</a>
                 @endif
-            </div>
+            </div>--}}
         </div>
         <!-- /.login-box-body -->
     </div><!-- /.login-box -->

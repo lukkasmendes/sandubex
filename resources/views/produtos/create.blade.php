@@ -10,21 +10,18 @@
     <div class="container" enctype="multipart/form-data">
         <h1>Novo Produto</h1>
 
-        @if ($errors->any())
-            <ul class="alert alert-danger">
-                @foreach($errors->all() as $error)
-                    <li>{{$error}}</li>
-                @endforeach
-            </ul>
-        @endif
-
         {!! Form::open(['route' => 'produtos.store', 'files'=>'true']) !!}
-            <div class="form-group">
+            <div class="form-group has-feedback {{ $errors->has('nome') ? 'has-error' : '' }}">
                 {!! Form::label('nome', 'NOME:') !!}
                 {!! Form::text('nome', null, ['class'=>'form-control', 'placeholder'=>'Infome o nome do produto', 'style'=>'text-transform:uppercase', 'onblur'=>'maiuscula(this);']) !!}
+                @if ($errors->has('nome'))
+                    <span class="help-block">
+                        <strong>{{ $errors->first('nome') }}</strong>
+                    </span>
+                @endif
             </div>
 
-            <div class="form-group">
+            <div class="form-group has-feedback {{ $errors->has('categoria_id') ? 'has-error' : '' }}">
 
 <!-- Select2 -->
                 {!! Form::label('categoria_id', 'CATEGORIA:') !!}
@@ -48,6 +45,11 @@
                 </select>
 <!-- Select2 -->
 
+                @if ($errors->has('categoria_id'))
+                    <span class="help-block">
+                        <strong>{{ $errors->first('categoria_id') }}</strong>
+                    </span>
+                @endif
             </div>
 
             <div class="form-group">
@@ -55,26 +57,29 @@
                 {!! Form::text('unidade', null, ['class'=>'form-control', 'placeholder'=>'Unidade de medida: unidade, litros, kg...', 'style'=>'text-transform:uppercase', 'onblur'=>'maiuscula(this);']) !!}
             </div>
 
-            <!-- <div class="form-group">
-                {!! Form::label('estoque_id', 'Estoque:') !!}
-                {{ Form::select('estoque_id',
-                   \App\Estoque::orderBy('quantidade')->pluck('quantidade', 'id')->toArray(), null,
-                   ['class'=>'form-control', 'disabled'=>'disabled']) }}
-            </div> -->
-
             <div class="form-group">
                 {!! Form::label('estoque_id', 'ESTOQUE:') !!}
                 {{ Form::text('estoque_id', null, ['class'=>'form-control', 'disabled'=>'disabled', 'placeholder'=>'O ESTOQUE INICIARÁ APÓS UMA COMPRA REALIZADA DESTE PRODUTO!']) }}
             </div>
 
-            <div class="form-group">
+            <div class="form-group has-feedback {{ $errors->has('precoVenda') ? 'has-error' : '' }}">
                 {!! Form::label('precoVenda', 'PREÇO DE VENDA:') !!}
                 {!! Form::text('precoVenda', null, ['class'=>'form-control simple-field-data-mask-reverse', 'data-mask'=>'#0.00', 'data-mask-reverse'=>'true', 'data-mask-maxlength'=>'false', 'placeholder'=>'0.00']) !!}
+                @if ($errors->has('precoVenda'))
+                    <span class="help-block">
+                        <strong>{{ $errors->first('precoVenda') }}</strong>
+                    </span>
+                @endif
             </div>
 
-            <div class="form-group">
+            <div class="form-group has-feedback {{ $errors->has('estoqueMin') ? 'has-error' : '' }}">
                 {!! Form::label('estoqueMin', 'ESTOQUE MÍNIMO:') !!}
                 {!! Form::text('estoqueMin', null, ['class'=>'form-control simple-field-data-mask', 'data-mask'=>'#', 'placeholder'=>'00', 'data-mask-maxlength'=>'false']) !!}
+                @if ($errors->has('estoqueMin'))
+                    <span class="help-block">
+                        <strong>{{ $errors->first('estoqueMin') }}</strong>
+                    </span>
+                @endif
             </div>
 
             <link rel="stylesheet" href="{{asset('css/jquery-ui.css')}}">
@@ -110,9 +115,14 @@
                 {!! Form::text('descricao', null, ['class'=>'form-control', 'placeholder'=>'Informe uma breve descrição deste produto', 'style'=>'text-transform:uppercase', 'onblur'=>'maiuscula(this);', 'maxlength'=>'25']) !!}
             </div>
 
-            <div class="form-group">
+            <div class="form-group has-feedback {{ $errors->has('imagem') ? 'has-error' : '' }}">
                 {!! Form::label('imagem', 'IMAGEM DO PRODUTO:') !!}
                 {!! Form::file('imagem', null, ['class'=>'form-control']) !!}
+                @if ($errors->has('imagem'))
+                    <span class="help-block">
+                            <strong>{{ $errors->first('imagem') }}</strong>
+                        </span>
+                @endif
             </div>
 
             <div>

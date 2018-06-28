@@ -6,18 +6,14 @@ use App\User;
 use Illuminate\Database\Query\Builde;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Session;
 use Illuminate\Foundation\Auth\RegistersUsers;
-
 
 
 class UsersController extends Controller
 {
     use RegistersUsers;
 
-    public function __construct()
-    {
+    public function __construct(){
         $this->middleware('auth', ['except' => ['getLogout', 'getRegister', 'postRegister']]);
     }
 

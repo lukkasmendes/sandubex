@@ -111,13 +111,6 @@ return [
     'menu' => [
         'Menu Principal',
 
-/*        [
-            'text'        => 'Dashboard',
-            'url'         => 'home',
-            'icon'        => 'dashboard',
-            'label_color' => 'success',
-        ],*/
-
         [
             'text'        => 'PDV',
             'url'         => 'pedidos',
@@ -171,6 +164,13 @@ return [
             'text'        => 'Relatorios',
             'url'         => 'relatorios',
             'icon'        => 'list-alt',
+            'label_color' => 'success',
+        ],
+
+        [
+            'text'        => 'Dashboard',
+            'url'         => 'dashboard',
+            'icon'        => 'dashboard',
             'label_color' => 'success',
         ],
 

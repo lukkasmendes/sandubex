@@ -34,9 +34,9 @@
         <div class="form-group has-feedback {{ $errors->has('email') ? 'has-error' : '' }}">
             {!! Form::label('email', 'E-MAIL:') !!}
             {!! Form::text('email', $fornecedors->email, ['class'=>'form-control']) !!}
-            @if ($errors->has('nome'))
+            @if ($errors->has('email'))
                 <span class="help-block">
-                    <strong>{{ $errors->first('nome') }}</strong>
+                    <strong>{{ $errors->first('email') }}</strong>
                 </span>
             @endif
         </div>

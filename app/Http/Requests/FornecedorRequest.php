@@ -28,7 +28,7 @@ class FornecedorRequest extends FormRequest
             'telefone' => 'required',
             'email' => 'required',
             'endereco' => 'required',
-            'cnpj' => 'required',
+            'cnpj' => 'required|unique:fornecedors',
         ];
     }
 
@@ -40,6 +40,7 @@ class FornecedorRequest extends FormRequest
             'email.required' =>'Preencha o campo E-MAIL',
             'endereco.required' =>'Preencha o campo ENDEREÇO',
             'cnpj.required' =>'Preencha o campo CNPJ',
+            'cnpj.unique' =>'Este CNPJ já está cadastrado',
         ];
     }
 }

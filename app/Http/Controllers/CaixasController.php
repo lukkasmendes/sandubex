@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\PedidoProduto;
-use App\Produto;
 use Carbon\Carbon;
 use App\Caixa;
 use App\Http\Requests\CaixaRequest;
@@ -11,7 +10,6 @@ use Illuminate\Database\Query\Builde;
 use Illuminate\Support\Facades\DB;
 use Redirect;
 use PDF;
-use App\Http\Requests;
 use Illuminate\Http\Request;
 
 class CaixasController extends Controller
@@ -24,100 +22,36 @@ class CaixasController extends Controller
         $where = 'Extract(day From data) = Extract(day From Now()) and Extract(month From data) = Extract(month From Now()) and Extract(year From data) = Extract(year From Now())';
         $caixas = Caixa::whereRaw($where)->paginate(9999);
 
-        //$id = $request->get('idpedido');
-
-        /*$pedido_produto = PedidoProduto::with('produto', 'pedido')
-            ->select('pedido_produtos.id',
-                'pedido_produtos.pedido_id',
-                'pedido_produtos.produto_id',
-                'pedido_produtos.status',
-                'pedido_produtos.valor',
-                'pedido_produtos.cliente_id',
-                'pedido_produtos.observacao',
-                'pedido_produtos.formaPagamento')
-            ->join('produtos as p', 'produto_id','=', 'p.id')
-            ->join('pedidos as pe', 'pedido_id', '=', 'pe.id')
-            ->where('pedido_id', '=', [$id])
-            ->paginate(9999);*/
-
-
         $pedido_produto = PedidoProduto::all();
 
+        $data1 = DB::table('clientes')->get();
 
-//        $whereE = 'Extract(day From data) = Extract(day From Now())';
-//        $entrada = DB::table('caixas')
-//                        ->select(DB::raw('sum(valor) as quanti'))
-//                        ->where('tipo','E')
-//                        ->where('Extract(day From data)', 'Extract(day From Now())')
-//                        ->get();
-
-//        return view('caixas.index', ['caixas'=>$caixas], compact('entrada'));
-
-        //dd($pedido_produto);
-        return view('caixas.index', compact('caixas', 'pedido_produto'));
+        return view('caixas.index', compact('caixas', 'pedido_produto', 'data1'));
     }
 
     public function pdfview(Request $request){
-//        $items = DB::table("caixas")->get();
-
-/*        $pedido_produto = DB::table('pedido_produtos')
-            ->where('pedido_id', [$id])
-            ->get();  */
-
-//        $sum = DB::table('pedido_produtos')->select('valor')->where('pedido_id', [$id])->groupBy('pedido_id')->sum('valor');
-
-        //$ped_prod = Caixa::all();
-
-        /*$pedido_produto = DB::table('pedido_produtos')
-            ->select('pedido_id', 'produto_id', 'valor', 'cliente_id', 'formaPagamento', 'observacao')
-            ->where('pedido_id', [$id])
-            //->where('pedido_produtos.produto_id','=','produtos.id')
-//            ->groupBy('produto_id', 'valor', 'cliente_id', 'formaPagamento', 'observacao')
-            ->get();
-//            ->sum('valor');*/
-
         $req = Request();
         $id = $req->input('imprpdf');
 
-        //$id = $request->get('imprpdf');
-
-
-
-        $pedido_produto = PedidoProduto::with('produto', 'pedido')
-            ->select('pedido_produtos.id',
-                'pedido_produtos.pedido_id',
-                'pedido_produtos.produto_id',
-                'pedido_produtos.status',
-                'pedido_produtos.valor',
-                'pedido_produtos.cliente_id',
-                'pedido_produtos.observacao',
-                'pedido_produtos.formaPagamento')
-            ->join('produtos as p', 'produto_id','=', 'p.id')
-            ->join('pedidos as pe', 'pedido_id', '=', 'pe.id')
-            ->where('pedido_id', '=', [$id])
-            ->paginate(9999);
-
-   //     view()->share('pedido_produto', $pedido_produto);
+        $pedido_produto = DB::select('select count(pp.produto_id) as pedpro, p.nome as pro, c.nome as cli, pp.observacao, pp.formaPagamento, pe.created_at as dat, sum(pp.valor) as soma
+                                        from pedido_produtos pp, produtos p, pedidos pe, clientes c
+                                        where p.id = pp.produto_id
+                                        and pe.id = pp.pedido_id
+                                        and c.id = pp.cliente_id
+                                        and pedido_id = ?
+                                        group by pp.produto_id, p.nome, c.nome, pp.observacao, pp.formaPagamento, pe.created_at, pp.valor', [$id]);
 
         if($request->has('download')){
             $pdf = PDF::loadView('caixas.pdfview');
-//            return $pdf->download('pdfview.pdf');
             return $pdf->stream();
         }
 
-        //dd($pedido_produto);
         return view('caixas.pdfview', compact('id', 'pedido_produto'));
-        //return \PDF::loadView('caixas.pdfview', compact('pedido_produto'))->stream($id.'.pdf');
-
-        /*return \PDF::loadView('caixas.pdfview', compact('pedido_produto'))
-            // Se quiser que fique no formato a4 retrato: ->setPaper('a4', 'landscape')
-            ->download('pedido.pdf');
-            //->stream();*/
-
     }
 
     public function create(){
-        return view('caixas.create');
+        $data1 = DB::table('clientes')->get();
+        return view('caixas.create', compact('data1'));
     }
 
     public function destroy($id){
@@ -127,7 +61,9 @@ class CaixasController extends Controller
 
     public function edit($id){
         $caixa = Caixa::find($id);
-        return view('caixas.edit', compact('caixa'));
+        $data1 = DB::table('clientes')->get();
+        $caixas = Caixa::find($id);
+        return view('caixas.edit', compact('caixa', 'caixas', 'data1'));
     }
 
     public function update(CaixaRequest $request, $id){

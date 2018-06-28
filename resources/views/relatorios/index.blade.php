@@ -192,6 +192,105 @@
             </tbody>
         </table>
         {!! Form::close() !!}
+
+        {!! Form::open(['route' => 'relatorios.cx']) !!}
+        <table class="table table-striped table-bordered table-hover">
+            <thead>
+            <tr>
+                <th>VISUALIZAR CAIXA DO DIA:</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <div align="center">
+                <tr>
+                    <td style="width: 45%">Data:
+                        <div class="input-group date">
+                            <div class="input-group-addon">
+                                <i class="fa fa-calendar"></i>
+                            </div>
+                            {!! Form::dateTime('ddtt', $dt = Carbon\Carbon::now('America/Sao_Paulo')->format('d-m-Y'), ['class'=>'form-control pull-right simple-field-data-mask', 'data-mask'=>'00/00/0000', 'placeholder'=>'00/00/0000', 'id'=>'dt', 'name'=>'dt']) !!}
+                            {{--<input type="text" id="dtin" name="dtin" class="form-control pull-right simple-field-data-mask" data-mask="00/00/0000" placeholder="00/00/0000">--}}
+                        </div>
+                    </td>
+
+                    <td style="width: 45%">
+                    </td>
+
+                    <script type="text/javascript">
+                        $("#dt").datepicker({
+                            dateFormat: 'dd/mm/yy',
+                            dayNames: ['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'],
+                            dayNamesMin: ['D','S','T','Q','Q','S','S','D'],
+                            dayNamesShort: ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb','Dom'],
+                            monthNames: ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'],
+                            monthNamesShort: ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'],
+                            nextText: 'Próximo',
+                            prevText: 'Anterior',
+                            changeMonth: true,
+                            changeYear: true
+                        });
+                    </script>
+
+                    <input type="hidden" name="dtt" value="dt">
+
+                    <td style="width: 10%">
+                        <br>
+                        <button class="btn btn-success btn-block btn-flat">Enviar</button>
+                    </td>
+                </tr>
+            </div>
+            </tbody>
+        </table>
+        {!! Form::close() !!}
+
+        {!! Form::open(['route' => 'relatorios.prodcat', 'target'=>'_blank']) !!}
+        <table class="table table-striped table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>PRODUTOS POR CATEGORIA:</th>
+                </tr>
+            </thead>
+
+            <tbody>
+            <div align="center">
+                <tr>
+                    <td style="width: 45%">
+                        <select id="categoriaid" class="form-control m-bot15" name="categoriaid">
+                            <option>Selecione uma categoria</option>
+                            @foreach($data as $cat)
+                                <option value="{{ $cat->id }}">
+                                    {{ $cat->descricao }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </td>
+
+                    <td style="width: 45%">
+                    </td>
+
+                    <input type="hidden" name="dtt" value="categoriaid">
+
+                    <td style="width: 10%">
+                        <br>
+                        <button class="btn btn-success btn-block btn-flat">Enviar</button>
+                    </td>
+                </tr>
+            </div>
+            </tbody>
+        </table>
+        {!! Form::close() !!}
+
+
+
+
     </div>
 @endsection
 
+@section('scripts')
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#categoriaid").select2();
+        });
+    </script>
+@endsection

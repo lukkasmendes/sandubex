@@ -55,9 +55,9 @@
                                 <td><span class="label label-danger">0</span></td>
                             @else
                                 @if($pro->estoque->quantidade < $pro->estoqueMin)
-                                    <td><span class="label label-danger">{{$pro->estoque->quantidade}} {{$pro->unidade}}</span></td>
+                                    <td><span class="label label-danger">{{$pro->estoque->quantidade}}</span></td>
                                 @else
-                                    <td>{{$pro->estoque->quantidade}} {{$pro->unidade}}</td>
+                                    <td>{{$pro->estoque->quantidade}}</td>
                                 @endif
                             @endif
 
@@ -100,8 +100,8 @@
                                                 </h4>
                                             </div>
                                             <div class="modal-body">
-                                                EXCLUINDO <strong>{{$pro->nome}}</strong> VOCÊ IRÁ EXCLUIR TAMBÉM <br>
-                                                O ESTOQUE E AS COMPRAS VINCULADAS COM ESTE PRODUTO!
+                                                OBS.: NÃO É POSSÍVEL EXCLUIR PRODUTOS QUE JÁ FORAM VENDIDOS ALGUMA VEZ,<br>
+                                                NEM PRODUTOS COM ESTOQUE!
                                             </div>
                                             <div class="modal-footer">
                                                 <form action="{{route('produtos.destroy', [$pro->id] )}}">

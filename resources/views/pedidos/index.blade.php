@@ -2,7 +2,6 @@
 @include('pedidos.create')
 @section('title', 'Sandubex')
 @section('content_header')
-
     {!! Html::script('js/js/angular.min.js', array('type' => 'text/javascript')) !!}
     {!! Html::script('js/js/app.js', array('type' => 'text/javascript')) !!}
 
@@ -38,8 +37,8 @@
             </a>
         </div>
 
-        <div id="conteudo">
-            <table class="table table-striped table-condensed table-hover list-table" id="products-tableTESTANDO" style=" margin-bottom: 0;">
+        <div>
+            <table class="table table-striped table-condensed table-hover list-table" id="products-tableTESTANDO" name="products-tableTESTANDO" style=" margin-bottom: 0;">
                 <thead>
                     <tr class="success">
                         <th>Produto</th>
@@ -56,10 +55,9 @@
                 @endphp
 
                 <tbody>
-                    
-                        @forelse ($pedidos as $pedido)
-                            @foreach ($pedido->pedido_produtos as $pedido_produto)
-                                <div id="conteudo" name="conteudo">
+                    @forelse ($pedidos as $pedido)
+                        @foreach ($pedido->pedido_produtos as $pedido_produto)
+                            <div id="conteudo" name="conteudo">
                                 <tr>
                                     <td>{{$pedido_produto->produto->nome}}</td>
                                     <td >R$ {{ number_format($pedido_produto->produto->precoVenda, 2, ',', '.') }}</td>
@@ -71,25 +69,25 @@
                                                 <i class="fa fa-minus-circle" title="Remover 1"></i>
                                             </a>
                                             <span style="width:19px;display:inline-block;"> {{ $pedido_produto->qtd }} </span>
-                                            <?php
-                                                $conn = mysqli_connect("localhost","root","root","sandubex");
+                                                <?php
+                                                    $conn = mysqli_connect("localhost","root","root","sandubex");
 
-                                                $sql = mysqli_query($conn, "select distinct e.quantidade as quantidade
-                                                                            from estoques e, produtos p, pedido_produtos pp
-                                                                            where pp.produto_id = p.id
-                                                                            and e.produto_id = p.id
-                                                                            and pp.status = 'RE'
-                                                                            and pp.produto_id = $pedido_produto->produto_id");
+                                                    $sql = mysqli_query($conn, "select distinct e.quantidade as quantidade
+                                                                                from estoques e, produtos p, pedido_produtos pp
+                                                                                where pp.produto_id = p.id
+                                                                                and e.produto_id = p.id
+                                                                                and pp.status = 'RE'
+                                                                                and pp.produto_id = $pedido_produto->produto_id");
 
-                                                $row = mysqli_fetch_array($sql);
-                                                $quanti = $row['quantidade'];
+                                                    $row = mysqli_fetch_array($sql);
+                                                    $quanti = $row['quantidade'];
 
-                                                $conn = mysqli_close($conn);
-                                            ?>
+                                                    $conn = mysqli_close($conn);
+                                                ?>
                                             @if($quanti <= 0)
                                                 <span class="col l4 m4 s4">
-                                                        <i class="fa fa-plus-circle" title="Estoque Indisponível"></i>
-                                                    </span>
+                                                    <i class="fa fa-plus-circle" title="Estoque Indisponível"></i>
+                                                </span>
                                             @else
                                                 <a class="col l4 m4 s4"
                                                    href="#"
@@ -113,21 +111,21 @@
                                         </a>
                                     </td>
                                 </tr>
-                                </div>
-                            @endforeach
-                        @empty
-                            <tr>
-                                <td colspan="5" align="center">
-                                    <h5>Nenhum produto adicionado</h5>
-                                </td>
-                            </tr>
-                        @endforelse
-                    
+                            </div>
+                        @endforeach
+                    @empty
+                        <tr>
+                            <td colspan="5" align="center">
+                                <h5>Nenhum produto adicionado</h5>
+                            </td>
+                        </tr>
+                    @endforelse
                 </tbody>
 
                 <tfoot>
                     <tr class="success">
-                        <td colspan="2" style="font-weight:bold;">Total a Pagar
+                        <td colspan="2" style="font-weight:bold;">
+                            Total a Pagar
                         </td>
                         <td class="text-right" colspan="3" style="font-weight:bold;">
                             <span id="total-payable">R$ {{ number_format($total_pedido, 2, ',', '.') }}</span>
@@ -193,13 +191,13 @@
                                                         <div class="col-xs-12">
                                                             <div class="form-group">
                                                                 Informações
-                                                                <font size="1" face="arial, helvetica, sans-serif" /> ( Limite de 25 caracteres. )<br>
+                                                                ( Limite de 25 caracteres. )<br>
                                                                 {!! Form::textarea('observacao', null, ['class'=>'form-control mixed', 'maxlength'=>'25', 'style'=>'text-transform:uppercase; height: 35px;', 'onblur'=>'maiuscula(this);']) !!}
                                                             </div>
                                                         </div>
                                                         <div class="col-xs-6">
                                                             <div class="form-group">
-                                                                Valor Pago
+                                                                Nota Recebida: (cálculo de troco)
                                                                 <input name="valor_unitario" type="text" id="valor_unitario" onkeyup="calcular(this.value)" placeholder="0.00"
                                                                        class="pa form-control kb-pad"/>
                                                             </div>
@@ -242,7 +240,7 @@
         </div>
     </div>
 
-    <input type="text" name="search" placeholder="Pesquise aqui os produtos pelo nome" data-search style="width: 300px">
+    &nbsp;&nbsp;<input type="text" name="search" placeholder="Pesquise aqui os produtos pelo nome" data-search style="width: 300px">
 
     <div class="filtr-container" style="width: 70%; float: right;  background-color: white">
         @foreach($produtos as $pro)
@@ -254,7 +252,7 @@
                  data-field-id="{{$pro->id}}"
                  data-sort="{{$pro->categoria->descricao}}">
 
-                <form method="POST" action="{{ route('pedidos.adicionar') }}">
+                <form method="POST" id="formAdicionar" name="formAdicionar" action="{{ route('pedidos.adicionar') }}">
                     {{ csrf_field() }}
 
                     <input type="hidden" id="idr" name="idr" value="{{ $pro->id }}">
@@ -283,7 +281,6 @@
                                 data-name="produtos"
                                 title="Clique para adicionar este produto ao pedido"
                                 class="btn btn-both btn-flat"
-                                onclick="alterar_div()"
                                 value="{{$pro->id}}"
                                 id="prod1"
                                 name="{{$pro->id}}">
@@ -292,14 +289,14 @@
                             <br/>
                             <span style="width:150px;display:inline-block;">{{$pro->nome}}</span><br/>
                             <span style="width:150px;display:inline-block;">
-                        <?php
-                            if($pro->estoque == null || $pro->estoque->quantidade == 0 ){
-                                echo 'Indispónível';
-                            }else{
-                                echo 'Disponível: '. $pro->estoque->quantidade .' '. $pro->unidade;
-                            }
-                        ?>
-                    </span>
+                                <?php
+                                    if($pro->estoque == null || $pro->estoque->quantidade == 0 ){
+                                        echo 'Indispónível';
+                                    }else{
+                                        echo 'Disponível: '. $pro->estoque->quantidade .' '. $pro->unidade;
+                                    }
+                                ?>
+                            </span>
                         </button>
                     @endif
 
@@ -327,36 +324,44 @@
 
 @section('scripts')
 
-
-<!-- AJAX -->
-    <script type="text/javascript">
-        $('#conteudo').submit(function(e){
-            $.ajax({
-                type: "POST",
-                url: "http://127.0.0.1:8000/pedidos/adicionar",
-                dataType: "json",
-                data: $('#conteudo').serialize()
-            }).complete(function(resp){
-                var obj2 = JSON.parse(resp.responseText);
-                console.log('Sucess!', obj2);
-
-                if(obj2.hasError==false){
-                    var id = obj.id_pendencia;
-                    var row = $('<tr>');
-                    var colProduto =    $('<td>');
-                    var colPreco =      $('<td>');
-                    var colQuantidade = $('<td>');
-                    var colSubtotal =   $('<td>');
-                    var colRemover =    $('<td>');
-
-                    row.prop('id', 'line_'+id);
-
-                    
+<!--AJAX-->
+<script type="text/javascript" language="javascript">
+    $(function($) {
+        // Quando o formulário for enviado, essa função é chamada
+        $("#formulario").submit(function() {
+            // Colocamos os valores de cada campo em uma váriavel para facilitar a manipulação
+            var nome = $("#nome").val();
+            var email = $("#email").val();
+            var mensagem = $("#mensagem").val();
+            // Exibe mensagem de carregamento
+            $("#status").html("<img src='loader.gif' alt='Enviando' />");
+            // Fazemos a requisão ajax com o arquivo envia.php e enviamos os valores de cada campo através do método POST
+            $.post('envia.php', {nome: nome, email: email, mensagem: mensagem }, function(resposta) {
+                // Quando terminada a requisição
+                // Exibe a div status
+                $("#status").slideDown();
+                // Se a resposta é um erro
+                if (resposta != false) {
+                    // Exibe o erro na div
+                    $("#status").html(resposta);
                 }
-            })
-        }
-    </script>
-<!-- AJAX -->
+                // Se resposta for false, ou seja, não ocorreu nenhum erro
+                else {
+                    // Exibe mensagem de sucesso
+                    $("#status").html("Mensagem enviada com sucesso!");
+                    // Coloca a mensagem no div de mensagens
+                    $("#mensagens").prepend("<strong>"+ nome +"</strong> disse: <em>" + mensagem + "</em><br />");
+                    // Limpando todos os campos
+                    $("#nome").val("");
+                    $("#email").val("");
+                    $("#mensagem").val("");
+                }
+            });
+        });
+    });
+</script>
+<!--AJAX-->
+
 
 <!-- PEGA VALOR SELECIONADO NO SELECT DE PAGAR-EM E ADD NO INPUT HIDDEN -->
     <script>
@@ -384,7 +389,7 @@
     </script>
 <!-- CALCULA O TROCO NO MODAL -->
 
-<!-- EZIBIÇÃO DOS PRODUTOS -->
+<!-- EXIBIÇÃO DOS PRODUTOS -->
     <script>
         var filterizd = $('.filtr-container').filterizr({
             //options object
@@ -424,7 +429,7 @@
         // If you have already instantiated your Filterizr then call...
         filterizd.filterizr('setOptions', options);
     </script>
-<!-- EZIBIÇÃO DOS PRODUTOS -->
+<!-- EXIBIÇÃO DOS PRODUTOS -->
 
 <!-- ADICIONA E REMOVE PRODUTOS DA TABELA -->
     <script type="text/javascript" src="/js/carrinho.js"></script>

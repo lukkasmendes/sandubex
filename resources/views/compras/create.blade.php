@@ -8,7 +8,7 @@
         }
     </script>
     <div class="container" enctype="multipart/form-data">
-        <h1>Nova Categoria</h1>
+        <h1>Nova Compra</h1>
 
         {!! Form::open(['route' => 'compras.store']) !!}
         <div class="form-group has-feedback {{ $errors->has('dataEntrada') ? 'has-error' : '' }}">
@@ -51,10 +51,6 @@
                     </option>
                 @endforeach
             </select>
-
-            <!-- {{ Form::select('fornecedor_id',
-               \App\Fornecedor::orderBy('nome')->pluck('nome', 'id')->toArray(), null,
-               ['class'=>'form-control']) }} -->
         </div>
         <div class="form-group">
             {!! Form::label('produto_id', 'PRODUTO:') !!}
